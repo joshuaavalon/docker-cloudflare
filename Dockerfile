@@ -1,10 +1,11 @@
-FROM python:3.6.2-alpine3.6
+FROM alpine:3.6
+MAINTAINER JoshuaAvalon
 
-ADD cloudflare.py /app
-ADD requirements.txt /app
+RUN apk add --update curl && \
+    rm -rf /var/cache/apk/*
+
+ADD cloudflare.sh /app
 
 WORKDIR "/app"
 
-CMD [ "pip", "install", "requirements.txt" ]
-
-CMD [ "python", "cloudflare.py" ]
+CMD [ "sh", "cloudflare.sh" ]
