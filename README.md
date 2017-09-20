@@ -1,13 +1,13 @@
-# joshuaavalon/docker-cloudflare
-[![version](https://images.microbadger.com/badges/version/joshuaavalon/docker-cloudflare.svg)](https://microbadger.com/images/joshuaavalon/docker-cloudflare) 
-[![](https://images.microbadger.com/badges/image/joshuaavalon/docker-cloudflare.svg)](https://microbadger.com/images/joshuaavalon/docker-cloudflare) 
-![Docker Pulls](https://img.shields.io/docker/pulls/joshuaavalon/docker-cloudflare.svg) 
-![Docker Stars](https://img.shields.io/docker/stars/joshuaavalon/docker-cloudflare.svg?colorB=dfb317) 
-[![Docker Automated build](https://img.shields.io/docker/automated/joshuaavalon/docker-cloudflare.svg)](https://hub.docker.com/r/joshuaavalon/docker-cloudflare/) 
-[![Docker build](https://img.shields.io/docker/build/joshuaavalon/docker-cloudflare.svg)](https://hub.docker.com/r/joshuaavalon/docker-cloudflare/) 
-[![MIT](https://img.shields.io/github/license/joshuaavalon/docker-cloudflare.svg)](https://github.com/joshuaavalon/docker-cloudflare/blob/master/LICENSE)
+# joshuaavalon/cloudflare-ddns
+[![version](https://images.microbadger.com/badges/version/joshuaavalon/cloudflare-ddns.svg)](https://microbadger.com/images/joshuaavalon/cloudflare-ddns) 
+[![](https://images.microbadger.com/badges/image/joshuaavalon/cloudflare-ddns.svg)](https://microbadger.com/images/joshuaavalon/cloudflare-ddns) 
+![Docker Pulls](https://img.shields.io/docker/pulls/joshuaavalon/cloudflare-ddns.svg) 
+![Docker Stars](https://img.shields.io/docker/stars/joshuaavalon/cloudflare-ddns.svg?colorB=dfb317) 
+[![Docker Automated build](https://img.shields.io/docker/automated/joshuaavalon/cloudflare-ddns.svg)](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) 
+[![Docker build](https://img.shields.io/docker/build/joshuaavalon/cloudflare-ddns.svg)](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) 
+[![MIT](https://img.shields.io/github/license/joshuaavalon/cloudflare-ddns.svg)](https://github.com/joshuaavalon/cloudflare-ddns/blob/master/LICENSE)
 
-The is a simple docker using bash and curl to update DNS record on [Cloudflare](https://www.cloudflare.com). Inspired by [rasmusbe/cloudflare-update-record.sh](https://gist.github.com/rasmusbe/fc2e270095f1a3b41348/)
+The is a simple docker using curl to update DNS record on [Cloudflare](https://www.cloudflare.com). Inspired by [rasmusbe/cloudflare-update-record.sh](https://gist.github.com/rasmusbe/fc2e270095f1a3b41348/)
 
 Compare to [nouchka/cloudflare-dyndns](https://hub.docker.com/r/nouchka/cloudflare-dyndns/) (4.0):
  * Smaller size: 12MB vs 54MB
@@ -24,9 +24,8 @@ docker run  \
 	-e EMAIL=example@example.com \
 	-e TTL=1 \
 	-e PROXY=true \
-	-e WAIT=300 \
 	--name cloudflare \
-joshuaavalon/docker-cloudflare
+joshuaavalon/cloudflare-ddns
 ```
 
 ## Parameters

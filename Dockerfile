@@ -6,10 +6,9 @@ RUN apk add --update curl && \
     apk add --update perl && \
     rm -rf /var/cache/apk/*
 
-RUN mkdir /app
+ADD cloudflare.sh /cloudflare.sh
+RUN chmod +x /cloudflare.sh
+ADD cron /var/spool/cron/crontabs/root
 
-ADD cloudflare.sh /app
-
-WORKDIR "/app"
-
-CMD [ "sh", "cloudflare.sh" ]
+CMD /cloudflare.sh
+CMD crond -f
