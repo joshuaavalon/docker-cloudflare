@@ -20,8 +20,8 @@ docker run  \
 	-d \
 	-e ZONE=example.com \
 	-e HOST=example.com \
-	-e API=11111111111111111111111111111111 \
 	-e EMAIL=example@example.com \
+	-e API=1111111111111111 \
 	-e TTL=1 \
 	-e PROXY=true \
 	--name cloudflare \
@@ -29,24 +29,14 @@ joshuaavalon/cloudflare-ddns
 ```
 
 ## Parameters
-`ZONE`: Domain, e.g. example.com
+`ZONE`: Domain, e.g. example.com. Default: `example.com`
 
-`HOST`: DNS record to be updated, e.g. example.com, subdomain.example.com
+`HOST`: DNS record to be updated, e.g. example.com, subdomain.example.com. Default: `example.com`
 
-`API`: Cloudflare API key
+`EMAIL`: Cloudflare Email. Default: `example@example.com`
 
-`EMAIL`: Cloudflare Email
+`API`: Cloudflare API key. Default: `1111111111111111`
 
-`TTL`: Time to live for DNS record. Value of 1 is 'automatic'. min value:1 max value:2147483647.
+`TTL`: Time to live for DNS record. Value of 1 is 'automatic'. Min value:1; Max value:2147483647. Default: `1`
 
-`PROXY`: Whether the record is receiving the performance and security benefits of Cloudflare. `true` to enable; `false` to disable
-
-`WAIT`: Time to check if ip changed. Argument for `sleep`.
-```
-.5 # Waits 0.5 second.
-5  # Waits 5 seconds.
-5s # Waits 5 seconds.
-5m # Waits 5 minutes.
-5h # Waits 5 hours.
-5d # Waits 5 days.
-```
+`PROXY`: Whether the record is receiving the performance and security benefits of Cloudflare. `true` to enable; `false` to disable. Default: `true`

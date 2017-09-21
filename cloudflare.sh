@@ -1,7 +1,15 @@
 #!/bin/sh
 
-date "+%Y-%m-%d %H:%M:%S"
-ip_file="ip.txt"
+#Environment Variables
+ZONE=${ZONE:-example.com}
+HOST=${HOST:-example.com}
+EMAIL=${EMAIL:-example@example.com}
+API=${API:-1111111111111111}
+TTL=${TTL:1}
+PROXY=${PROXY:true}
+
+echo "Current time: $(date "+%Y-%m-%d %H:%M:%S")"
+ip_file="ip"
 
 new_ip=$(curl -s http://ipecho.net/plain)
 
