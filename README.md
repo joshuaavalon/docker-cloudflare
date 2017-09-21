@@ -5,12 +5,12 @@
 ![Docker Stars](https://img.shields.io/docker/stars/joshuaavalon/cloudflare-ddns.svg?colorB=dfb317) 
 [![Docker Automated build](https://img.shields.io/docker/automated/joshuaavalon/cloudflare-ddns.svg)](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) 
 [![Docker build](https://img.shields.io/docker/build/joshuaavalon/cloudflare-ddns.svg)](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) 
-[![MIT](https://img.shields.io/github/license/joshuaavalon/cloudflare-ddns.svg)](https://github.com/joshuaavalon/cloudflare-ddns/blob/master/LICENSE)
+[![MIT](https://img.shields.io/github/license/joshuaavalon/docker-cloudflare.svg)](https://github.com/docker-cloudflare/blob/master/LICENSE)
 
 The is a simple docker using curl to update DNS record on [Cloudflare](https://www.cloudflare.com). Inspired by [rasmusbe/cloudflare-update-record.sh](https://gist.github.com/rasmusbe/fc2e270095f1a3b41348/)
 
 Compare to [nouchka/cloudflare-dyndns](https://hub.docker.com/r/nouchka/cloudflare-dyndns/) (4.0):
- * Smaller size: 12MB vs 54MB
+ * Smaller size: 3MB vs 54MB
  * Able to update subdomain
  * Update when IP is changed
 
