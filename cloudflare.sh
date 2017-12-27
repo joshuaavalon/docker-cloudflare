@@ -21,6 +21,10 @@ record_id=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$zone_id/
 echo "Record ID: $record_id"
 update=$(curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/$zone_id/dns_records/$record_id" -H "X-Auth-Email: $EMAIL" -H "X-Auth-Key: $API" -H "Content-Type: application/json" --data "{\"id\":\"$zone_id\",\"type\":\"A\",\"name\":\"$HOST\",\"content\":\"$ip\",\"ttl\":$TTL,\"proxied\":$PROXY}")
 
+if $DEBUG; then
+  echo "https://api.cloudflare.com/client/v4/zones/$zone_id/dns_records/$record_id" -H "X-Auth-Email: $EMAIL" -H "X-Auth-Key: $API" -H "Content-Type: application/json" --data "{\"id\":\"$zone_id\",\"type\":\"A\",\"name\":\"$HOST\",\"content\":\"$ip\",\"ttl\":$TTL,\"proxied\":$PROXY}"
+fi
+
 if echo "$update" | grep -q "\"success\":true"; then
     echo "IP changed to: $ip"	
   echo "$ip" > $ip_file

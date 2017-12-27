@@ -8,7 +8,8 @@ ENV ZONE=example.com \
     EMAIL=example@example.com \
     API=1111111111111111 \
     TTL=1 \
-    PROXY=true
+    PROXY=true \
+    DEBUG=false
 
 RUN apk add --update curl && \
     rm -rf /var/cache/apk/* && \
