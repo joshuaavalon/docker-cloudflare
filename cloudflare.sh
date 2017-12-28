@@ -5,6 +5,22 @@ ip_file="ip"
 
 new_ip=$(curl -s http://ipecho.net/plain)
 
+# Fallbacks
+if [ -z "$new_ip" ]; then
+    new_ip=$(curl -s http://whatismyip.akamai.com)
+fi
+if [ -z "$new_ip" ]; then
+    new_ip=$(curl -s http://icanhazip.com/)
+fi
+if [ -z "$new_ip" ]; then
+    new_ip=$(curl -s https://tnx.nl/ip)
+fi
+
+if [ -z "$new_ip" ]; then
+    echo "Empty IP !"
+    exit 0
+fi
+
 if [ -f $ip_file ]; then
   ip=$(cat $ip_file)
   if [ "$ip" = "$new_ip" ]; then
