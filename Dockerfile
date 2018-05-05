@@ -11,7 +11,7 @@ ENV ZONE=example.com \
     PROXY=true \
     DEBUG=false
 
-RUN apk add --update curl && \
+RUN apk add --update jq curl && \
     rm -rf /var/cache/apk/* && \
     chmod +x /cloudflare.sh
 
