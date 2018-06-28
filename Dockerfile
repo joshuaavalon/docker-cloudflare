@@ -1,19 +1,21 @@
 FROM alpine:3.6
 
 ADD cloudflare.sh /cloudflare.sh
-ADD cron /var/spool/cron/crontabs/root
+ADD crontab /var/spool/cron/crontabs/root
 
-ENV ZONE=example.com \
-    HOST=example.com \
-    EMAIL=example@example.com \
-    API=1111111111111111 \
-    TTL=1 \
-    PROXY=true \
-    DEBUG=false
+ENV ZONE= \
+    HOST= \
+    EMAIL= \
+    API= \
+    TTL= \
+    PROXY= \
+    DEBUG= \
+    FORCE_CREATE= \
+    RUNONCE=
 
-RUN apk add --update jq curl && \
+RUN apk add --update bash jq curl && \
     rm -rf /var/cache/apk/* && \
     chmod +x /cloudflare.sh
 
 CMD /cloudflare.sh && \
-    crond -f
+    test -z "$RUNONCE" && crond -f

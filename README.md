@@ -15,18 +15,35 @@ Compare to [nouchka/cloudflare-dyndns](https://hub.docker.com/r/nouchka/cloudfla
  * Update when IP is changed
 
 ## Usage
+
+### Running once interactively
+
 ```
-docker run  \
-	-d \
-	-e ZONE=example.com \
-	-e HOST=example.com \
-	-e EMAIL=example@example.com \
-	-e API=1111111111111111 \
-	-e TTL=1 \
-	-e PROXY=true \
-	--name cloudflare \
+docker run \
+    -e RUNONCE=1 \
+    -e ZONE=example.com \
+    -e HOST=example.com \
+    -e EMAIL=example@example.com \
+    -e API=1111111111111111 \
+    -e TTL=1 \
+    -e PROXY=true \
 joshuaavalon/cloudflare-ddns
 ```
+
+### Running as a daemon
+
+```
+docker run \
+    -d \
+    -e ZONE=example.com \
+    -e HOST=example.com \
+    -e EMAIL=example@example.com \
+    -e API=1111111111111111 \
+    -e TTL=1 \
+    -e PROXY=true \
+joshuaavalon/cloudflare-ddns
+```
+
 
 ## Parameters
 `ZONE`: Domain, e.g. example.com.
@@ -40,3 +57,7 @@ joshuaavalon/cloudflare-ddns
 `TTL`: (OPTIONAL) Time to live for DNS record. Value of 1 is 'automatic'. Min value:120; Max value:2147483647. Default: `1`
 
 `PROXY`: (OPTIONAL) Whether the record is receiving the performance and security benefits of Cloudflare. `true` to enable; `false` to disable. Default: `true`
+
+`FORCE_CREATE`: (OPTIONAL) When set, a record will be created if one does not exist already.
+
+`RUNONCE`: (OPTIONAL) When set, only a single update is attempted, and the script exists without setting up a cron process.
