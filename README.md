@@ -10,7 +10,7 @@
 The is a simple docker using curl to update DNS record on [Cloudflare](https://www.cloudflare.com). Inspired by [rasmusbe/cloudflare-update-record.sh](https://gist.github.com/rasmusbe/fc2e270095f1a3b41348/)
 
 Compare to [nouchka/cloudflare-dyndns](https://hub.docker.com/r/nouchka/cloudflare-dyndns/) (4.0):
- * Smaller size: 3MB vs 54MB
+ * Smaller size: 4MB vs 54MB
  * Able to update subdomain
  * Update when IP is changed
 
