@@ -61,3 +61,23 @@ joshuaavalon/cloudflare-ddns
 `FORCE_CREATE`: (OPTIONAL) When set, a record will be created if one does not exist already.
 
 `RUNONCE`: (OPTIONAL) When set, only a single update is attempted, and the script exists without setting up a cron process.
+
+## Running on a raspberry pi
+
+Unfortunately dockerhub doesn't support automatic builds for the ARM architecture so this container has to be built manually. Luckily the container is easy and quick to build.
+
+To build simply clone this repo:
+
+```
+git clone https://github.com/joshuaavalon/docker-cloudflare.git
+```
+
+Then build the container using the alternate Dockerfile:
+
+```
+docker build \
+    -f Dockerfile.arm32v6 \
+    -t joshuaavalon/cloudflare-ddns:arm32v6
+```
+
+The newly built container can now be used by substituting `joshuaavalon/cloudflare-ddns` for `joshuaavalon/cloudflare-ddns:arm32v6` in the usage commands.
