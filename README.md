@@ -26,7 +26,7 @@ joshava/cloudflare-ddns
 
 ## Release
 
-`master` branch will be build by Travis CI weekly and push to `latest` and `arm32v6` to receive latest security update from upstream images.
+`master` branch will be built by Travis CI weekly and push to `latest` and `arm32v6` to receive latest security update from upstream images.
 
 All arm32v6 images will have a `arm32v6` prefix on tags.
 
