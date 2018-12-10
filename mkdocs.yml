@@ -12,3 +12,8 @@ extra:
   social:
     - type: github-alt
       link: https://github.com/joshuaavalon/docker-cloudflare
+
+nav:
+  - index.md
+  - configuration.md
+  - faq.md
