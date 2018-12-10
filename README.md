@@ -9,7 +9,7 @@
 
 The is a simple docker using curl to update DNS record on [Cloudflare][cloudflare]. Inspired by [rasmusbe/cloudflare-update-record.sh][rasmusbe].
 
-> The image have moved from [joshuaavalon/docker-cloudflare][joshuaavalon] to [joshava/cloudflare-ddns][docker].
+> The image has moved from [joshuaavalon/docker-cloudflare][joshuaavalon] to [joshava/cloudflare-ddns][docker].
 You can read [here][details] for more details.
 
 ## Usage
