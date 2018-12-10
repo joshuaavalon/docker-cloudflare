@@ -24,8 +24,8 @@ jobs:
       deploy:
         provider: script
         script: docker push "${DOCKER_IMAGE}:latest" && if [ -n "$TRAVIS_TAG" ]; then docker push "${DOCKER_IMAGE}:${TRAVIS_TAG}"; fi
-      on:
-        branch: master
+        on:
+          branch: master
     - name: docker
       script:
         - docker build --tag "${DOCKER_IMAGE}:latest" .
@@ -35,8 +35,8 @@ jobs:
       deploy:
         provider: script
         script: docker push "${DOCKER_IMAGE}:latest" && if [ -n "$TRAVIS_TAG" ]; then docker push "${DOCKER_IMAGE}:${TRAVIS_TAG}"; fi
-      on:
-        branch: master
+        on:
+          branch: master
     - name: docker (arm32v6)
       script:
         - docker build --tag "${DOCKER_IMAGE}:arm32v6" .
@@ -45,5 +45,5 @@ jobs:
       deploy:
         provider: script
         script: docker push "${DOCKER_IMAGE}:arm32v6"
-      on:
-        branch: master
+        on:
+          branch: master
