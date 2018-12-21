@@ -18,7 +18,7 @@ You can read [here][details] for more details.
 docker run \
     -d \
     -e ZONE=example.com \
-    -e HOST=foo.example.com \
+    -e HOST=foo.example.com,bar.example.com \
     -e EMAIL=example@example.com \
     -e API=1111111111111111 \
 joshava/cloudflare-ddns
