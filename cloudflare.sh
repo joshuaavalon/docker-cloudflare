@@ -15,6 +15,7 @@ fi
 
 # PROXY defaults to true
 PROXY=${PROXY:-true}
+RECORD_TYPE=${RECORD_TYPE:-A}
 
 # TTL defaults to 1 (automatic), and is validated
 TTL=${TTL:-1}
@@ -28,15 +29,22 @@ echo "Current time: $(date "+%Y-%m-%d %H:%M:%S")"
 # Determines the current IP address
 new_ip=$(curl -s http://ipecho.net/plain)
 
-# IP address service fallbacks
-if [[ -z $new_ip ]]; then
-    new_ip=$(curl -s http://whatismyip.akamai.com)
-fi
-if [[ -z $new_ip ]]; then
-    new_ip=$(curl -s http://icanhazip.com/)
-fi
-if [[ -z $new_ip ]]; then
-    new_ip=$(curl -s https://tnx.nl/ip)
+if [ "$RECORD_TYPE" != "AAAA" ]; then
+    # IP address service fallbacks
+    if [[ -z $new_ip ]]; then
+        new_ip=$(curl -s http://whatismyip.akamai.com)
+    fi
+    if [[ -z $new_ip ]]; then
+        new_ip=$(curl -s http://icanhazip.com/)
+    fi
+    if [[ -z $new_ip ]]; then
+        new_ip=$(curl -s https://tnx.nl/ip)
+    fi
+else
+    # IPv6
+    if [[ -z $new_ip ]]; then
+        new_ip=$(curl -s https://api.ipify.org)
+    fi
 fi
 
 if [[ -z $new_ip ]]; then
@@ -99,7 +107,7 @@ fi
 # DNS record to add or update
 read -r -d '' new_dns_record <<EOF
 {
-    "type": "A",
+    "type": "$RECORD_TYPE",
     "name": "$HOST",
     "content": "$ip",
     "ttl": $TTL,
@@ -109,7 +117,7 @@ read -r -d '' new_dns_record <<EOF
 EOF
 
 # Adds or updates the record
-dns_record_id=$(jq <<<"$dns_record_response" -r '.result[] | select(.type =="A") |.id')
+dns_record_id=$(jq <<<"$dns_record_response" -r '.result[] | select(.type =="$RECORD_TYPE") |.id')
 if [[ -z $dns_record_id ]]; then
 
     # Makes sure we don't have a CNAME by the same name first
