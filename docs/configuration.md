@@ -10,7 +10,6 @@
 | PROXY        | true    | Whether the record is receiving the performance and security benefits of Cloudflare. `true` to enable; `false` to disable.                                                               |
 | FORCE_CREATE |         | When set, a record will be created if one does not exist already.                                                                                                                        |
 | RUNONCE      |         | When set, only a single update is attempted, and the script exists without setting up a cron process.                                                                                    |
-| RECORD_TYPE  | A       | Use AAAA for IPv6.                                                                                                                                                                       |
 
 * These parameters are required.
 
