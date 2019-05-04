@@ -15,7 +15,6 @@ fi
 
 # PROXY defaults to true
 PROXY=${PROXY:-true}
-RECORD_TYPE=${RECORD_TYPE:-A}
 
 # TTL defaults to 1 (automatic), and is validated
 TTL=${TTL:-1}
@@ -25,28 +24,26 @@ if [[ $TTL != 1 ]] && [[ $TTL -lt 120 || $TTL -gt 2147483647 ]]; then
 fi
 
 echo "Current time: $(date "+%Y-%m-%d %H:%M:%S")"
+if [[ -z $IPV6 ]]; then
+    ip_curl="curl -6s"
+    record_type="AAAA"
+else
+    ip_curl="curl -4s"
+    record_type="A"
+fi
 
 # Determines the current IP address
-if [ "$RECORD_TYPE" != "AAAA" ]; then
-    new_ip=$(curl -s http://ipecho.net/plain)
+new_ip=$($ip_curl http://ipecho.net/plain)
 
-    # IP address service fallbacks
-    if [[ -z $new_ip ]]; then
-        new_ip=$(curl -s http://whatismyip.akamai.com)
-    fi
-    if [[ -z $new_ip ]]; then
-        new_ip=$(curl -s http://icanhazip.com/)
-    fi
-    if [[ -z $new_ip ]]; then
-        new_ip=$(curl -s https://tnx.nl/ip)
-    fi
-else
-    # IPv6
-    new_ip=$(curl -s https://v6.ident.me/)
-
-    if [[ -z $new_ip ]]; then
-        new_ip=$(curl -s http://ipv6bot.whatismyipaddress.com/)
-    fi
+# IP address service fallbacks
+if [[ -z $new_ip ]]; then
+    new_ip=$($ip_curl http://whatismyip.akamai.com)
+fi
+if [[ -z $new_ip ]]; then
+    new_ip=$($ip_curl http://icanhazip.com/)
+fi
+if [[ -z $new_ip ]]; then
+    new_ip=$($ip_curl https://tnx.nl/ip)
 fi
 
 if [[ -z $new_ip ]]; then
@@ -109,7 +106,7 @@ fi
 # DNS record to add or update
 read -r -d '' new_dns_record <<EOF
 {
-    "type": "$RECORD_TYPE",
+    "type": "$record_type",
     "name": "$HOST",
     "content": "$ip",
     "ttl": $TTL,
@@ -119,7 +116,7 @@ read -r -d '' new_dns_record <<EOF
 EOF
 
 # Adds or updates the record
-dns_record_id=$(jq <<<"$dns_record_response" -r '.result[] | select(.type =="$RECORD_TYPE") |.id')
+dns_record_id=$(jq <<<"$dns_record_response" -r '.result[] | select(.type =="$record_type") |.id')
 if [[ -z $dns_record_id ]]; then
 
     # Makes sure we don't have a CNAME by the same name first
