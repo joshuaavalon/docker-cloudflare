@@ -25,11 +25,11 @@ fi
 
 echo "Current time: $(date "+%Y-%m-%d %H:%M:%S")"
 if [[ -z $IPV6 ]]; then
-    ip_curl="curl -6s"
-    record_type="AAAA"
-else
     ip_curl="curl -4s"
     record_type="A"
+else
+    ip_curl="curl -6s"
+    record_type="AAAA"
 fi
 
 # Determines the current IP address

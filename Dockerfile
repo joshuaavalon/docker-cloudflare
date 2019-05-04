@@ -11,7 +11,8 @@ ENV ZONE= \
     PROXY= \
     DEBUG= \
     FORCE_CREATE= \
-    RUNONCE=
+    RUNONCE= \
+    IPV6=
 
 RUN apk add --update bash jq curl && \
     rm -rf /var/cache/apk/* && \
