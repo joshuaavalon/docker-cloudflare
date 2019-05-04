@@ -24,19 +24,26 @@ if [[ $TTL != 1 ]] && [[ $TTL -lt 120 || $TTL -gt 2147483647 ]]; then
 fi
 
 echo "Current time: $(date "+%Y-%m-%d %H:%M:%S")"
+if [[ -z $IPV6 ]]; then
+    ip_curl="curl -4s"
+    record_type="A"
+else
+    ip_curl="curl -6s"
+    record_type="AAAA"
+fi
 
 # Determines the current IP address
-new_ip=$(curl -s http://ipecho.net/plain)
+new_ip=$($ip_curl http://ipecho.net/plain)
 
 # IP address service fallbacks
 if [[ -z $new_ip ]]; then
-    new_ip=$(curl -s http://whatismyip.akamai.com)
+    new_ip=$($ip_curl http://whatismyip.akamai.com)
 fi
 if [[ -z $new_ip ]]; then
-    new_ip=$(curl -s http://icanhazip.com/)
+    new_ip=$($ip_curl http://icanhazip.com/)
 fi
 if [[ -z $new_ip ]]; then
-    new_ip=$(curl -s https://tnx.nl/ip)
+    new_ip=$($ip_curl https://tnx.nl/ip)
 fi
 
 if [[ -z $new_ip ]]; then
@@ -99,7 +106,7 @@ fi
 # DNS record to add or update
 read -r -d '' new_dns_record <<EOF
 {
-    "type": "A",
+    "type": "$record_type",
     "name": "$HOST",
     "content": "$ip",
     "ttl": $TTL,
@@ -109,7 +116,7 @@ read -r -d '' new_dns_record <<EOF
 EOF
 
 # Adds or updates the record
-dns_record_id=$(jq <<<"$dns_record_response" -r '.result[] | select(.type =="A") |.id')
+dns_record_id=$(jq <<<"$dns_record_response" -r '.result[] | select(.type =="$record_type") |.id')
 if [[ -z $dns_record_id ]]; then
 
     # Makes sure we don't have a CNAME by the same name first

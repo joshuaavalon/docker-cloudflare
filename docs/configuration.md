@@ -1,17 +1,18 @@
 # Configuration
 
 | Parameters   | Default | Description                                                                                                                                                                              |
-|--------------|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| *ZONE        |         | Domain, e.g. `example.com`.                                                                                                                                                              |
-| *HOST        |         | DNS record to be updated, e.g. `example.com`, `subdomain.example.com`.                                                                                                                   |
-| *EMAIL       |         | Cloudflare Email                                                                                                                                                                         |
-| *API         |         | Cloudflare API key                                                                                                                                                                       |
+| ------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| \*ZONE       |         | Domain, e.g. `example.com`.                                                                                                                                                              |
+| \*HOST       |         | DNS record to be updated, e.g. `example.com`, `subdomain.example.com`.                                                                                                                   |
+| \*EMAIL      |         | Cloudflare Email                                                                                                                                                                         |
+| \*API        |         | Cloudflare API key                                                                                                                                                                       |
 | TTL          | 1       | Time to live for DNS record. Value of 1 is 'automatic'. Min value:120; Max value:2147483647.Time to live for DNS record. Value of 1 is 'automatic'. Min value:120; Max value:2147483647. |
 | PROXY        | true    | Whether the record is receiving the performance and security benefits of Cloudflare. `true` to enable; `false` to disable.                                                               |
 | FORCE_CREATE |         | When set, a record will be created if one does not exist already.                                                                                                                        |
 | RUNONCE      |         | When set, only a single update is attempted, and the script exists without setting up a cron process.                                                                                    |
+| IPV6         |         | When set, update IPv6 instead of IPv4.                                                                                                                                                   |
 
-* These parameters are required.
+- These parameters are required.
 
 ## Example
 
