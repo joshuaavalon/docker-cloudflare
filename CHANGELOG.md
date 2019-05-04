@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- IPv6 support
+- IPv6 support (#15)
 
 ## [1.3.0]
 
