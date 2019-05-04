@@ -49,3 +49,25 @@ Read the full documentation [here][documentation].
 [documentation]: https://joshuaavalon.github.io/docker-cloudflare/
 [joshuaavalon]: https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/
 [details]: https://joshuaavalon.github.io/docker-cloudflare/faq/
+
+## Developer notes
+
+Create a `.env` file to define your local environment variables (see `sample.env`)
+
+Start the service:
+
+```bash
+docker-compose up
+```
+
+Stop the service:
+
+```bash
+docker-compose down
+```
+
+Rebuild the docker image
+
+```bash
+docker-compose build
+```
