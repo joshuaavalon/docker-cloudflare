@@ -1,6 +1,6 @@
 FROM alpine:3.6
 
-ADD cloudflare.sh /cloudflare.sh
+ADD *.sh /
 ADD crontab /var/spool/cron/crontabs/root
 
 ENV ZONE= \
