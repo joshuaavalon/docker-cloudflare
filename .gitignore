@@ -46,3 +46,6 @@ Temporary Items
 .apdisk
 
 .idea
+
+# File for setting environment variables for development
+.env

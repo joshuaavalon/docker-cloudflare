@@ -1,0 +1,15 @@
+version: '3'
+services:
+  cloudflareddns:
+    build: .
+    environment:
+      - ZONE
+      - HOST
+      - EMAIL
+      - API
+      - TTL
+      - PROXY
+      - DEBUG
+      - FORCE_CREATE
+      - RUNONCE
+      - IPV6
