@@ -24,26 +24,16 @@ if [[ $TTL != 1 ]] && [[ $TTL -lt 120 || $TTL -gt 2147483647 ]]; then
 fi
 
 echo "Current time: $(date "+%Y-%m-%d %H:%M:%S")"
-if [[ -z $IPV6 ]]; then
-    ip_curl="curl -4s"
-    record_type="A"
-else
-    ip_curl="curl -6s"
-    record_type="AAAA"
-fi
+
+source /query-ip.sh
 
 # Determines the current IP address
-new_ip=$($ip_curl http://ipecho.net/plain)
-
-# IP address service fallbacks
-if [[ -z $new_ip ]]; then
-    new_ip=$($ip_curl http://whatismyip.akamai.com)
-fi
-if [[ -z $new_ip ]]; then
-    new_ip=$($ip_curl http://icanhazip.com/)
-fi
-if [[ -z $new_ip ]]; then
-    new_ip=$($ip_curl https://tnx.nl/ip)
+if [[ -z $IPV6 ]]; then
+    new_ip=$(queryIPAddress 4)
+    record_type="A"
+else
+    new_ip=$(queryIPAddress 6)
+    record_type="AAAA"
 fi
 
 if [[ -z $new_ip ]]; then
