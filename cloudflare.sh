@@ -25,9 +25,10 @@ fi
 
 echo "Current time: $(date "+%Y-%m-%d %H:%M:%S")"
 
-source /query-ip.sh
 
 # Determines the current IP address
+source /query-ip.sh
+
 if [[ -z $IPV6 ]]; then
     new_ip=$(queryIPAddress 4)
     record_type="A"

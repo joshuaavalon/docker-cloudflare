@@ -1,6 +1,8 @@
 #!/bin/bash
+#
+# Provides a function to query the public IP address for the current system
 
-ipv4Services=(
+IPV4_SERVICES=(
     "http://ipv4.whatismyip.akamai.com"
     "http://ipv4bot.whatismyipaddress.com/"
     "http://icanhazip.com/"
@@ -9,7 +11,7 @@ ipv4Services=(
     "https://v4.ident.me/"
 )
 
-ipv6Services=(
+IPV6_SERVICES=(
     "http://ipv6.whatismyip.akamai.com"
     "http://ipv6bot.whatismyipaddress.com/"
     "http://icanhazip.com/"
@@ -17,38 +19,32 @@ ipv6Services=(
     "https://v6.ident.me/"
 )
 
-# Public: Query public IP address for the current system
-#
-# Takes a single argument representing the IP address version desired
-# and attempts to fetch the IP from one of a predefined list of services
-#
-# $1 - IP version: 4 (default) or 6.
-#
-# Examples
-#
-#   queryIPAddress 4
-#
-# Outputs the IPv4 address to stdout
-#
-#   queryIPAddress 6
-#
-# Outputs the IPv6 address to stdout
+
+#######################################
+# Attempt to query IP addresses from the lists of available services for IPv4 and IPv6
+# Globals:
+#   IPV4_SERVICES
+#   IPV6_SERVICES
+# Arguments:
+#   ipVersion: 4 (default) or 6.
+# Returns:
+#   The public IP address corresponding to the specified IP version
+#######################################
 queryIPAddress() {
     local ipVersion="${1:-4}" # Default to version 4
     local ipServices
     local ip
 
     # Select IPv4 or IPv6 services to query
-    [[ $ipVersion == 6 ]] && ipServices=("${ipv6Services[@]}") || ipServices=("${ipv4Services[@]}")
+    [[ $ipVersion == 6 ]] && ipServices=("${IPV6_SERVICES[@]}") || ipServices=("${IPV4_SERVICES[@]}")
 
-    # On each iteration, attempt to obtain IP address.
     for ipService in "${ipServices[@]}"; do
         echo >&2 "Attempting to obtain IPv${ipVersion} address from ${ipService}"
-        ip=$(curl -${ipVersion}s $ipService)
+        ip=$(curl "-${ipVersion}s" "${ipService}")
         [[ -n $ip ]] && break
         echo >&2 "Failed to obtain IPv${ipVersion} address from ${ipService}"
     done
 
-    [[ -z $ip ]] && echo >&2 "Failed to obtain IPv${ipVersion} address from any service."
+    [[ -z $ip ]] && echo >&2 "Failed to obtain IPv${ipVersion} address from any service." && return 1
     echo $ip
 }
