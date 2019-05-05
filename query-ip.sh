@@ -2,19 +2,19 @@
 
 ipv4Services=(
     "http://ipv4.whatismyip.akamai.com"
+    "http://ipv4bot.whatismyipaddress.com/"
     "http://icanhazip.com/"
+    "http://ipecho.net/plain" # This service only supports IPv4
     "https://tnx.nl/ip"
     "https://v4.ident.me/"
-    "http://ipv4bot.whatismyipaddress.com/"
-    "http://ipecho.net/plain" # This service only supports IPv4
 )
 
 ipv6Services=(
     "http://ipv6.whatismyip.akamai.com"
+    "http://ipv6bot.whatismyipaddress.com/"
     "http://icanhazip.com/"
     "https://tnx.nl/ip"
     "https://v6.ident.me/"
-    "http://ipv6bot.whatismyipaddress.com/"
 )
 
 # Public: Query public IP address for the current system
@@ -39,21 +39,16 @@ queryIPAddress() {
     local ip
 
     # Select IPv4 or IPv6 services to query
-    [ $ipVersion == 6 ] && ipServices=("${ipv6Services[@]}") || ipServices=("${ipv4Services[@]}")
-
-    local len=${#ipServices[@]} # Total number of available services
-    local retry=$len
-    local i=$((RANDOM % ${#ipServices[@]})) # Randomise initial service to try
+    [[ $ipVersion == 6 ]] && ipServices=("${ipv6Services[@]}") || ipServices=("${ipv4Services[@]}")
 
     # On each iteration, attempt to obtain IP address.
-    while [ $retry -gt 0 ] && [ -z $ip ]; do
-        echo >&2 "Attempting to obtain IPv${ipVersion} address from ${ipServices[$i]}"
-        ip=$(curl -${ipVersion}s ${ipServices[$i]})
-
-        retry=$(($retry - 1)); # Decrement retry attemps until there are none left
-        i=$((($i + 1) % $len)); # Pick the next service to try from the list
+    for ipService in "${ipServices[@]}"; do
+        echo >&2 "Attempting to obtain IPv${ipVersion} address from ${ipService}"
+        ip=$(curl -${ipVersion}s $ipService)
+        [[ -n $ip ]] && break
+        echo >&2 "Failed to obtain IPv${ipVersion} address from ${ipService}"
     done
 
-    [ -z $ip ] && echo >&2 "Failed to obtain IPv${ipVersion} address"
+    [[ -z $ip ]] && echo >&2 "Failed to obtain IPv${ipVersion} address from any service."
     echo $ip
 }

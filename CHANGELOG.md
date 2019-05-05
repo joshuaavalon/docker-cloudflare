@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- Use round-robin approach to obtain for IP from different services
+- Improved reliability of IP address queries
 - Added docker-compose.yml and updated README for easier development
 
 ## [1.4.0]
