@@ -116,7 +116,7 @@ read -r -d '' new_dns_record <<EOF
 EOF
 
 # Adds or updates the record
-dns_record_id=$(jq <<<"$dns_record_response" -r '.result[] | select(.type =="$record_type") |.id')
+dns_record_id=$(jq <<<"$dns_record_response" -r ".result[] | select(.type ==\"$record_type\") |.id")
 if [[ -z $dns_record_id ]]; then
 
     # Makes sure we don't have a CNAME by the same name first
