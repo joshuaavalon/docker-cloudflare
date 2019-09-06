@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv sh
+
+/app/cloudflare.sh && crond -f
