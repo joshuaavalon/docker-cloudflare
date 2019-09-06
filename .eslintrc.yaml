@@ -1,0 +1,5 @@
+extends:
+  - "@joshuaavalon/eslint-config-typescript"
+env:
+  es6: true
+  node: true

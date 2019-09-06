@@ -1,0 +1,145 @@
+{
+  "$id": "https://joshuaavalon.github.io/docker-cloudflare/config.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Configuration for docker-cloudflare",
+  "type": "object",
+  "properties": {
+    "api": {
+      "type": "string",
+      "description": "Cloudflare V4 API url. Default to \"https://api.cloudflare.com/client/v4/\"."
+    },
+    "auth": {
+      "description": "Authentication used to interact with API.",
+      "oneOf": [
+        { "$ref": "#/definitions/scopedAuth" },
+        { "$ref": "#/definitions/globalAuth" }
+      ]
+    },
+    "domains": {
+      "type": "array",
+      "description": "List of domains to be updated.",
+      "items": {
+        "$ref": "#/definitions/domain"
+      }
+    },
+    "ipv4": {
+      "type": "array",
+      "description": "List of IP echo service that returns IPv4.",
+      "items": {
+        "oneOf": [
+          { "$ref": "#/definitions/ipJsonEcho" },
+          { "$ref": "#/definitions/ipTextEcho" }
+        ]
+      }
+    },
+    "ipv6": {
+      "type": "array",
+      "description": "List of IP echo service that returns IPv6.",
+      "items": {
+        "oneOf": [
+          { "$ref": "#/definitions/ipJsonEcho" },
+          { "$ref": "#/definitions/ipTextEcho" }
+        ]
+      }
+    }
+  },
+  "required": ["auth", "domains"],
+  "definitions": {
+    "globalAuth": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "DEPRECIATED. Email address associated with your Cloudflare account."
+        },
+        "globalToken": {
+          "type": "string",
+          "description": "DEPRECIATED. API key generated on the \"My Account\" page."
+        }
+      },
+      "required": ["email", "globalToken"]
+    },
+    "scopedAuth": {
+      "type": "object",
+      "properties": {
+        "scopedToken": {
+          "type": "string",
+          "description": "API Token generated from the User Profile 'API Tokens' page."
+        }
+      },
+      "required": ["scopedToken"]
+    },
+    "domain": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Domain name that to be updated."
+        },
+        "type": {
+          "type": "string",
+          "enum": ["A", "AAAA"],
+          "description": "Dns record type."
+        },
+        "proxied": {
+          "type": "boolean",
+          "description": "Whether the record is receiving the performance and security benefits of Cloudflare."
+        },
+        "create": {
+          "type": "boolean",
+          "description": "Create record if it does not exits."
+        },
+        "zoneId": {
+          "type": "string",
+          "description": "Zone ID of the domain to be updated."
+        },
+        "zoneName": {
+          "type": "string",
+          "description": "Base domain of the domain to be updated."
+        }
+      },
+      "oneOf": [
+        { "required": ["name", "type", "proxied", "create", "zoneId"] },
+        { "required": ["name", "type", "proxied", "create", "zoneName"] }
+      ]
+    },
+    "ipJsonEcho": {
+      "type": "object",
+      "description": "IP echo service that response with JSON.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "json"
+        },
+        "url": {
+          "type": "string",
+          "description": "Url of the IP echo service."
+        },
+        "fields": {
+          "type": "array",
+          "description": "Path to result JSON field.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["type", "url", "fields"]
+    },
+    "ipTextEcho": {
+      "type": "object",
+      "description": "IP echo service that response with plain text.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "text"
+        },
+        "url": {
+          "type": "string",
+          "description": "Url of the IP echo service."
+        }
+      },
+      "required": ["type", "url"]
+    }
+  }
+}

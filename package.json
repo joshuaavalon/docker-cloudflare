@@ -1,0 +1,55 @@
+{
+  "name": "cloudflare-ddns",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "directories": {
+    "doc": "docs",
+    "lib": "lib"
+  },
+  "files": [
+    "lib",
+    "docs"
+  ],
+  "scripts": {
+    "prebuild": "del-cli lib",
+    "build": "ttsc",
+    "start": "node lib/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshuaavalon/docker-cloudflare.git"
+  },
+  "keywords": [
+    "ddns",
+    "cloudflare"
+  ],
+  "author": "Joshua Avalon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joshuaavalon/docker-cloudflare/issues"
+  },
+  "homepage": "https://github.com/joshuaavalon/docker-cloudflare#readme",
+  "devDependencies": {
+    "@joshuaavalon/eslint-config-typescript": "^2.0.0",
+    "@types/js-yaml": "^3.12.1",
+    "@types/node": "^12.7.3",
+    "@types/node-fetch": "^2.5.0",
+    "del-cli": "^2.0.0",
+    "eslint": "^6.3.0",
+    "prettier": "^1.18.2",
+    "ts-node": "^8.3.0",
+    "ts-toolbelt": "^3.8.63",
+    "ttypescript": "^1.5.7",
+    "typescript": "^3.6.2",
+    "typescript-transform-paths": "^1.1.10"
+  },
+  "dependencies": {
+    "@types/ramda": "^0.26.21",
+    "ajv": "^6.10.2",
+    "js-yaml": "^3.13.1",
+    "node-fetch": "^2.6.0",
+    "ramda": "^0.26.1"
+  }
+}
