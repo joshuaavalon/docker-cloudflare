@@ -1,3 +1,3 @@
 #!/bin/sh
 
-node ./lib/index.js
+node /app/lib/index.js
