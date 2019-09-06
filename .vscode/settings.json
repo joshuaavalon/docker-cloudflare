@@ -1,0 +1,11 @@
+{
+  "eslint.autoFixOnSave": true,
+  "editor.formatOnSave": true,
+  "eslint.validate": [
+    "javascript",
+    { "language": "typescript", "autoFix": true }
+  ],
+  "yaml.schemas": {
+    "src/config/config.schema.json": "/config.yaml"
+  }
+}

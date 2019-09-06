@@ -46,3 +46,10 @@ Temporary Items
 .apdisk
 
 .idea
+node_modules
+/lib
+/.vscode
+
+/config.yaml
+/config.yml
+/config.json
