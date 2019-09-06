@@ -1,0 +1,16 @@
+#!/usr/bin/with-contenv sh
+
+PUID=${PUID:-1001}
+PGID=${PGID:-1001}
+
+groupmod -o -g "$PGID" abc
+usermod -o -u "$PUID" abc
+
+echo "
+Initializing container
+
+User uid: $(id -u abc)
+User gid: $(id -g abc)
+"
+
+chown abc:abc /app
