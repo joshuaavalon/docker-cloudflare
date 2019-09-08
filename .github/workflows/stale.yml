@@ -1,0 +1,15 @@
+name: "Close stale issues and pull requests"
+on:
+  schedule:
+    - cron: "0 0 * * *"
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          stale-issue-message: "Issues are closed after 30 days of inactivity. It’s been at least 20 days since the last update here."
+          stale-pr-message: "Pull requests are closed after 30 days of inactivity. It’s been at least 20 days since the last update here."
+          days-before-stale: 20
+          days-before-close: 10

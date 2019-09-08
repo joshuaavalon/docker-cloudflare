@@ -15,7 +15,9 @@
   "scripts": {
     "prebuild": "del-cli lib",
     "build": "ttsc",
-    "start": "node lib/index.js"
+    "start": "node lib/index.js",
+    "test": "echo WIP",
+    "lint": "eslint --ext .ts src"
   },
   "repository": {
     "type": "git",

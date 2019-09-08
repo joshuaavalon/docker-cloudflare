@@ -1,0 +1,68 @@
+name: Main workflow
+on:
+  - push
+  - pull_request
+jobs:
+  test:
+    name: Build and test script
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node:
+          - "12"
+          - "10"
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@master
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install script dependencies
+        run: npm install
+      - name: Build script
+        run: npm run build
+      - name: Build unit tests
+        run: npm run test
+  lint:
+    name: Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@master
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10"
+      - name: Install script dependencies
+        run: npm install
+      - name: Lint
+        run: npm run lint
+  docker:
+    name: Build and test Docker image
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        baseImage:
+          - node:10-alpine
+          - arm32v6/node:10-alpine
+        include:
+          - baseImage: node:10-alpine
+            s6Arch: amd64
+          - baseImage: arm32v6/node:10-alpine
+            s6Arch: arm
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@master
+      - name: Prepare for ARM
+        if: matrix.baseImage == 'arm32v6/node:10-alpine'
+        run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+      - name: Build Docker image
+        run: |-
+          docker build \
+            -t joshava/cloudflare-ddns \
+            --build-arg BASE_IMAGE=${{ matrix.baseImage }} \
+            --build-arg OVERLAY_ARCH=${{ matrix.s6Arch }} \
+            .
+      - name: Run unit tests
+        run: docker run -i --entrypoint "" joshava/cloudflare-ddns npm run test
