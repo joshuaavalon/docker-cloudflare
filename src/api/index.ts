@@ -111,7 +111,7 @@ const updateOrCreate = async (
       log(`Try to update record for  ${domainName}`);
       await updateDnsRecord(context);
     } else {
-      log(`Skip to updating record for ${domainName}`);
+      log(`Skipped updating record for ${domainName}`);
     }
     return;
   }
@@ -120,7 +120,7 @@ const updateOrCreate = async (
     log(`Try to create record for  ${domainName}`);
     await createDnsRecord(context);
   } else {
-    log(`Skip creating record for ${domainName}`);
+    log(`Skipped creating record for ${domainName}`);
   }
 };
 

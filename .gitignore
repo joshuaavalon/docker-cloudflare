@@ -53,3 +53,4 @@ node_modules
 /config.yaml
 /config.yml
 /config.json
+/.vscode
