@@ -54,3 +54,4 @@ node_modules
 /config.yml
 /config.json
 /.vscode
+/public
