@@ -6,6 +6,7 @@
 [![Docker Image Size][docker-size]][docker-tag]
 [![Docker Layer][docker-layer]][docker-tag]
 [![License][license-badge]][license]
+[![semantic-release][semantic-release-badge]][semantic-release]
 
 Cloudflare DDNS is a Docker image that update DNS records on Cloudflare on schedule.
 
@@ -25,3 +26,4 @@ All arm32v6 images will have a `arm32v6` prefix on tags.
 [docker-layer]: https://img.shields.io/microbadger/layers/joshava/cloudflare-ddns.svg
 [license]: https://github.com/docker-cloudflare/blob/master/LICENSE
 [license-badge]: https://img.shields.io/github/license/joshuaavalon/docker-cloudflare.svg
+[semantic-release]: https://github.com/semantic-release/semantic-release
