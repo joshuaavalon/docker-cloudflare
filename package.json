@@ -17,7 +17,9 @@
     "build": "ttsc",
     "start": "node lib/index.js",
     "test": "echo WIP",
-    "lint": "eslint --ext .ts src"
+    "lint": "eslint --ext .ts src",
+    "docs:dev": "vuepress dev docs",
+    "docs": "vuepress build docs"
   },
   "repository": {
     "type": "git",
@@ -45,7 +47,8 @@
     "ts-toolbelt": "^3.8.63",
     "ttypescript": "^1.5.7",
     "typescript": "^3.6.2",
-    "typescript-transform-paths": "^1.1.10"
+    "typescript-transform-paths": "^1.1.10",
+    "vuepress": "^1.0.4"
   },
   "dependencies": {
     "@types/ramda": "^0.26.21",

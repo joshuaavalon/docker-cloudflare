@@ -38,6 +38,23 @@ jobs:
         run: npm install
       - name: Lint
         run: npm run lint
+  docs:
+    name: Documentation
+    runs-on: ubuntu-latest
+      - "10"
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@master
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10"
+      - name: Install script dependencies
+        run: npm install
+      - name: Build documentation
+        run: npm run docs
+      - name: Copy JSON schema
+        run: cp src/config/config.schema.json public
   docker:
     name: Build and test Docker image
     runs-on: ubuntu-latest
