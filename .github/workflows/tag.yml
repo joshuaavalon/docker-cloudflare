@@ -1,31 +1,11 @@
-name: Main
+name: Release
 on:
-  - push
-  - pull_request
+  push:
+    tags:
+      - "*.*.*"
 jobs:
-  test:
-    name: Build and test script
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node:
-          - "12"
-          - "10"
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@master
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node }}
-      - name: Install script dependencies
-        run: npm install
-      - name: Build script
-        run: npm run build
-      - name: Build unit tests
-        run: npm run test
-  lint:
-    name: Linting
+  release:
+    name: Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
@@ -36,8 +16,8 @@ jobs:
           node-version: "10"
       - name: Install script dependencies
         run: npm install
-      - name: Lint
-        run: npm run lint
+      - name: Build documentation
+        run: npx semantic-release
   docs:
     name: Documentation
     runs-on: ubuntu-latest
@@ -54,6 +34,12 @@ jobs:
         run: npm run docs
       - name: Copy JSON schema
         run: cp src/config/config.schema.json public
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v2.2.0
+        env:
+          PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: ./public
   docker:
     name: Build and test Docker image
     runs-on: ubuntu-latest
@@ -65,8 +51,10 @@ jobs:
         include:
           - baseImage: node:10-alpine
             s6Arch: amd64
+            dockerImage: joshava/cloudflare-ddns:latest
           - baseImage: arm32v6/node:10-alpine
             s6Arch: arm
+            dockerImage: joshava/cloudflare-ddns:arm32v6
     steps:
       - name: Checkout project
         uses: actions/checkout@master
@@ -76,9 +64,16 @@ jobs:
       - name: Build Docker image
         run: |-
           docker build \
-            -t joshava/cloudflare-ddns \
+            -t ${{ matrix.dockerImage }} \
             --build-arg BASE_IMAGE=${{ matrix.baseImage }} \
             --build-arg OVERLAY_ARCH=${{ matrix.s6Arch }} \
             .
       - name: Run unit tests
-        run: docker run -i --entrypoint "" joshava/cloudflare-ddns npm run test
+        run: docker run -i --entrypoint "" ${{ matrix.dockerImage }} npm run test
+      - name: Login DockerHub
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+        run: echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+      - name: Deploy
+        run: docker push ${{ matrix.dockerImage }}
