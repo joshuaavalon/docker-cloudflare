@@ -29,17 +29,19 @@ jobs:
         with:
           node-version: "10"
       - name: Install script dependencies
+        working-directory: docs
         run: npm install
       - name: Build documentation
-        run: npm run docs
+        working-directory: docs
+        run: npm run build
       - name: Copy JSON schema
-        run: cp src/config/config.schema.json public
+        run: cp ./src/config/config.schema.json docs/public
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v2.2.0
         env:
           PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
           PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: ./public
+          PUBLISH_DIR: ./docs/public
   docker:
     name: Build and test Docker image
     runs-on: ubuntu-latest

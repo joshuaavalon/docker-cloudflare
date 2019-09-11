@@ -4,42 +4,6 @@ on:
     tags:
       - "*.*.*"
 jobs:
-  release:
-    name: Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@master
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: "10"
-      - name: Install script dependencies
-        run: npm install
-      - name: Build documentation
-        run: npx semantic-release
-  docs:
-    name: Documentation
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@master
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: "10"
-      - name: Install script dependencies
-        run: npm install
-      - name: Build documentation
-        run: npm run docs
-      - name: Copy JSON schema
-        run: cp src/config/config.schema.json public
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v2.2.0
-        env:
-          PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: ./public
   docker:
     name: Build and test Docker image
     runs-on: ubuntu-latest

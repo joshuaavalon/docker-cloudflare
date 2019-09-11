@@ -2,7 +2,6 @@
   "name": "cloudflare-ddns",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "private": true,
   "directories": {
     "doc": "docs",
@@ -17,9 +16,7 @@
     "build": "ttsc",
     "start": "node lib/index.js",
     "test": "echo WIP",
-    "lint": "eslint --ext .ts src",
-    "docs:dev": "vuepress dev docs",
-    "docs": "vuepress build docs"
+    "lint": "eslint --ext .ts src"
   },
   "repository": {
     "type": "git",
@@ -50,8 +47,7 @@
     "ts-toolbelt": "^3.8.63",
     "ttypescript": "^1.5.7",
     "typescript": "^3.6.2",
-    "typescript-transform-paths": "^1.1.10",
-    "vuepress": "^1.0.4"
+    "typescript-transform-paths": "^1.1.10"
   },
   "dependencies": {
     "@types/ramda": "^0.26.21",
