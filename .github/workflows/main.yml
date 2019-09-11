@@ -49,11 +49,11 @@ jobs:
         with:
           node-version: "10"
       - name: Install script dependencies
+        working-directory: docs
         run: npm install
       - name: Build documentation
-        run: npm run docs
-      - name: Copy JSON schema
-        run: cp src/config/config.schema.json public
+        working-directory: docs
+        run: npm run build
   docker:
     name: Build and test Docker image
     runs-on: ubuntu-latest
@@ -61,17 +61,18 @@ jobs:
       matrix:
         baseImage:
           - node:10-alpine
-          - arm32v6/node:10-alpine
+          - arm32v7/node:10-alpine
         include:
           - baseImage: node:10-alpine
             s6Arch: amd64
-          - baseImage: arm32v6/node:10-alpine
+          - baseImage: arm32v7/node:10-alpine
             s6Arch: arm
     steps:
       - name: Checkout project
         uses: actions/checkout@master
+      - run: docker --version
       - name: Prepare for ARM
-        if: matrix.baseImage == 'arm32v6/node:10-alpine'
+        if: matrix.baseImage == 'arm32v7/node:10-alpine'
         run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
       - name: Build Docker image
         run: |-
