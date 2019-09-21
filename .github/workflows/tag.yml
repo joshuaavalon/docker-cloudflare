@@ -1,4 +1,4 @@
-name: Release
+name: Tag
 on:
   push:
     tags:
@@ -15,29 +15,36 @@ jobs:
         include:
           - baseImage: node:10-alpine
             s6Arch: amd64
-            dockerImage: joshava/cloudflare-ddns:latest
+            dockerImage: "joshava/cloudflare-ddns:"
           - baseImage: arm32v6/node:10-alpine
             s6Arch: arm
-            dockerImage: joshava/cloudflare-ddns:arm32v6
+            dockerImage: joshava/cloudflare-ddns:arm32v6-
     steps:
       - name: Checkout project
         uses: actions/checkout@master
       - name: Prepare for ARM
         if: matrix.baseImage == 'arm32v6/node:10-alpine'
         run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+      - name: Parse git tag
+        run: echo "$GITHUB_REF" | grep -Po "\d+\.\d+\.\d+" > TAG_VERSION;
       - name: Build Docker image
         run: |-
+          export TAG_VERSION=$(cat TAG_VERSION);
           docker build \
-            -t ${{ matrix.dockerImage }} \
+            -t "${{ matrix.dockerImage }}${TAG_VERSION}" \
             --build-arg BASE_IMAGE=${{ matrix.baseImage }} \
             --build-arg OVERLAY_ARCH=${{ matrix.s6Arch }} \
             .
       - name: Run unit tests
-        run: docker run -i --entrypoint "" ${{ matrix.dockerImage }} npm run test
+        run: |-
+          export TAG_VERSION=$(cat TAG_VERSION);
+          docker run -i --entrypoint "" "${{ matrix.dockerImage }}${TAG_VERSION}" npm run test
       - name: Login DockerHub
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
         run: echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
       - name: Deploy
-        run: docker push ${{ matrix.dockerImage }}
+        run: |-
+          export TAG_VERSION=$(cat TAG_VERSION);
+          docker push "${{ matrix.dockerImage }}${TAG_VERSION}"
