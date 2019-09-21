@@ -27,3 +27,4 @@ All arm32v6 images will have a `arm32v6` prefix on tags.
 [license]: https://github.com/docker-cloudflare/blob/master/LICENSE
 [license-badge]: https://img.shields.io/github/license/joshuaavalon/docker-cloudflare.svg
 [semantic-release]: https://github.com/semantic-release/semantic-release
+[semantic-release-badge]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
