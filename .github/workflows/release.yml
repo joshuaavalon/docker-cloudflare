@@ -18,6 +18,8 @@ jobs:
         run: npm install
       - name: Build documentation
         run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   docs:
     name: Documentation
     runs-on: ubuntu-latest
@@ -73,9 +75,9 @@ jobs:
       - name: Run unit tests
         run: docker run -i --entrypoint "" ${{ matrix.dockerImage }} npm run test
       - name: Login DockerHub
+        run: echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-        run: echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
       - name: Deploy
         run: docker push ${{ matrix.dockerImage }}
