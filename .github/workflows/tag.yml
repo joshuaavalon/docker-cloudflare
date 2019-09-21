@@ -40,10 +40,10 @@ jobs:
           export TAG_VERSION=$(cat TAG_VERSION);
           docker run -i --entrypoint "" "${{ matrix.dockerImage }}${TAG_VERSION}" npm run test
       - name: Login DockerHub
+        run: echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-        run: echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
       - name: Deploy
         run: |-
           export TAG_VERSION=$(cat TAG_VERSION);
