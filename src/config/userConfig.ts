@@ -61,7 +61,7 @@ const readEnvConfig = (): UserConfig => {
     domains: [
       {
         name: process.env.HOST,
-        type: process.env.IPV6 === "true",
+        type: process.env.IPV6 === "true" ? "AAAA" : "A",
         zoneName: process.env.HOST,
         proxied: defaultTo(process.env.PROXY, "true") === "true",
         create: process.env.FORCE_CREATE === "true"
