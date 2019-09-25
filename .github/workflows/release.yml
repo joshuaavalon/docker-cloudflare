@@ -17,7 +17,7 @@ jobs:
       - name: Install script dependencies
         run: npm install
       - name: Build documentation
-        run: npx semantic-release
+        run: npm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GIT_AUTHOR_NAME: ${{ secrets.GIT_COMMITTER_NAME }}

@@ -16,7 +16,8 @@
     "build": "ttsc",
     "start": "node lib/index.js",
     "test": "echo WIP",
-    "lint": "eslint --ext .ts src"
+    "lint": "eslint --ext .ts src",
+    "release": "semantic-release"
   },
   "repository": {
     "type": "git",
