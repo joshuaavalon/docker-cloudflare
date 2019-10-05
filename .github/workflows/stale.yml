@@ -13,3 +13,5 @@ jobs:
           stale-pr-message: "Pull requests are closed after 30 days of inactivity. It’s been at least 20 days since the last update here."
           days-before-stale: 20
           days-before-close: 10
+          exempt-issue-label: not stale
+          exempt-pr-label: not stale
