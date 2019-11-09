@@ -56,7 +56,6 @@ const updateDnsRecords = async (config: Config): Promise<void> => {
       await requestWebhook(webhook?.failure);
       const domainName = getDomainName(domain);
       console.error(`Failed to update ${domainName}.\n${e.message}`);
-      process.exitCode = 1;
     }
   });
   await Promise.all(promises);
