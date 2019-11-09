@@ -51,15 +51,8 @@ const readZoneId = (context: UpdateDnsContext): Promise<{ zoneId: string }> =>
     getDomain,
     ifElse(
       isZoneIdDomain,
-      pipe(
-        getZoneId,
-        (value: string) => Promise.resolve(value)
-      ),
-      pipe(
-        getZoneName,
-        mapZoneContext(context),
-        fetchZoneId
-      )
+      pipe(getZoneId, (value: string) => Promise.resolve(value)),
+      pipe(getZoneName, mapZoneContext(context), fetchZoneId)
     ),
     then((zoneId: string) => ({ zoneId }))
   )(context);
@@ -88,11 +81,7 @@ const mergeContext = (context: DnsContext) => (
 const mapDnsContext = (
   context: DnsContext,
   records: DnsRecord[]
-): DnsContext | DnsRecordContext =>
-  pipe(
-    head,
-    mergeContext(context)
-  )(records);
+): DnsContext | DnsRecordContext => pipe(head, mergeContext(context))(records);
 
 const createDnsContext = async (
   context: DnsContext

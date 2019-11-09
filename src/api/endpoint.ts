@@ -8,8 +8,7 @@ export const resolveEndpoint = (
   path: string,
   query: Record<string, any> = {}
 ): string =>
-  pipe(
-    construct(URL),
-    updateUrl(query),
-    (url: URL) => url.toString()
-  )(path, api);
+  pipe(construct(URL), updateUrl(query), (url: URL) => url.toString())(
+    path,
+    api
+  );

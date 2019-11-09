@@ -11,20 +11,11 @@ const throwIfFail = (response: Response): void => {
   }
 };
 
-const fetchRequest = pipe(
-  unary(fetch),
-  then(tap(throwIfFail))
-);
+const fetchRequest = pipe(unary(fetch), then(tap(throwIfFail)));
 
-export const fetchJson = pipe(
-  fetchRequest,
-  then(asJson)
-);
+export const fetchJson = pipe(fetchRequest, then(asJson));
 
-export const fetchText = pipe(
-  fetchRequest,
-  then(asText)
-);
+export const fetchText = pipe(fetchRequest, then(asText));
 
 const checkIPv4 = (ip: string): void => {
   if (!isIPv4(ip)) {
@@ -43,28 +34,14 @@ const checkIPv6 = (ip: string): void => {
 const guardIPv6 = tap(checkIPv6);
 
 const fetchIPv4Json = (fields: string[], url: string): Promise<string> =>
-  pipe(
-    fetchJson,
-    then(path(fields)),
-    then(guardIPv4)
-  )(url);
+  pipe(fetchJson, then(path(fields)), then(guardIPv4))(url);
 
 const fetchIPv6Json = (fields: string[], url: string): Promise<string> =>
-  pipe(
-    fetchJson,
-    then(path(fields)),
-    then(guardIPv6)
-  )(url);
+  pipe(fetchJson, then(path(fields)), then(guardIPv6))(url);
 
-const fetchIPv4Text = pipe(
-  fetchText,
-  then(guardIPv4)
-);
+const fetchIPv4Text = pipe(fetchText, then(guardIPv4));
 
-const fetchIPv6Text = pipe(
-  fetchText,
-  then(guardIPv6)
-);
+const fetchIPv6Text = pipe(fetchText, then(guardIPv6));
 
 const cacheFetchJson = (fetchJson: FetchJson): FetchJson =>
   memoizeWith(

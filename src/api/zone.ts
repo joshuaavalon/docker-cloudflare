@@ -18,10 +18,7 @@ const getApi = prop<ZoneContext, "api">("api");
 const getAuth = prop<ZoneContext, "auth">("auth");
 const getZoneName = prop<ZoneContext, "zoneName">("zoneName");
 const getZoneId = prop<Zone, "id">("id");
-const createListZonesQuery = pipe(
-  getZoneName,
-  (name: string) => ({ name })
-);
+const createListZonesQuery = pipe(getZoneName, (name: string) => ({ name }));
 
 const getListZonesUrl = converge(resolveEndpoint, [
   getApi,
@@ -58,7 +55,4 @@ const firstZoneId: (res: ApiResponse<Zone[]>) => string = pipe(
  *
  * Requires `#zone:read`.
  */
-export const fetchZoneId = pipe(
-  listZones,
-  then(firstZoneId)
-);
+export const fetchZoneId = pipe(listZones, then(firstZoneId));

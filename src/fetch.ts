@@ -19,8 +19,4 @@ export const updateUrl = (query: Record<string, any>): ((url: URL) => URL) =>
 export const createUrl = (
   query: Record<string, any>
 ): ((url: string) => string) =>
-  pipe(
-    construct(URL),
-    updateUrl(query),
-    (url: URL) => url.toString()
-  );
+  pipe(construct(URL), updateUrl(query), (url: URL) => url.toString());
