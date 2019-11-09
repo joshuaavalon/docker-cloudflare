@@ -3,3 +3,6 @@ extends:
 env:
   es6: true
   node: true
+rules:
+  # https://github.com/typescript-eslint/typescript-eslint/issues/1116
+  no-undef: 0

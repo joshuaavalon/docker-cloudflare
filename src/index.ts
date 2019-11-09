@@ -1,8 +1,8 @@
 import { omit } from "ramda";
+import fetch from "node-fetch";
 
-import { fetchIPv4, fetchIPv6 } from "./ip";
-import { updateDns } from "./api";
-
+import { fetchIPv4, fetchIPv6 } from "@/ip";
+import { updateDns } from "@/api";
 import {
   Config,
   Domain,
@@ -12,6 +12,7 @@ import {
   getDomains,
   getIPv4,
   getIPv6,
+  getWebhook,
   isGlobalAuth,
   isIPv4,
   readConfig
@@ -32,12 +33,27 @@ const updateDomain = async (config: Config, domain: Domain): Promise<void> => {
   log(`Updated ${domainName} with ${ip}`);
 };
 
+const requestWebhook = async (url?: string): Promise<void> => {
+  if (!url) {
+    return;
+  }
+  try {
+    await fetch(url);
+  } catch (e) {
+    logWarn(`Fail to fetch ${url}.\n${e.message}`);
+  }
+};
+
 const updateDnsRecords = async (config: Config): Promise<void> => {
   const domains = await getDomains(config);
   const promises = domains.map(async domain => {
+    const webhook = getWebhook(domain);
     try {
+      await requestWebhook(webhook?.run);
       await updateDomain(config, domain);
+      await requestWebhook(webhook?.success);
     } catch (e) {
+      await requestWebhook(webhook?.failure);
       const domainName = getDomainName(domain);
       console.error(`Failed to update ${domainName}.\n${e.message}`);
       process.exitCode = 1;
