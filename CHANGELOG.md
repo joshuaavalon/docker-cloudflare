@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/joshuaavalon/docker-cloudflare/compare/2.1.0...2.1.1) (2019-11-09)
+
+
+### Bug Fixes
+
+* **script:** fix script keep restart on error ([20e3cdc](https://github.com/joshuaavalon/docker-cloudflare/commit/20e3cdcc1afb2c69b2498b461ef92193d922e28d))
+
 # [2.1.0](https://github.com/joshuaavalon/docker-cloudflare/compare/2.0.2...2.1.0) (2019-11-09)
 
 
