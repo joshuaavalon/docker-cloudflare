@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/joshuaavalon/docker-cloudflare#readme",
   "devDependencies": {
-    "@joshuaavalon/eslint-config-typescript": "^2.0.0",
+    "@joshuaavalon/eslint-config-typescript": "^2.1.0",
     "@semantic-release/changelog": "^3.0.5",
     "@semantic-release/git": "^7.0.18",
     "@types/js-yaml": "^3.12.1",

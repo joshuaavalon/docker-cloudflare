@@ -15,6 +15,10 @@ domains:
     proxied: true
     create: true
     zoneId: JBFRZWzhTKtRFWgu3X7f3YLX
+    webhook:
+      run: https://example.com/webhook/start
+      success: https://example.com/webhook/success
+      failure: https://example.com/webhook/failure
 ```
 
 ### Format
@@ -34,11 +38,15 @@ It can be validation through [JSON schema][schema]. There are many online valida
   - `email`: Cloudflare Email; `globalToken`: Global API key.
 - `domains`: List of domains to be updated.
   - `name`: Domain name to be updated.
-    `type`: DNS record type. It should be `A` or `AAAA`.
-    `proxied`: Enable Cloudflare proxied or not.
-    `create`: `true` to create record if not exists.
-    `zoneId`: [Zone ID](./cloudflare.html#zone-id) of the record.
-    `zoneName`: It is not needed if `zoneId` is set. Root domain of the domain name. It requires `#zone:read` for API token.
+  - `type`: DNS record type. It should be `A` or `AAAA`.
+  - `proxied`: Enable Cloudflare proxied or not.
+  - `create`: `true` to create record if not exists.
+  - `zoneId`: [Zone ID](./cloudflare.html#zone-id) of the record.
+  - `zoneName`: It is not needed if `zoneId` is set. Root domain of the domain name. It requires `#zone:read` for API token.
+  - `webhook`: _Optional._ Webhook for update
+    - `run`: _Optional._ Fired before update run.
+    - `success`: _Optional._ Fired after update success.
+    - `failure`: _Optional._ Fired after update failure.
 - `ipv4` & `ipv6`: List of IP echo services to be used. It support JSON and plain text response.
 
 **JSON response**
@@ -80,6 +88,10 @@ domains:
     proxied: true
     create: true
     zoneId: JBFRZWzhTKtRFWgu3X7f3YLX
+    webhook:
+      run: https://example.com/webhook/start
+      success: https://example.com/webhook/success
+      failure: https://example.com/webhook/failure
 ipv4:
   - type: json
     url: https://v4.ident.me/.json

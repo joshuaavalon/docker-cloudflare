@@ -97,6 +97,10 @@
         "zoneName": {
           "type": "string",
           "description": "Base domain of the domain to be updated."
+        },
+        "webhook": {
+          "$ref": "#/definitions/webhook",
+          "description": "Webhook for DNS update."
         }
       },
       "oneOf": [
@@ -140,6 +144,23 @@
         }
       },
       "required": ["type", "url"]
+    },
+    "webhook": {
+      "type": "object",
+      "properties": {
+        "run": {
+          "type": "string",
+          "description": "Fired before update run."
+        },
+        "success": {
+          "type": "string",
+          "description": "Fired after update success."
+        },
+        "failure": {
+          "type": "string",
+          "description": "Fired after update failure."
+        }
+      }
     }
   }
 }
