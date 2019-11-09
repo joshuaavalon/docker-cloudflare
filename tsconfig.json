@@ -16,6 +16,7 @@
     "noUnusedLocals": true,
     "strict": true,
     "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {
