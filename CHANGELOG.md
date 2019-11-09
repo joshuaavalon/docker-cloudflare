@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/joshuaavalon/docker-cloudflare/compare/2.0.2...2.1.0) (2019-11-09)
+
+
+### Features
+
+* **script:** add webhook ([#29](https://github.com/joshuaavalon/docker-cloudflare/issues/29)) ([5a22745](https://github.com/joshuaavalon/docker-cloudflare/commit/5a2274562862b62762996ab91ea0c082441b6477))
+
 ## [2.0.2](https://github.com/joshuaavalon/docker-cloudflare/compare/2.0.1...2.0.2) (2019-11-09)
 
 
