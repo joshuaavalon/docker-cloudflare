@@ -1,13 +1,4 @@
-import {
-  allPass,
-  head,
-  ifElse,
-  isNil,
-  mergeRight,
-  pipe,
-  prop,
-  then
-} from "ramda";
+import _ from "lodash";
 
 import { Auth, Domain, getZoneId, getZoneName, isZoneIdDomain } from "@/config";
 import { log } from "@/log";
@@ -36,52 +27,61 @@ type UpdateDnsContext = {
   ip: string;
 };
 
-const getDomain = prop<UpdateDnsContext, "domain">("domain");
+const getDomain = (context: UpdateDnsContext): Domain => context.domain;
 
-const mapZoneContext = ({ auth, api }: UpdateDnsContext) => (
+type ZoneRequest = {
+  auth: Auth;
+  api: string;
+  zoneName: string;
+};
+
+const mapZoneContext = (
+  { auth, api }: UpdateDnsContext,
   zoneName: string
-) => ({
+): ZoneRequest => ({
   auth,
   api,
   zoneName
 });
 
-const readZoneId = (context: UpdateDnsContext): Promise<{ zoneId: string }> =>
-  pipe(
-    getDomain,
-    ifElse(
-      isZoneIdDomain,
-      pipe(getZoneId, (value: string) => Promise.resolve(value)),
-      pipe(getZoneName, mapZoneContext(context), fetchZoneId)
-    ),
-    then((zoneId: string) => ({ zoneId }))
-  )(context);
+const readZoneId = async (
+  context: UpdateDnsContext
+): Promise<{ zoneId: string }> => {
+  const domain = getDomain(context);
+  const zoneId = isZoneIdDomain(domain)
+    ? getZoneId(domain)
+    : await fetchZoneId(mapZoneContext(context, getZoneName(domain)));
+  return { zoneId };
+};
 
 const mergeDnsContext = async (
   context: UpdateDnsContext
 ): Promise<DnsContext> => {
   const zoneId = await readZoneId(context);
-  return mergeRight(context, zoneId);
+  return _.merge(context, zoneId);
 };
 
 const createDnsRecordContext = (
   context: DnsContext,
   record: DnsRecord
 ): DnsRecordContext =>
-  mergeRight(context, {
+  _.merge(context, {
     recordId: record.id,
-    update: !allPass([matchIp(context), matchProxied(context)])(record)
+    update: !_.every([matchIp(context)(record), matchProxied(context)(record)])
   });
 
 const mergeContext = (context: DnsContext) => (
   record: DnsRecord | undefined
 ): DnsContext | DnsRecordContext =>
-  isNil(record) ? context : createDnsRecordContext(context, record);
+  _.isNil(record) ? context : createDnsRecordContext(context, record);
 
 const mapDnsContext = (
   context: DnsContext,
   records: DnsRecord[]
-): DnsContext | DnsRecordContext => pipe(head, mergeContext(context))(records);
+): DnsContext | DnsRecordContext => {
+  const record = _.first(records);
+  return mergeContext(context)(record);
+};
 
 const createDnsContext = async (
   context: DnsContext
@@ -113,8 +113,8 @@ const updateOrCreate = async (
   }
 };
 
-export const updateDns = pipe(
-  mergeDnsContext,
-  then(createDnsContext),
-  then(updateOrCreate)
-);
+export const updateDns = async (context: UpdateDnsContext): Promise<void> => {
+  const mergedContext = await mergeDnsContext(context);
+  const dnsContext = await createDnsContext(mergedContext);
+  return updateOrCreate(dnsContext);
+};

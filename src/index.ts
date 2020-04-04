@@ -1,5 +1,5 @@
-import { omit } from "ramda";
 import fetch from "node-fetch";
+import _ from "lodash";
 
 import { fetchIPv4, fetchIPv6 } from "@/ip";
 import { updateDns } from "@/api";
@@ -62,7 +62,7 @@ const updateDnsRecords = async (config: Config): Promise<void> => {
 };
 
 const printConfig = (config: Config): void => {
-  const cloneConfig = omit(["auth"], config);
+  const cloneConfig = _.omit(config, ["auth"]);
   const configStr = JSON.stringify(cloneConfig, null, 2);
   logDebug(`Running with the following configuration:\n${configStr}`);
 };

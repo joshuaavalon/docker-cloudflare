@@ -1,4 +1,4 @@
-import { always, converge, head, pipe, prop, tap, then } from "ramda";
+import _ from "lodash";
 
 import { Auth } from "@/config";
 
@@ -14,17 +14,23 @@ type ZoneContext = {
   zoneName: string;
 };
 
-const getApi = prop<ZoneContext, "api">("api");
-const getAuth = prop<ZoneContext, "auth">("auth");
-const getZoneName = prop<ZoneContext, "zoneName">("zoneName");
-const getZoneId = prop<Zone, "id">("id");
-const createListZonesQuery = pipe(getZoneName, (name: string) => ({ name }));
+const getApi = (context: ZoneContext): string => context.api;
+const getAuth = (context: ZoneContext): Auth => context.auth;
+const getZoneName = (context: ZoneContext): string => context.zoneName;
+const getZoneId = (zone: Zone): string => zone.id;
 
-const getListZonesUrl = converge(resolveEndpoint, [
-  getApi,
-  always("zones"),
-  createListZonesQuery
-]);
+type ListZonesQuery = {
+  name: string;
+};
+const createListZonesQuery = (context: ZoneContext): ListZonesQuery => ({
+  name: getZoneName(context)
+});
+
+const getListZonesUrl = (context: ZoneContext): string => {
+  const api = getApi(context);
+  const query = createListZonesQuery(context);
+  return resolveEndpoint(api, "zones", query);
+};
 
 /**
  * List zones with given name.
@@ -33,26 +39,28 @@ const getListZonesUrl = converge(resolveEndpoint, [
  *
  * @see https://api.cloudflare.com/#zone-list-zones
  */
-export const listZones: Api<[ZoneContext], Zone[]> = converge(get, [
-  getAuth,
-  getListZonesUrl
-]);
+export const listZones: Api<[ZoneContext], Zone[]> = context => {
+  const auth = getAuth(context);
+  const url = getListZonesUrl(context);
+  return get(auth, url);
+};
 
-const firstZoneId: (res: ApiResponse<Zone[]>) => string = pipe(
-  getApiResult,
-  head,
-  tap<Zone>((zone?: Zone) => {
-    if (!zone) {
-      // This should never happen because Cloudflare return success = false if there is no matching domain
-      throw new Error("No match zone found");
-    }
-  }),
-  getZoneId
-);
+const firstZoneId = (res: ApiResponse<Zone[]>): string => {
+  const result = getApiResult(res);
+  const zone = _.first(result);
+  if (!zone) {
+    // This should never happen because Cloudflare return success = false if there is no matching domain
+    throw new Error("No match zone found");
+  }
+  return getZoneId(zone);
+};
 
 /**
  * Fetch zone id by zone name.
  *
  * Requires `#zone:read`.
  */
-export const fetchZoneId = pipe(listZones, then(firstZoneId));
+export const fetchZoneId = async (context: ZoneContext): Promise<string> => {
+  const zones = await listZones(context);
+  return firstZoneId(zones);
+};

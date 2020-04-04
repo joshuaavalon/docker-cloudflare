@@ -1,4 +1,4 @@
-import { has } from "ramda";
+import _ from "lodash";
 
 export type GlobalAuth = {
   /**
@@ -21,4 +21,4 @@ export type ScopedAuth = {
 export type Auth = ScopedAuth | GlobalAuth;
 
 export const isGlobalAuth = (auth: Auth): auth is GlobalAuth =>
-  has("email", auth);
+  _.has(auth, "email");

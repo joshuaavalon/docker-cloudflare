@@ -1,5 +1,3 @@
-import { prop } from "ramda";
-
 import { Auth } from "./auth";
 import { Domain } from "./domain";
 import { IpEcho } from "./ip";
@@ -16,11 +14,11 @@ export type Config = {
   ipv6: IpEcho[];
 };
 
-export const getApi = prop<Config, "api">("api");
-export const getAuth = prop<Config, "auth">("auth");
-export const getDomains = prop<Config, "domains">("domains");
-export const getIPv4 = prop<Config, "ipv4">("ipv4");
-export const getIPv6 = prop<Config, "ipv6">("ipv6");
+export const getApi = (config: Config): string => config.api;
+export const getAuth = (config: Config): Auth => config.auth;
+export const getDomains = (config: Config): Domain[] => config.domains;
+export const getIPv4 = (config: Config): IpEcho[] => config.ipv4;
+export const getIPv6 = (config: Config): IpEcho[] => config.ipv6;
 
 export const defaultConfig: Omit<Config, "auth" | "domains"> = {
   api: "https://api.cloudflare.com/client/v4/",

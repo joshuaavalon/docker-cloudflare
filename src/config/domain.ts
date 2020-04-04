@@ -1,4 +1,4 @@
-import { has, prop, propEq } from "ramda";
+import _ from "lodash";
 
 import { Webhook } from "./webhook";
 
@@ -17,13 +17,14 @@ export type ZoneNameDomain = BaseDomain & { zoneName: string };
 export type Domain = ZoneIdDomain | ZoneNameDomain;
 
 export const isZoneIdDomain = (domain: Domain): domain is ZoneIdDomain =>
-  has("zoneId", domain);
+  _.has(domain, "zoneId");
 
-export const getZoneId = prop<ZoneIdDomain, "zoneId">("zoneId");
-export const getZoneName = prop<ZoneNameDomain, "zoneName">("zoneName");
-export const getDomainName = prop<Domain, "name">("name");
-export const getDomainType = prop<Domain, "type">("type");
-export const getDomainProxied = prop<Domain, "proxied">("proxied");
-export const getCreate = prop<Domain, "create">("create");
-export const getWebhook = prop<Domain, "webhook">("webhook");
-export const isIPv4 = propEq("type", "A");
+export const getZoneId = (domain: ZoneIdDomain): string => domain.zoneId;
+export const getZoneName = (domain: ZoneNameDomain): string => domain.zoneName;
+export const getDomainName = (domain: Domain): string => domain.name;
+export const getDomainType = (domain: Domain): RecordType => domain.type;
+export const getDomainProxied = (domain: Domain): boolean => domain.proxied;
+export const getCreate = (domain: Domain): boolean => domain.create;
+export const getWebhook = (domain: Domain): Webhook | undefined =>
+  domain.webhook;
+export const isIPv4 = (domain: BaseDomain): boolean => domain.type === "A";

@@ -1,17 +1,21 @@
-import { pipe } from "ramda";
-
 import { isDebug } from "@/env";
 
 const getCurrentTime = (): string => new Date().toISOString();
-const formatLogMessage = (level: string) => (message: string) => {
+const formatLogMessage = (level: string, message: string): string => {
   const date = getCurrentTime();
   return `${date} [${level.padEnd(5)}]: ${message}`;
 };
-export const log = pipe(formatLogMessage("INFO"), console.log);
-export const logWarn = pipe(formatLogMessage("WARN"), console.warn);
-export const logError = pipe(formatLogMessage("ERROR"), console.error);
-export const logDebug = pipe(formatLogMessage("DEBUG"), (message: string) => {
+export const log = (message: string): void => {
+  console.log(formatLogMessage("INFO", message));
+};
+export const logWarn = (message: string): void => {
+  console.log(formatLogMessage("WARN", message));
+};
+export const logError = (message: string): void => {
+  console.log(formatLogMessage("ERROR", message));
+};
+export const logDebug = (message: string): void => {
   if (isDebug()) {
-    console.log(message);
+    console.log(formatLogMessage("ERROR", message));
   }
-});
+};

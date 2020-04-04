@@ -1,5 +1,3 @@
-import { propEq } from "ramda";
-
 export type IpJsonEcho = {
   type: "json";
   url: string;
@@ -12,4 +10,4 @@ export type IpTextEcho = {
 
 export type IpEcho = IpJsonEcho | IpTextEcho;
 export const isIpJsonEcho = (ipEcho: IpEcho): ipEcho is IpJsonEcho =>
-  propEq("type", "json", ipEcho);
+  ipEcho.type === "json";

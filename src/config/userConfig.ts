@@ -1,9 +1,9 @@
 import Ajv, { ErrorObject } from "ajv";
 import { exists, readFile } from "fs";
 import { promisify } from "util";
-import { defaultTo, pipe, then } from "ramda";
 import yaml from "js-yaml";
 import { extname } from "path";
+import _ from "lodash";
 
 import { logWarn } from "@/log";
 
@@ -40,17 +40,17 @@ const verifyConfig = (data: any): UserConfig => {
   throw new InvalidConfigError(validate.errors || []);
 };
 
-const readJsonConfig = pipe(
-  (path: string) => readFilePromise(path, "utf8"),
-  then(JSON.parse),
-  then(verifyConfig)
-);
+const readJsonConfig = async (path: string): Promise<UserConfig> => {
+  const content = await readFilePromise(path, "utf8");
+  const data = JSON.parse(content);
+  return verifyConfig(data);
+};
 
-const readYamlConfig = pipe(
-  (path: string) => readFilePromise(path, "utf8"),
-  then(yaml.safeLoad),
-  then(verifyConfig)
-);
+const readYamlConfig = async (path: string): Promise<UserConfig> => {
+  const content = await readFilePromise(path, "utf8");
+  const data = yaml.safeLoad(content);
+  return verifyConfig(data);
+};
 
 const readEnvConfig = (): UserConfig => {
   const envConfig = {
@@ -63,7 +63,7 @@ const readEnvConfig = (): UserConfig => {
         name: process.env.HOST,
         type: process.env.IPV6 === "true" ? "AAAA" : "A",
         zoneName: process.env.HOST,
-        proxied: defaultTo(process.env.PROXY, "true") === "true",
+        proxied: _.defaultTo(process.env.PROXY, "true") === "true",
         create: process.env.FORCE_CREATE === "true"
       }
     ]

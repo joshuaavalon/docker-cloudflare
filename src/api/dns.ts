@@ -1,4 +1,4 @@
-import { converge, equals, has, pipe, prop } from "ramda";
+import _ from "lodash";
 
 import { Auth, RecordType } from "@/config";
 
@@ -34,51 +34,54 @@ export type DnsRecordContext = DnsContext & {
   update: boolean;
 };
 
-const getApi = prop<DnsContext, "api">("api");
-const getAuth = prop<DnsContext, "auth">("auth");
-const getZoneId = prop<DnsContext, "zoneId">("zoneId");
-const getRecordId = prop<DnsRecordContext, "recordId">("recordId");
-const getRecordIp = prop<DnsRecord, "content">("content");
-const getRecordProxied = prop<DnsRecord, "proxied">("proxied");
-export const getDomainName = pipe(
-  prop<DnsContext, "domain">("domain"),
-  prop<Domain, "name">("name")
-);
-const getDomainType = pipe(
-  prop<DnsContext, "domain">("domain"),
-  prop<Domain, "type">("type")
-);
+const getApi = (context: DnsContext): string => context.api;
+const getAuth = (context: DnsContext): Auth => context.auth;
+const getZoneId = (context: DnsContext): string => context.zoneId;
+const getRecordId = (context: DnsRecordContext): string => context.recordId;
+const getRecordIp = (record: DnsRecord): string => record.content;
+const getRecordProxied = (record: DnsRecord): boolean => record.proxied;
 
-const getDomainProxied = pipe(
-  prop<DnsContext, "domain">("domain"),
-  prop<Domain, "proxied">("proxied")
-);
+export const getDomainName = (context: DnsContext): string =>
+  context.domain.name;
 
-const getIp = prop<DnsContext, "ip">("ip");
-export const needUpdate = prop<DnsRecordContext, "update">("update");
-export const needCreate = pipe(
-  prop<DnsContext, "domain">("domain"),
-  prop<Domain, "create">("create")
-);
+export const getDomainType = (context: DnsContext): string =>
+  context.domain.type;
 
-const createListDnsRecordPath = pipe(
-  getZoneId,
-  (zoneId: string): string => `zones/${zoneId}/dns_records`
-);
+export const getDomainProxied = (context: DnsContext): boolean =>
+  context.domain.proxied;
 
-const createListDnsRecordQuery = converge(
-  (name: string, type: RecordType) => ({
+const getIp = (context: DnsContext): string => context.ip;
+export const needUpdate = (context: DnsRecordContext): boolean =>
+  context.update;
+
+export const needCreate = (context: DnsContext): boolean =>
+  context.domain.create;
+
+const createListDnsRecordPath = (context: DnsContext): string => {
+  const zoneId = getZoneId(context);
+  return `zones/${zoneId}/dns_records`;
+};
+
+type DnsRecordQuery = {
+  name: string;
+  type: string;
+};
+const createListDnsRecordQuery = (context: DnsContext): DnsRecordQuery => {
+  const name = getDomainName(context);
+  const type = getDomainType(context);
+  return {
     name,
     type
-  }),
-  [getDomainName, getDomainType]
-);
+  };
+};
 
-const getListDnsRecordsUrl = converge(resolveEndpoint, [
-  getApi,
-  createListDnsRecordPath,
-  createListDnsRecordQuery
-]);
+const getListDnsRecordsUrl = (context: DnsContext): string => {
+  const api = getApi(context);
+  const path = createListDnsRecordPath(context);
+  const query = createListDnsRecordQuery(context);
+  return resolveEndpoint(api, path, query);
+};
+
 /**
  * List dns records with given domain inside a zone.
  *
@@ -86,31 +89,42 @@ const getListDnsRecordsUrl = converge(resolveEndpoint, [
  *
  * @see https://api.cloudflare.com/#dns-records-for-a-zone-list-dns-records
  */
-export const listDnsRecords: Api<[DnsContext], DnsRecord[]> = converge(get, [
-  getAuth,
-  getListDnsRecordsUrl
-]);
+export const listDnsRecords: Api<[DnsContext], DnsRecord[]> = context => {
+  const auth = getAuth(context);
+  const url = getListDnsRecordsUrl(context);
+  return get(auth, url);
+};
 
-const createUpdateDnsRecordPath = converge(
-  (zoneId: string, recordId: string): string =>
-    `zones/${zoneId}/dns_records/${recordId}`,
-  [getZoneId, getRecordId]
-);
+const createUpdateDnsRecordPath = (context: DnsRecordContext): string => {
+  const zoneId = getZoneId(context);
+  const recordId = getRecordId(context);
+  return `zones/${zoneId}/dns_records/${recordId}`;
+};
 
-const getUpdateDnsRecordUrl = converge(resolveEndpoint, [
-  getApi,
-  createUpdateDnsRecordPath
-]);
+const getUpdateDnsRecordUrl = (context: DnsRecordContext): string => {
+  const api = getApi(context);
+  const path = createUpdateDnsRecordPath(context);
+  return resolveEndpoint(api, path);
+};
 
-const asUpdateDnsRecordRequest = converge(
-  (proxied: boolean, content: string, name: string, type: string) => ({
+type DnsRecordRequest = {
+  proxied: boolean;
+  content: string;
+  name: string;
+  type: string;
+};
+const asUpdateDnsRecordRequest = (context: DnsContext): DnsRecordRequest => {
+  const proxied = getDomainProxied(context);
+  const content = getIp(context);
+  const name = getDomainName(context);
+  const type = getDomainType(context);
+  return {
     proxied,
     content,
     name,
     type
-  }),
-  [getDomainProxied, getIp, getDomainName, getDomainType]
-);
+  };
+};
 
 /**
  * Update dns record with id
@@ -119,30 +133,36 @@ const asUpdateDnsRecordRequest = converge(
  *
  * @see https://api.cloudflare.com/#dns-records-for-a-zone-update-dns-record
  */
-export const updateDnsRecord: Api<[DnsRecordContext], DnsRecord> = converge(
-  put,
-  [getAuth, getUpdateDnsRecordUrl, asUpdateDnsRecordRequest]
-);
+export const updateDnsRecord: Api<[DnsRecordContext], DnsRecord> = context => {
+  const auth = getAuth(context);
+  const url = getUpdateDnsRecordUrl(context);
+  const query = asUpdateDnsRecordRequest(context);
+  return put(auth, url, query);
+};
 
-const createCreateDnsRecordPath = converge(
-  (zoneId: string): string => `zones/${zoneId}/dns_records`,
-  [getZoneId]
-);
+const createCreateDnsRecordPath = (context: DnsContext): string => {
+  const zoneId = getZoneId(context);
+  return `zones/${zoneId}/dns_records`;
+};
 
-const getCreateDnsRecordUrl = converge(resolveEndpoint, [
-  getApi,
-  createCreateDnsRecordPath
-]);
+const getCreateDnsRecordUrl = (context: DnsContext): string => {
+  const api = getApi(context);
+  const path = createCreateDnsRecordPath(context);
+  return resolveEndpoint(api, path);
+};
 
-const asCreateDnsRecordRequest = converge(
-  (proxied: boolean, content: string, name: string, type: RecordType) => ({
+const asCreateDnsRecordRequest = (context: DnsContext): DnsRecordRequest => {
+  const proxied = getDomainProxied(context);
+  const content = getIp(context);
+  const name = getDomainName(context);
+  const type = getDomainType(context);
+  return {
     proxied,
     content,
     name,
     type
-  }),
-  [getDomainProxied, getIp, getDomainName, getDomainType]
-);
+  };
+};
 
 /**
  * Create dns record in zone
@@ -151,18 +171,19 @@ const asCreateDnsRecordRequest = converge(
  *
  * @see https://api.cloudflare.com/#dns-records-for-a-zone-create-dns-record
  */
-export const createDnsRecord: Api<[DnsContext], DnsRecord> = converge(post, [
-  getAuth,
-  getCreateDnsRecordUrl,
-  asCreateDnsRecordRequest
-]);
+export const createDnsRecord: Api<[DnsContext], DnsRecord> = context => {
+  const auth = getAuth(context);
+  const url = getCreateDnsRecordUrl(context);
+  const query = asCreateDnsRecordRequest(context);
+  return post(auth, url, query);
+};
 
 export const matchIp = (context: DnsContext) => (record: DnsRecord) =>
-  equals(getIp(context), getRecordIp(record));
+  getIp(context) === getRecordIp(record);
 
 export const matchProxied = (context: DnsContext) => (record: DnsRecord) =>
-  equals(getDomainProxied(context), getRecordProxied(record));
+  getDomainProxied(context) === getRecordProxied(record);
 
 export const isDnsRecordContext = (
   context: DnsContext | DnsRecordContext
-): context is DnsRecordContext => has("recordId", context);
+): context is DnsRecordContext => _.has(context, "recordId");

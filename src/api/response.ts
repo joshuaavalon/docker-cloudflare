@@ -1,5 +1,3 @@
-import { prop, tap } from "ramda";
-
 export type ResultError = {
   code: number;
   message: string;
@@ -23,12 +21,12 @@ export class ApiError extends Error {
   }
 }
 
-export const getApiResult = <T>(value: ApiResponse<T>): T =>
-  prop<ApiResponse<T>, "result">("result")(value);
+export const getApiResult = <T>(value: ApiResponse<T>): T => value.result;
 
-export const throwFailure = tap((json: ApiResponse<any>): void => {
+export const throwFailure = (json: ApiResponse<any>): ApiResponse<any> => {
   const { success, errors } = json;
   if (!success) {
     throw new ApiError(errors);
   }
-});
+  return json;
+};

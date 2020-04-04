@@ -1,5 +1,5 @@
 import fetch, { HeadersInit } from "node-fetch";
-import { assoc, binary, ifElse, pipe } from "ramda";
+import _ from "lodash";
 
 import { Auth, GlobalAuth, isGlobalAuth, ScopedAuth } from "@/config";
 import { toJson } from "@/fetch";
@@ -7,20 +7,15 @@ import { toJson } from "@/fetch";
 import { throwFailure } from "./response";
 
 type SetHeaders = (header: HeadersInit) => HeadersInit;
-const setScopedAuthHeaders = (auth: ScopedAuth): SetHeaders =>
-  assoc("Authorization", `Bearer ${auth.scopedToken}`);
+const setScopedAuthHeaders = (auth: ScopedAuth): SetHeaders => header =>
+  _.set(header, "Authorization", `Bearer ${auth.scopedToken}`);
 
-const setGlobalAuthHeaders = (auth: GlobalAuth): SetHeaders =>
-  pipe(
-    assoc("X-Auth-Email", auth.email),
-    assoc("X-Auth-Key", auth.globalToken)
-  );
-
-const setAuthHeaders = ifElse(
-  isGlobalAuth,
-  setGlobalAuthHeaders,
-  setScopedAuthHeaders
-);
+const setGlobalAuthHeaders = (auth: GlobalAuth): SetHeaders => header => {
+  const newHeader = _.set(header, "X-Auth-Email", auth.email);
+  return _.set(newHeader, "X-Auth-Key", auth.globalToken);
+};
+const setAuthHeaders = (auth: Auth): SetHeaders =>
+  isGlobalAuth(auth) ? setGlobalAuthHeaders(auth) : setScopedAuthHeaders(auth);
 
 const createHeaders = (auth: Auth): HeadersInit =>
   setAuthHeaders(auth)({
@@ -40,6 +35,6 @@ const createFetch = (method: string) => (
     .then(toJson)
     .then(throwFailure);
 
-export const get = binary(createFetch("GET"));
+export const get = createFetch("GET");
 export const post = createFetch("POST");
 export const put = createFetch("PUT");

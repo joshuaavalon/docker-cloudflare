@@ -1,21 +1,29 @@
-import fetch, { Response } from "node-fetch";
-import { identity, memoizeWith, path, pipe, tap, then, unary } from "ramda";
+import fetch, { RequestInfo, Response } from "node-fetch";
+import _ from "lodash";
 import { isIPv4, isIPv6 } from "net";
 import { IpEcho, isIpJsonEcho } from "./config/ip";
 
-const asJson = (response: Response): Promise<any> => response.json();
-const asText = (response: Response): Promise<string> => response.text();
 const throwIfFail = (response: Response): void => {
   if (!response.ok) {
     throw new Error("Fail to fetch IP");
   }
 };
 
-const fetchRequest = pipe(unary(fetch), then(tap(throwIfFail)));
+const fetchRequest = async (url: RequestInfo): Promise<Response> => {
+  const res = await fetch(url);
+  throwIfFail(res);
+  return res;
+};
 
-export const fetchJson = pipe(fetchRequest, then(asJson));
+export const fetchJson = async (url: RequestInfo): Promise<any> => {
+  const res = await fetchRequest(url);
+  return res.json();
+};
 
-export const fetchText = pipe(fetchRequest, then(asText));
+export const fetchText = async (url: RequestInfo): Promise<any> => {
+  const res = await fetchRequest(url);
+  return res.text();
+};
 
 const checkIPv4 = (ip: string): void => {
   if (!isIPv4(ip)) {
@@ -23,34 +31,51 @@ const checkIPv4 = (ip: string): void => {
   }
 };
 
-const guardIPv4 = tap(checkIPv4);
-
 const checkIPv6 = (ip: string): void => {
   if (!isIPv6(ip)) {
     throw new Error(`Not IPv6: ${ip}`);
   }
 };
 
-const guardIPv6 = tap(checkIPv6);
+const fetchIPv4Json = async (
+  fields: string[],
+  url: string
+): Promise<string> => {
+  const data = await fetchJson(url);
+  const value = _.get(data, fields);
+  checkIPv4(value);
+  return value;
+};
 
-const fetchIPv4Json = (fields: string[], url: string): Promise<string> =>
-  pipe(fetchJson, then(path(fields)), then(guardIPv4))(url);
+const fetchIPv6Json = async (
+  fields: string[],
+  url: string
+): Promise<string> => {
+  const data = await fetchJson(url);
+  const value = _.get(data, fields);
+  checkIPv6(value);
+  return value;
+};
 
-const fetchIPv6Json = (fields: string[], url: string): Promise<string> =>
-  pipe(fetchJson, then(path(fields)), then(guardIPv6))(url);
+const fetchIPv4Text = async (url: string): Promise<string> => {
+  const value = await fetchText(url);
+  checkIPv4(value);
+  return value;
+};
 
-const fetchIPv4Text = pipe(fetchText, then(guardIPv4));
-
-const fetchIPv6Text = pipe(fetchText, then(guardIPv6));
+const fetchIPv6Text = async (url: string): Promise<string> => {
+  const value = await fetchText(url);
+  checkIPv6(value);
+  return value;
+};
 
 const cacheFetchJson = (fetchJson: FetchJson): FetchJson =>
-  memoizeWith(
-    (fields: string[], url: string) => JSON.stringify({ fields, url }),
-    fetchJson
+  _.memoize(fetchJson, (fields: string[], url: string) =>
+    JSON.stringify({ fields, url })
   );
 
 const cacheFetchText = (fetchText: FetchText): FetchText =>
-  memoizeWith(identity, fetchText);
+  _.memoize(fetchText);
 
 type FetchText = (url: string) => Promise<string>;
 type FetchJson = (fields: string[], info: string) => Promise<string>;
