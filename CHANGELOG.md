@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.0...2.2.1) (2020-04-04)
+
+
+### Bug Fixes
+
+* **script:** replace ramda with lodash ([ee1338c](https://github.com/joshuaavalon/docker-cloudflare/commit/ee1338c8869af7fec3e7c4a33e1d2145c54ba46a))
+
 # [2.2.0](https://github.com/joshuaavalon/docker-cloudflare/compare/2.1.1...2.2.0) (2020-04-04)
 
 
