@@ -34,27 +34,26 @@
   },
   "homepage": "https://github.com/joshuaavalon/docker-cloudflare#readme",
   "devDependencies": {
-    "@joshuaavalon/eslint-config-typescript": "^2.1.0",
-    "@semantic-release/changelog": "^3.0.5",
-    "@semantic-release/git": "^7.0.18",
-    "@types/js-yaml": "^3.12.1",
-    "@types/node": "^12.12.7",
-    "@types/node-fetch": "^2.5.3",
-    "eslint": "^6.6.0",
-    "prettier": "^1.19.0",
-    "rimraf": "^3.0.0",
-    "semantic-release": "^15.13.30",
-    "ts-node": "^8.4.1",
-    "ts-toolbelt": "^3.14.0",
-    "ttypescript": "^1.5.8",
-    "typescript": "^3.7.2",
-    "typescript-transform-paths": "^1.1.11"
+    "@joshuaavalon/eslint-config-typescript": "^3.0.1",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@types/js-yaml": "^3.12.3",
+    "@types/node": "^13.11.0",
+    "@types/node-fetch": "^2.5.5",
+    "@types/ramda": "^0.27.3",
+    "eslint": "^6.8.0",
+    "prettier": "^2.0.2",
+    "rimraf": "^3.0.2",
+    "semantic-release": "^17.0.4",
+    "ts-node": "^8.8.1",
+    "ttypescript": "^1.5.10",
+    "typescript": "^3.8.3",
+    "typescript-transform-paths": "^1.1.14"
   },
   "dependencies": {
-    "@types/ramda": "^0.26.33",
-    "ajv": "^6.10.2",
+    "ajv": "^6.12.0",
     "js-yaml": "^3.13.1",
     "node-fetch": "^2.6.0",
-    "ramda": "^0.26.1"
+    "ramda": "^0.27.0"
   }
 }
