@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/joshuaavalon/docker-cloudflare/compare/2.1.1...2.2.0) (2020-04-04)
+
+
+### Features
+
+* **script:** update dependencies ([c6d108e](https://github.com/joshuaavalon/docker-cloudflare/commit/c6d108ef5148cbcd581d17ac15e7a2ff6d48bbe8))
+
 ## [2.1.1](https://github.com/joshuaavalon/docker-cloudflare/compare/2.1.0...2.1.1) (2019-11-09)
 
 
