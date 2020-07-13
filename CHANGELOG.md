@@ -1,3 +1,11 @@
+## [2.2.2](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.1...2.2.2) (2020-07-13)
+
+
+### Bug Fixes
+
+* remove ident.me from default configuration ([0695d01](https://github.com/joshuaavalon/docker-cloudflare/commit/0695d014529d94cea340f5d32d3a6d6d227927bc))
+* update dependencies ([572cebd](https://github.com/joshuaavalon/docker-cloudflare/commit/572cebd46be73b081951f57e23d447b69ae615dd))
+
 ## [2.2.1](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.0...2.2.1) (2020-04-04)
 
 
