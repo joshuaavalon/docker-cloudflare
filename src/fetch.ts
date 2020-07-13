@@ -2,7 +2,7 @@ import { Response } from "node-fetch";
 import _ from "lodash";
 import { URL, URLSearchParams } from "url";
 
-export const toJson = <T extends any>(response: Response): Promise<T> =>
+export const toJson = <T = any>(response: Response): Promise<T> =>
   response.json();
 
 export const toQueryString = (value: Record<string, any>): string =>
