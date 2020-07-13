@@ -25,21 +25,11 @@ export const defaultConfig: Omit<Config, "auth" | "domains"> = {
   ipv4: [
     {
       type: "json",
-      url: "https://v4.ident.me/.json",
-      fields: ["address"]
-    },
-    {
-      type: "json",
       url: "https://api.ipify.org?format=json",
       fields: ["ip"]
     }
   ],
   ipv6: [
-    {
-      type: "json",
-      url: "https://v6.ident.me/.json",
-      fields: ["address"]
-    },
     {
       type: "json",
       url: "https://api6.ipify.org?format=json",
