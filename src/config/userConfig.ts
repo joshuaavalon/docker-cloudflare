@@ -5,31 +5,48 @@ import yaml from "js-yaml";
 import { extname } from "path";
 import _ from "lodash";
 
-import { logWarn } from "@/log";
-
-import { Auth } from "./auth";
-import { Domain } from "./domain";
-import { IpEcho } from "./ip";
+import { Auth, Domain, IpEcho } from "./type";
 import schema from "./config.schema.json";
 
 const readFilePromise = promisify(readFile);
 const existsPromise = promisify(exists);
 
-class InvalidConfigError extends Error {
+export class ConfigError extends Error {}
+
+export class MissingConfigError extends ConfigError {
+  public path: string;
+  public constructor(path: string) {
+    super(
+      "Cannot find configuration file.  Try to load from environment variable."
+    );
+    this.path = path;
+  }
+}
+
+export class InvalidConfigError extends ConfigError {
   public errors: ErrorObject[];
   public constructor(errors: ErrorObject[]) {
-    super(`Invalid user config.\n${JSON.stringify(errors, null, 2)}`);
+    super("Invalid configuration file.");
     this.errors = errors;
   }
 }
 
-export type UserConfig = {
+export class InvalidConfigFormatError extends ConfigError {
+  public ext: string;
+  public constructor(ext: string) {
+    super("Unsupported file format.");
+    this.ext = ext;
+  }
+}
+
+export interface UserConfig {
   api?: string;
+  logLevel?: string;
   auth: Auth;
   domains: Domain[];
   ipv4?: IpEcho[];
   ipv6?: IpEcho[];
-};
+}
 
 const verifyConfig = (data: any): UserConfig => {
   const ajv = new Ajv();
@@ -52,7 +69,7 @@ const readYamlConfig = async (path: string): Promise<UserConfig> => {
   return verifyConfig(data);
 };
 
-const readEnvConfig = (): UserConfig => {
+export const readEnvConfig = (): UserConfig => {
   const envConfig = {
     auth: {
       email: process.env.EMAIL,
@@ -74,10 +91,7 @@ const readEnvConfig = (): UserConfig => {
 export const readUserConfig = async (path: string): Promise<UserConfig> => {
   const exist = await existsPromise(path);
   if (!exist) {
-    logWarn(
-      `Cannot find configuration file at "${path}". Try to load from environment variable.`
-    );
-    return readEnvConfig();
+    throw new MissingConfigError(path);
   }
   const ext = extname(path).toLowerCase();
   switch (ext) {
@@ -87,6 +101,6 @@ export const readUserConfig = async (path: string): Promise<UserConfig> => {
     case ".json":
       return readJsonConfig(path);
     default:
-      throw new Error(`Unsupported file format: ${ext}`);
+      throw new InvalidConfigFormatError(ext);
   }
 };

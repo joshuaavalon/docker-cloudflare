@@ -8,6 +8,10 @@
       "type": "string",
       "description": "Cloudflare V4 API url. Default to \"https://api.cloudflare.com/client/v4/\"."
     },
+    "logLevel": {
+      "type": "string",
+      "description": "Level of logging. Default to \"info\""
+    },
     "auth": {
       "description": "Authentication used to interact with API.",
       "oneOf": [

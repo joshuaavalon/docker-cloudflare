@@ -1,93 +1,96 @@
-import fetch from "node-fetch";
 import _ from "lodash";
+import axios from "axios";
+import { createLogger, format, Logger, transports } from "winston";
 
-import { fetchIPv4, fetchIPv6 } from "@/ip";
-import { updateDns } from "@/api";
-import {
-  Config,
-  Domain,
-  getApi,
-  getAuth,
-  getDomainName,
-  getDomains,
-  getIPv4,
-  getIPv6,
-  getWebhook,
-  isGlobalAuth,
-  isIPv4,
-  readConfig
-} from "@/config";
-import { getConfigFilePath } from "@/env";
-import { log, logDebug, logError, logWarn } from "@/log";
+import { fetchIPv4, fetchIPv6 } from "./ip";
+import { updateDns } from "./api";
+import { Config, Domain, isGlobalAuth, readConfig } from "./config";
+import { Context } from "./context";
+import { getConfigFilePath } from "./env";
 
-const updateDomain = async (config: Config, domain: Domain): Promise<void> => {
-  const useIPv4 = isIPv4(domain);
+const updateDomain = async (ctx: Context, domain: Domain): Promise<void> => {
+  const { config, logger } = ctx;
+  const { ipv4, ipv6 } = config;
+  const useIPv4 = domain.type === "A";
   const fetchIp = useIPv4 ? fetchIPv4 : fetchIPv6;
-  const ipEchos = useIPv4 ? getIPv4(config) : getIPv6(config);
-  const auth = getAuth(config);
-  const api = getApi(config);
-  const ip = await fetchIp(ipEchos);
-  await updateDns({ ip, domain, auth, api });
-
-  const domainName = getDomainName(domain);
-  log(`Updated ${domainName} with ${ip}`);
+  const ipEchos = useIPv4 ? ipv4 : ipv6;
+  const ip = await fetchIp(ctx, ipEchos);
+  await updateDns(ctx, { domain, ip });
+  logger.info(`Updated ${domain.name} with ${ip}`);
 };
 
-const requestWebhook = async (url?: string): Promise<void> => {
+const requestWebhook = async (ctx: Context, url?: string): Promise<void> => {
   if (!url) {
     return;
   }
+  const { logger } = ctx;
   try {
-    await fetch(url);
+    await axios.get(url);
   } catch (e) {
-    logWarn(`Fail to fetch ${url}.\n${e.message}`);
+    logger.warn(`Fail to fetch ${url}.\n${e.message}`);
   }
 };
 
-const updateDnsRecords = async (config: Config): Promise<void> => {
-  const domains = await getDomains(config);
-  const promises = domains.map(async domain => {
-    const webhook = getWebhook(domain);
+const updateDnsRecords = async (ctx: Context): Promise<void> => {
+  const { config, logger } = ctx;
+  const promises = config.domains.map(async domain => {
+    const { webhook } = domain;
     try {
-      await requestWebhook(webhook?.run);
-      await updateDomain(config, domain);
-      await requestWebhook(webhook?.success);
+      await requestWebhook(ctx, webhook?.run);
+      await updateDomain(ctx, domain);
+      await requestWebhook(ctx, webhook?.success);
     } catch (e) {
-      await requestWebhook(webhook?.failure);
-      const domainName = getDomainName(domain);
-      console.error(`Failed to update ${domainName}.\n${e.message}`);
+      await requestWebhook(ctx, webhook?.failure);
+      logger.error(`Failed to update ${domain.name}.\n${e.message}`);
     }
   });
   await Promise.all(promises);
 };
 
-const printConfig = (config: Config): void => {
+const printConfig = (ctx: Context): void => {
+  const { config, logger } = ctx;
   const cloneConfig = _.omit(config, ["auth"]);
   const configStr = JSON.stringify(cloneConfig, null, 2);
-  logDebug(`Running with the following configuration:\n${configStr}`);
+  logger.debug(`Running with the following configuration:\n${configStr}`);
 };
 
-const warnGlobalApiKey = (config: Config): void => {
-  const auth = getAuth(config);
-  if (isGlobalAuth(auth)) {
-    logWarn("Global API key is depreciated. Please use API token instead.");
+const warnGlobalApiKey = (ctx: Context): void => {
+  const { config, logger } = ctx;
+  if (isGlobalAuth(config.auth)) {
+    logger.warn("Global API key is depreciated. Please use API token instead.");
   }
 };
 
+const buildLogger = (config: Config): Logger => {
+  const defaultOption = {
+    level: config.logLevel,
+    transports: [new transports.Console()],
+    format: format.combine(
+      format.timestamp(),
+      format.printf(info => {
+        const { timestamp, level, message } = info;
+        return `${timestamp} [${level}] ${message}`;
+      })
+    )
+  };
+  return createLogger(defaultOption);
+};
+
 const main = async (): Promise<void> => {
-  log("Cloudflare DDNS start");
+  const configPath = getConfigFilePath();
+  const config = await readConfig(configPath);
+  const logger = buildLogger(config);
   try {
-    const configPath = getConfigFilePath();
-    const config = await readConfig(configPath);
-    printConfig(config);
-    warnGlobalApiKey(config);
-    await updateDnsRecords(config);
+    const ctx: Context = { config, logger };
+    logger.info("Cloudflare DDNS start");
+    printConfig(ctx);
+    warnGlobalApiKey(ctx);
+    await updateDnsRecords(ctx);
   } catch (e) {
-    logError(e.message);
-    // eslint-disable-next-line require-atomic-updates
+    logger.error(e.message);
     process.exitCode = 1;
   } finally {
-    log("Cloudflare DDNS end");
+    logger.info("Cloudflare DDNS end");
   }
 };
 

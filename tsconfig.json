@@ -18,15 +18,7 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "paths": {
-      "@/*": ["src/*"]
-    },
-    "plugins": [
-      {
-        "transform": "typescript-transform-paths"
-      }
-    ]
+    "esModuleInterop": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "lib"]
