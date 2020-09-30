@@ -1,3 +1,10 @@
+## [2.2.3](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.2...2.2.3) (2020-09-30)
+
+
+### Bug Fixes
+
+* update error handling ([243b50f](https://github.com/joshuaavalon/docker-cloudflare/commit/243b50f77f49e8539f181c384748cbda815cdbc7))
+
 ## [2.2.2](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.1...2.2.2) (2020-07-13)
 
 
