@@ -10,6 +10,20 @@
 
 Cloudflare DDNS is a Docker image that update DNS records on Cloudflare on schedule.
 
+## Table of Content
+
+- [Getting Started](#getting-started)
+- [Guide](#guide)
+  - [Authentication](#authentication)
+    - [API Token](#api-token)
+    - [Global API Key](#global-api-key)
+    - [Zone ID](#zone-id)
+  - [Configuration](#configuration)
+    - [File](#file)
+    - [Environment Variables](#environment-variables)
+- [Migration](#migration)
+- [Frequently Asked Questions](#frequently-asked-questions)
+
 ## Getting Started
 
 ```bash
