@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/joshuaavalon/docker-cloudflare#readme",
   "devDependencies": {
-    "@joshuaavalon/eslint-config-typescript": "^4.1.0",
+    "@joshuaavalon/eslint-config-typescript": "^4.1.2",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
     "@types/js-yaml": "^3.12.5",
@@ -47,7 +47,7 @@
     "typescript": "^4.0.3"
   },
   "dependencies": {
-    "@joshuaavalon/cloudflare-dns-api": "^1.1.2",
+    "@joshuaavalon/cloudflare-dns-api": "^1.1.4",
     "ajv": "^6.12.5",
     "axios": "^0.20.0",
     "js-yaml": "^3.14.0",

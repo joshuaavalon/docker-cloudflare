@@ -41,7 +41,7 @@ const updateDnsRecords = async (ctx: Context): Promise<void> => {
       await requestWebhook(ctx, webhook?.success);
     } catch (e) {
       await requestWebhook(ctx, webhook?.failure);
-      logger.error(`Failed to update ${domain.name}.\n${e.message}`);
+      logger.error(`Failed to update ${domain.name}. (${e.message})`);
     }
   });
   await Promise.all(promises);
