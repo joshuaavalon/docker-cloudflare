@@ -38,22 +38,6 @@ jobs:
         run: npm install
       - name: Lint
         run: npm run lint
-  docs:
-    name: Documentation
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@master
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: "10"
-      - name: Install script dependencies
-        working-directory: docs
-        run: npm install
-      - name: Build documentation
-        working-directory: docs
-        run: npm run build
   docker:
     name: Build and test Docker image
     runs-on: ubuntu-latest

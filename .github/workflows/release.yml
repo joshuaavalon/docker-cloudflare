@@ -24,30 +24,6 @@ jobs:
           GIT_AUTHOR_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
           GIT_COMMITTER_NAME: ${{ secrets.GIT_COMMITTER_NAME }}
           GIT_COMMITTER_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
-  docs:
-    name: Documentation
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@master
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: "10"
-      - name: Install script dependencies
-        working-directory: docs
-        run: npm install
-      - name: Build documentation
-        working-directory: docs
-        run: npm run build
-      - name: Copy JSON schema
-        run: cp ./src/config/config.schema.json docs/public
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v2.2.0
-        env:
-          PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: ./docs/public
   docker:
     name: Build and test Docker image
     runs-on: ubuntu-latest

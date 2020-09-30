@@ -4,12 +4,10 @@
   "description": "",
   "private": true,
   "directories": {
-    "doc": "docs",
     "lib": "lib"
   },
   "files": [
-    "lib",
-    "docs"
+    "lib"
   ],
   "scripts": {
     "prebuild": "rimraf lib",
