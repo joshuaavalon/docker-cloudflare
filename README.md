@@ -104,7 +104,7 @@ It supports YAML with `.yaml`, `.yml` and JSON with `.json`. It can be validatio
 - `api`: Default to `https://api.cloudflare.com/client/v4/`. This is the base API url. It should not be changed.
 - `logLevel`: Default to `info`. Please refer to [Winston](https://github.com/winstonjs/winston#logging-levels).
 - `auth`: It defines authentication with API. Use one of the following:
-  - `scopedToken`: APK token.
+  - `scopedToken`: API token.
   - `email`: Cloudflare Email; `globalToken`: Global API key.
 - `domains`: List of domains to be updated.
   - `name`: Domain name to be updated.
