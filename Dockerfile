@@ -1,13 +1,11 @@
 
 
-ARG BASE_IMAGE=node:10-alpine
-ARG OVERLAY_VERSION=v1.22.1.0
-ARG OVERLAY_ARCH=amd64
+ARG BASE_IMAGE=node:14-alpine
+ARG OVERLAY_VERSION=v2.1.0.2
 
 FROM $BASE_IMAGE as builder
 
 ARG OVERLAY_VERSION
-ARG OVERLAY_ARCH
 WORKDIR /app
 
 COPY src  /app/src
@@ -20,6 +18,14 @@ FROM $BASE_IMAGE
 
 ARG OVERLAY_VERSION
 ARG OVERLAY_ARCH
+ARG TARGETARCH
+
+LABEL org.opencontainers.image.created https://github.com/joshuaavalon/docker-cloudflare
+LABEL org.opencontainers.image.source https://github.com/joshuaavalon/docker-cloudflare
+LABEL org.opencontainers.image.authors "Joshua Avalon"
+LABEL org.opencontainers.image.url https://github.com/joshuaavalon/docker-cloudflare
+LABEL org.opencontainers.image.documentation https://github.com/joshuaavalon/docker-cloudflare
+
 WORKDIR /app
 
 ENV CLOUDFLARE_CONFIG=/app/config.yaml \
@@ -30,16 +36,20 @@ COPY --from=builder /app/lib /app/lib
 COPY package.json /app/
 COPY docker/root/ /
 
+RUN apk add --no-cache bash
+SHELL ["/bin/bash", "-c"]
+
+RUN apk add --no-cache --virtual=build-dependencies curl tar && \
+    if [[ "$TARGETARCH" == arm* ]]; then OVERLAY_ARCH=arm; else OVERLAY_ARCH="$TARGETARCH"; fi && \
+    curl -L "https://github.com/just-containers/s6-overlay/releases/download/${OVERLAY_VERSION}/s6-overlay-${OVERLAY_ARCH}.tar.gz" | tar xz -C / && \
+    apk del --purge build-dependencies
+
 RUN npm install --production && \
-    apk add --no-cache --virtual=build-dependencies curl tar && \
-    apk add --no-cache shadow && \
-    curl -o /tmp/s6-overlay.tar.gz -L "https://github.com/just-containers/s6-overlay/releases/download/${OVERLAY_VERSION}/s6-overlay-${OVERLAY_ARCH}.tar.gz" && \
-    tar xfz /tmp/s6-overlay.tar.gz -C / && \
-    chmod +x /app/cloudflare.sh && \
+    chmod +x /app/cloudflare.sh
+
+RUN apk add --no-cache shadow && \
     useradd -u 1001 -U -d /config -s /bin/false abc && \
-    usermod -G users abc && \
-    apk del --purge build-dependencies && \
-    rm -rf /tmp/*
+    usermod -G users abc
 
 ENV ZONE= \
     HOST= \

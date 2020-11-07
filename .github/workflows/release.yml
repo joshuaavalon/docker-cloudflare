@@ -8,15 +8,15 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout project
-        uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: "10"
+          node-version: 14.x
       - name: Install script dependencies
         run: npm install
-      - name: Build documentation
+      - name: Release to GitHub
         run: npm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -24,40 +24,3 @@ jobs:
           GIT_AUTHOR_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
           GIT_COMMITTER_NAME: ${{ secrets.GIT_COMMITTER_NAME }}
           GIT_COMMITTER_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
-  docker:
-    name: Build and test Docker image
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        baseImage:
-          - node:10-alpine
-          - arm32v6/node:10-alpine
-        include:
-          - baseImage: node:10-alpine
-            s6Arch: amd64
-            dockerImage: joshava/cloudflare-ddns:latest
-          - baseImage: arm32v6/node:10-alpine
-            s6Arch: arm
-            dockerImage: joshava/cloudflare-ddns:arm32v6
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@master
-      - name: Prepare for ARM
-        if: matrix.baseImage == 'arm32v6/node:10-alpine'
-        run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-      - name: Build Docker image
-        run: |-
-          docker build \
-            -t ${{ matrix.dockerImage }} \
-            --build-arg BASE_IMAGE=${{ matrix.baseImage }} \
-            --build-arg OVERLAY_ARCH=${{ matrix.s6Arch }} \
-            .
-      - name: Run unit tests
-        run: docker run -i --entrypoint "" ${{ matrix.dockerImage }} npm run test
-      - name: Login DockerHub
-        run: echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-        env:
-          DOCKER_USER: ${{ secrets.DOCKER_USER }}
-          DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-      - name: Deploy
-        run: docker push ${{ matrix.dockerImage }}
