@@ -1,3 +1,10 @@
+## [2.2.5](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.4...2.2.5) (2020-11-07)
+
+
+### Bug Fixes
+
+* Run CI on tag release ([1dc4451](https://github.com/joshuaavalon/docker-cloudflare/commit/1dc44519c5f8eabb74650d851b61dfabb20e44fb))
+
 ## [2.2.4](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.3...2.2.4) (2020-11-07)
 
 
