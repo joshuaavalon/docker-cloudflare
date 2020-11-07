@@ -1,3 +1,10 @@
+## [2.2.6](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.5...2.2.6) (2020-11-07)
+
+
+### Bug Fixes
+
+* Use person token ([b5b3b6e](https://github.com/joshuaavalon/docker-cloudflare/commit/b5b3b6ef47aff905dc4449e67791b00339501152))
+
 ## [2.2.5](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.4...2.2.5) (2020-11-07)
 
 
