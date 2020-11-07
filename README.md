@@ -30,9 +30,9 @@ Cloudflare DDNS is a Docker image that update DNS records on Cloudflare on sched
 docker run -d -v ./config.yaml:/app/config.yaml joshava/cloudflare-ddns
 ```
 
-`master` branch will be built by GitHub Actions weekly and push to `latest` and `arm32v6` to receive latest security update from upstream images.
+The Docker image now supports multiple architecture. `arm32v6` will no longer be used.
 
-All arm32v6 images will have a `arm32v6` prefix on tags.
+Because of Docker Hub new limitation, you can now pull from `ghcr.io/joshuaavalon/cloudflare-ddns`.
 
 ## Guide
 
