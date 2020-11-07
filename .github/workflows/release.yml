@@ -19,7 +19,7 @@ jobs:
       - name: Release to GitHub
         run: npm run release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
           GIT_AUTHOR_NAME: ${{ secrets.GIT_COMMITTER_NAME }}
           GIT_AUTHOR_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
           GIT_COMMITTER_NAME: ${{ secrets.GIT_COMMITTER_NAME }}
