@@ -1,3 +1,10 @@
+## [2.2.4](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.3...2.2.4) (2020-11-07)
+
+
+### Bug Fixes
+
+* Update dependencies ([ad92c13](https://github.com/joshuaavalon/docker-cloudflare/commit/ad92c13318e3dffc54059596d01ea33d465217b1))
+
 ## [2.2.3](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.2...2.2.3) (2020-09-30)
 
 
