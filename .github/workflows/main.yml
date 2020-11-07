@@ -4,66 +4,61 @@ on:
   - pull_request
 jobs:
   test:
-    name: Build and test script
+    name: Build script
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node:
-          - "12"
-          - "10"
     steps:
-      - name: Checkout project
-        uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 14.x
       - name: Install script dependencies
         run: npm install
-      - name: Build script
+      - name: Build
         run: npm run build
-      - name: Build unit tests
+      - name: Run unit tests
         run: npm run test
   lint:
-    name: Linting
+    name: Lint
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout project
-        uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: "10"
+          node-version: 14.x
       - name: Install script dependencies
         run: npm install
       - name: Lint
         run: npm run lint
   docker:
-    name: Build and test Docker image
+    name: Build Docker image
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        baseImage:
-          - node:10-alpine
-          - arm32v7/node:10-alpine
-        include:
-          - baseImage: node:10-alpine
-            s6Arch: amd64
-          - baseImage: arm32v7/node:10-alpine
-            s6Arch: arm
     steps:
-      - name: Checkout project
-        uses: actions/checkout@master
-      - run: docker --version
-      - name: Prepare for ARM
-        if: matrix.baseImage == 'arm32v7/node:10-alpine'
-        run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-      - name: Build Docker image
-        run: |-
-          docker build \
-            -t joshava/cloudflare-ddns \
-            --build-arg BASE_IMAGE=${{ matrix.baseImage }} \
-            --build-arg OVERLAY_ARCH=${{ matrix.s6Arch }} \
-            .
-      - name: Run unit tests
-        run: docker run -i --entrypoint "" joshava/cloudflare-ddns npm run test
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ghcr.io/joshuaavalon/cloudflare-ddns
+          tag-sha: true
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login Docker
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.PERSONAL_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
