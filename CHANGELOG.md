@@ -1,3 +1,10 @@
+## [2.2.7](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.6...2.2.7) (2020-11-07)
+
+
+### Bug Fixes
+
+* change workflow to release event ([43950c4](https://github.com/joshuaavalon/docker-cloudflare/commit/43950c4f2c4ddde5de072e60dc1d7d1d0abc976a))
+
 ## [2.2.6](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.5...2.2.6) (2020-11-07)
 
 
