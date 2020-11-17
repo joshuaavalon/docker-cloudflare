@@ -246,7 +246,7 @@ A. You can open a feature request. If many people votes for it, I may consider i
 [docker-star]: https://img.shields.io/docker/stars/joshava/cloudflare-ddns.svg
 [docker-size]: https://img.shields.io/microbadger/image-size/joshava/cloudflare-ddns.svg
 [docker-layer]: https://img.shields.io/microbadger/layers/joshava/cloudflare-ddns.svg
-[license]: https://github.com/docker-cloudflare/blob/master/LICENSE
+[license]: https://github.com/joshuaavalon/docker-cloudflare/blob/master/LICENSE
 [license-badge]: https://img.shields.io/github/license/joshuaavalon/docker-cloudflare.svg
 [documentation]: https://joshuaavalon.github.io/docker-cloudflare/
 [semantic-release-badge]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
