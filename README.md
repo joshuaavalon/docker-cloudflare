@@ -107,7 +107,7 @@ It supports YAML with `.yaml`, `.yml` and JSON with `.json`. It can be validatio
   - `scopedToken`: API token.
   - `email`: Cloudflare Email; `globalToken`: Global API key.
 - `domains`: List of domains to be updated.
-  - `name`: Domain name to be updated.
+  - `name`: Domain name to be updated. If using wildcard (\*.example.com) and yaml file, you should put the name in single quotes.
   - `type`: DNS record type. It should be `A` or `AAAA`.
   - `proxied`: Enable Cloudflare proxied or not.
   - `create`: `true` to create record if not exists.
