@@ -1,3 +1,10 @@
+## [2.2.9](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.8...2.2.9) (2021-01-14)
+
+
+### Bug Fixes
+
+* build with npm ci ([ec6d4a0](https://github.com/joshuaavalon/docker-cloudflare/commit/ec6d4a028939265ee1d5167ac05e3d382d171747))
+
 ## [2.2.8](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.7...2.2.8) (2021-01-14)
 
 
