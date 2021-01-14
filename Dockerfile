@@ -9,7 +9,7 @@ ARG OVERLAY_VERSION
 WORKDIR /app
 
 COPY src  /app/src
-COPY package.json tsconfig.json /app/
+COPY package.json tsconfig.json package-lock.json /app/
 
 RUN npm ci && \
     npm run build
@@ -34,7 +34,7 @@ ENV CLOUDFLARE_CONFIG=/app/config.yaml \
     NODE_ENV=production
 
 COPY --from=builder /app/lib /app/lib
-COPY package.json /app/
+COPY package.json package-lock.json /app/
 COPY docker/root/ /
 
 RUN apk add --no-cache bash
