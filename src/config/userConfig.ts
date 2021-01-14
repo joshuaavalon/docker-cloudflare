@@ -50,7 +50,7 @@ export interface UserConfig {
 
 const verifyConfig = (data: any): UserConfig => {
   const ajv = new Ajv();
-  const validate = ajv.compile(schema);
+  const validate = ajv.compile<UserConfig>(schema);
   if (validate(data)) {
     return data;
   }
@@ -65,7 +65,7 @@ const readJsonConfig = async (path: string): Promise<UserConfig> => {
 
 const readYamlConfig = async (path: string): Promise<UserConfig> => {
   const content = await readFilePromise(path, "utf8");
-  const data = yaml.safeLoad(content);
+  const data = yaml.load(content);
   return verifyConfig(data);
 };
 
