@@ -11,7 +11,7 @@ WORKDIR /app
 COPY src  /app/src
 COPY package.json tsconfig.json /app/
 
-RUN npm install && \
+RUN npm ci && \
     npm run build
 
 FROM $BASE_IMAGE
@@ -30,7 +30,8 @@ WORKDIR /app
 
 ENV CLOUDFLARE_CONFIG=/app/config.yaml \
     PUID=1001 \
-    PGID=1001
+    PGID=1001 \
+    NODE_ENV=production
 
 COPY --from=builder /app/lib /app/lib
 COPY package.json /app/
@@ -44,7 +45,7 @@ RUN apk add --no-cache --virtual=build-dependencies curl tar && \
     curl -L "https://github.com/just-containers/s6-overlay/releases/download/${OVERLAY_VERSION}/s6-overlay-${OVERLAY_ARCH}.tar.gz" | tar xz -C / && \
     apk del --purge build-dependencies
 
-RUN npm install --production && \
+RUN npm ci && \
     chmod +x /app/cloudflare.sh
 
 RUN apk add --no-cache shadow && \
