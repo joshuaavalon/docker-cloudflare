@@ -1,3 +1,10 @@
+## [2.2.8](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.7...2.2.8) (2021-01-14)
+
+
+### Bug Fixes
+
+* update dependencies ([bd93587](https://github.com/joshuaavalon/docker-cloudflare/commit/bd93587515d77cbe6ccfecff57c98c1782f9b88c))
+
 ## [2.2.7](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.6...2.2.7) (2020-11-07)
 
 
