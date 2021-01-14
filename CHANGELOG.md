@@ -1,3 +1,10 @@
+## [2.2.10](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.9...2.2.10) (2021-01-14)
+
+
+### Bug Fixes
+
+* add package-lock.json ([213afd7](https://github.com/joshuaavalon/docker-cloudflare/commit/213afd703cbc87058e6494e72aaf19f5662fcdb5))
+
 ## [2.2.9](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.8...2.2.9) (2021-01-14)
 
 
