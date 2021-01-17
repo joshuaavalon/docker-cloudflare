@@ -1,3 +1,10 @@
+## [2.2.11](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.10...2.2.11) (2021-01-17)
+
+
+### Bug Fixes
+
+* add missing format after updating ajv ([04ffbb5](https://github.com/joshuaavalon/docker-cloudflare/commit/04ffbb59bed9c834711a58a5705b44f94a4eb8f2)), closes [#43](https://github.com/joshuaavalon/docker-cloudflare/issues/43)
+
 ## [2.2.10](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.9...2.2.10) (2021-01-14)
 
 
