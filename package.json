@@ -47,6 +47,7 @@
   "dependencies": {
     "@joshuaavalon/cloudflare-dns-api": "^1.1.4",
     "ajv": "^7.0.3",
+    "ajv-formats": "^1.5.1",
     "axios": "^0.21.1",
     "js-yaml": "^4.0.0",
     "lodash": "^4.17.20",

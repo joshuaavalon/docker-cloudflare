@@ -1,4 +1,5 @@
 import Ajv, { ErrorObject } from "ajv";
+import addFormats from "ajv-formats";
 import { exists, readFile } from "fs";
 import { promisify } from "util";
 import yaml from "js-yaml";
@@ -50,6 +51,7 @@ export interface UserConfig {
 
 const verifyConfig = (data: any): UserConfig => {
   const ajv = new Ajv();
+  addFormats(ajv);
   const validate = ajv.compile<UserConfig>(schema);
   if (validate(data)) {
     return data;
