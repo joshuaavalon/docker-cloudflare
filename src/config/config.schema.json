@@ -32,7 +32,8 @@
       "items": {
         "oneOf": [
           { "$ref": "#/definitions/ipJsonEcho" },
-          { "$ref": "#/definitions/ipTextEcho" }
+          { "$ref": "#/definitions/ipTextEcho" },
+          { "$ref": "#/definitions/ipIniEcho" }
         ]
       }
     },
@@ -42,7 +43,8 @@
       "items": {
         "oneOf": [
           { "$ref": "#/definitions/ipJsonEcho" },
-          { "$ref": "#/definitions/ipTextEcho" }
+          { "$ref": "#/definitions/ipTextEcho" },
+          { "$ref": "#/definitions/ipIniEcho" }
         ]
       }
     }
@@ -148,6 +150,25 @@
         }
       },
       "required": ["type", "url"]
+    },
+    "ipIniEcho": {
+      "type": "object",
+      "description": "IP echo service that response with Ini text.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "ini"
+        },
+        "url": {
+          "type": "string",
+          "description": "Url of the IP echo service."
+        },
+        "field": {
+          "type": "string",
+          "const": "text"
+        }
+      },
+      "required": ["type", "url", "field"]
     },
     "webhook": {
       "type": "object",

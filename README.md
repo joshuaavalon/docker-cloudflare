@@ -117,7 +117,7 @@ It supports YAML with `.yaml`, `.yml` and JSON with `.json`. It can be validatio
     - `run`: _Optional._ Fired before update run.
     - `success`: _Optional._ Fired after update success.
     - `failure`: _Optional._ Fired after update failure.
-- `ipv4` & `ipv6`: List of IP echo services to be used. It support JSON and plain text response.
+- `ipv4` & `ipv6`: List of IP echo services to be used. It support JSON, INI and plain text response.
 
 **JSON response**
 
@@ -135,6 +135,19 @@ fields:
     "b": "192.168.1.1"
   }
 }
+```
+
+**INI response**
+
+```yaml
+type: ini
+url: https://1.1.1.1/cdn-cgi/trace
+field: ip
+```
+
+```ini
+ip=1.1.1.1
+visit_scheme=https
 ```
 
 - `fields`: It is the location of IP address in the response.

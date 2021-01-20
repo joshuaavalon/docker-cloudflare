@@ -63,10 +63,13 @@ export interface IpTextEcho {
   url: string;
 }
 
-export type IpEcho = IpJsonEcho | IpTextEcho;
+export interface IpIniEcho {
+  type: "ini";
+  url: string;
+  field: string;
+}
 
-export const isIpJsonEcho = (ipEcho: IpEcho): ipEcho is IpJsonEcho =>
-  ipEcho.type === "json";
+export type IpEcho = IpJsonEcho | IpTextEcho | IpIniEcho;
 
 export interface Config {
   /**
