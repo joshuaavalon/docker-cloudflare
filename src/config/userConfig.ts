@@ -1,16 +1,10 @@
 import Ajv, { ErrorObject } from "ajv";
 import addFormats from "ajv-formats";
-import { exists, readFile } from "fs";
-import { promisify } from "util";
-import yaml from "js-yaml";
-import { extname } from "path";
 import _ from "lodash";
+import { cosmiconfig } from "cosmiconfig";
 
 import { Auth, Domain, IpEcho } from "./type";
 import schema from "./config.schema.json";
-
-const readFilePromise = promisify(readFile);
-const existsPromise = promisify(exists);
 
 export class ConfigError extends Error {}
 
@@ -59,18 +53,6 @@ const verifyConfig = (data: any): UserConfig => {
   throw new InvalidConfigError(validate.errors || []);
 };
 
-const readJsonConfig = async (path: string): Promise<UserConfig> => {
-  const content = await readFilePromise(path, "utf8");
-  const data = JSON.parse(content);
-  return verifyConfig(data);
-};
-
-const readYamlConfig = async (path: string): Promise<UserConfig> => {
-  const content = await readFilePromise(path, "utf8");
-  const data = yaml.load(content);
-  return verifyConfig(data);
-};
-
 export const readEnvConfig = (): UserConfig => {
   const envConfig = {
     auth: {
@@ -91,18 +73,12 @@ export const readEnvConfig = (): UserConfig => {
 };
 
 export const readUserConfig = async (path: string): Promise<UserConfig> => {
-  const exist = await existsPromise(path);
-  if (!exist) {
-    throw new MissingConfigError(path);
-  }
-  const ext = extname(path).toLowerCase();
-  switch (ext) {
-    case ".yaml":
-    case ".yml":
-      return readYamlConfig(path);
-    case ".json":
-      return readJsonConfig(path);
-    default:
-      throw new InvalidConfigFormatError(ext);
+  const config = cosmiconfig("cloudflare");
+  try {
+    const result = await config.load(path);
+    return verifyConfig(result?.config);
+  } catch (e) {
+    console.warn(e);
+    return readEnvConfig();
   }
 };
