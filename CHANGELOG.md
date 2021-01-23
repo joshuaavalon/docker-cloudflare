@@ -1,3 +1,16 @@
+# [2.3.0](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.11...2.3.0) (2021-01-23)
+
+
+### Bug Fixes
+
+* update package-lock.json ([32e4975](https://github.com/joshuaavalon/docker-cloudflare/commit/32e4975b5b006e6e03463cbd594e1290770ac7d9))
+
+
+### Features
+
+* add new ini echo ([deb4254](https://github.com/joshuaavalon/docker-cloudflare/commit/deb42546b21c1976774763c0765d78ebe8018765))
+* use cosmiconfig to load config ([f606a24](https://github.com/joshuaavalon/docker-cloudflare/commit/f606a24a50a58ab17ef7c79b231c65d73f7da72f))
+
 ## [2.2.11](https://github.com/joshuaavalon/docker-cloudflare/compare/2.2.10...2.2.11) (2021-01-17)
 
 
