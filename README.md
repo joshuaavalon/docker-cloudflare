@@ -99,7 +99,7 @@ domains:
     zoneId: JBFRZWzhTKtRFWgu3X7f3YLX
 ```
 
-It supports YAML with `.yaml`, `.yml` and JSON with `.json`. It can be validation through [JSON schema][schema]. There are many online validators, text editor (including VS Code) and IDE supports it.
+It supports YAML with `.yaml`, `.yml`, JSON with `.json` and JavaScript file that export a object. It can be validation through [JSON schema][schema]. There are many online validators, text editor (including VS Code) and IDE supports it.
 
 - `api`: Default to `https://api.cloudflare.com/client/v4/`. This is the base API url. It should not be changed.
 - `logLevel`: Default to `info`. Please refer to [Winston](https://github.com/winstonjs/winston#logging-levels).
