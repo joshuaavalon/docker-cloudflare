@@ -4,7 +4,7 @@ on:
     types:
       - published
   schedule:
-    - cron:  "0 0 * * *"
+    - cron: "0 0 * * *"
 jobs:
   docker:
     name: Build Docker image
@@ -45,3 +45,10 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta.outputs.tags }}
           platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
+          labels: |
+            org.opencontainers.image.source=${{ github.event.repository.html_url }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.authors=Joshua Avalon
+            org.opencontainers.image.url=${{ github.event.repository.html_url }}
+            org.opencontainers.image.documentation=${{ github.event.repository.html_url }}
+            org.opencontainers.image.created=${{ github.event.repository.html_url }}

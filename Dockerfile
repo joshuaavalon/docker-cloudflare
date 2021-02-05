@@ -20,12 +20,6 @@ ARG OVERLAY_VERSION
 ARG OVERLAY_ARCH
 ARG TARGETARCH
 
-LABEL org.opencontainers.image.created https://github.com/joshuaavalon/docker-cloudflare
-LABEL org.opencontainers.image.source https://github.com/joshuaavalon/docker-cloudflare
-LABEL org.opencontainers.image.authors "Joshua Avalon"
-LABEL org.opencontainers.image.url https://github.com/joshuaavalon/docker-cloudflare
-LABEL org.opencontainers.image.documentation https://github.com/joshuaavalon/docker-cloudflare
-
 WORKDIR /app
 
 ENV CLOUDFLARE_CONFIG=/app/config.yaml \
