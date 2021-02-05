@@ -1,28 +1,14 @@
 import {
-  ApiError,
   createDNSRecord,
   listDNSRecords,
   listZones,
   updateDNSRecords
 } from "@joshuaavalon/cloudflare-dns-api";
 import _ from "lodash";
-import { AxiosError } from "axios";
 
 import { Domain, isZoneIdDomain } from "./config";
 import { Context } from "./context";
-
-const isAxiosError = (error: any): error is AxiosError =>
-  error.isAxiosError === true;
-
-export class CloudflareError extends Error {}
-
-export class CloudflareApiError extends CloudflareError {
-  public errors: ApiError[];
-  public constructor(errors: ApiError[]) {
-    super("Api Error from Cloudflare.");
-    this.errors = errors;
-  }
-}
+import { CloudflareApiError, CloudflareError, wrapError } from "./error";
 
 interface Record {
   domain: Domain;
@@ -52,16 +38,7 @@ const getZoneId = async (ctx: Context, record: Record): Promise<string> => {
     }
     return zoneId;
   } catch (e) {
-    if (isAxiosError(e)) {
-      const res = e.response;
-      if (res) {
-        const { success, errors, result } = res.data;
-        if (!success || !result) {
-          throw new CloudflareApiError(errors);
-        }
-      }
-    }
-    throw e;
+    throw wrapError(e);
   }
 };
 
@@ -94,16 +71,7 @@ const getDNSRecord = async (
     }
     return _.first(result);
   } catch (e) {
-    if (isAxiosError(e)) {
-      const res = e.response;
-      if (res) {
-        const { success, errors, result } = res.data;
-        if (!success || !result) {
-          throw new CloudflareApiError(errors);
-        }
-      }
-    }
-    throw e;
+    throw wrapError(e);
   }
 };
 
@@ -130,16 +98,7 @@ const update = async (
     }
     return result;
   } catch (e) {
-    if (isAxiosError(e)) {
-      const res = e.response;
-      if (res) {
-        const { success, errors, result } = res.data;
-        if (!success || !result) {
-          throw new CloudflareApiError(errors);
-        }
-      }
-    }
-    throw e;
+    throw wrapError(e);
   }
 };
 
@@ -163,16 +122,7 @@ const create = async (
     }
     return result;
   } catch (e) {
-    if (isAxiosError(e)) {
-      const res = e.response;
-      if (res) {
-        const { success, errors, result } = res.data;
-        if (!success || !result) {
-          throw new CloudflareApiError(errors);
-        }
-      }
-    }
-    throw e;
+    throw wrapError(e);
   }
 };
 
