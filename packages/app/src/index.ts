@@ -1,10 +1,10 @@
 import _ from "lodash";
 import axios from "axios";
-import { createLogger, format, Logger, transports } from "winston";
+import { Domain, isGlobalAuth, readConfig } from "@cloudflare-ddns/config";
+import { createLogger } from "@cloudflare-ddns/log";
 
 import { fetchIPv4, fetchIPv6 } from "./ip";
 import { updateDns } from "./api";
-import { Config, Domain, isGlobalAuth, readConfig } from "./config";
 import { Context } from "./context";
 import { getConfigFilePath } from "./env";
 
@@ -61,25 +61,10 @@ const warnGlobalApiKey = (ctx: Context): void => {
   }
 };
 
-const buildLogger = (config: Config): Logger => {
-  const defaultOption = {
-    level: config.logLevel,
-    transports: [new transports.Console()],
-    format: format.combine(
-      format.timestamp(),
-      format.printf(info => {
-        const { timestamp, level, message } = info;
-        return `${timestamp} [${level}] ${message}`;
-      })
-    )
-  };
-  return createLogger(defaultOption);
-};
-
 const main = async (): Promise<void> => {
   const configPath = getConfigFilePath();
   const config = await readConfig(configPath);
-  const logger = buildLogger(config);
+  const logger = createLogger(config.logLevel);
   try {
     const ctx: Context = { config, logger };
     logger.info("Cloudflare DDNS start");

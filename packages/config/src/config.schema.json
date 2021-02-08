@@ -30,22 +30,20 @@
       "type": "array",
       "description": "List of IP echo service that returns IPv4.",
       "items": {
-        "oneOf": [
-          { "$ref": "#/definitions/ipJsonEcho" },
-          { "$ref": "#/definitions/ipTextEcho" },
-          { "$ref": "#/definitions/ipIniEcho" }
-        ]
+        "$ref": "#/definitions/ipEcho"
       }
     },
     "ipv6": {
       "type": "array",
       "description": "List of IP echo service that returns IPv6.",
       "items": {
-        "oneOf": [
-          { "$ref": "#/definitions/ipJsonEcho" },
-          { "$ref": "#/definitions/ipTextEcho" },
-          { "$ref": "#/definitions/ipIniEcho" }
-        ]
+        "$ref": "#/definitions/ipEcho"
+      }
+    },
+    "echoParsers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ipEchoParser"
       }
     }
   },
@@ -114,35 +112,12 @@
         { "required": ["name", "type", "proxied", "create", "zoneName"] }
       ]
     },
-    "ipJsonEcho": {
+    "ipEcho": {
       "type": "object",
-      "description": "IP echo service that response with JSON.",
+      "description": "IP echo service",
       "properties": {
         "type": {
-          "type": "string",
-          "const": "json"
-        },
-        "url": {
-          "type": "string",
-          "description": "Url of the IP echo service."
-        },
-        "fields": {
-          "type": "array",
-          "description": "Path to result JSON field.",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "required": ["type", "url", "fields"]
-    },
-    "ipTextEcho": {
-      "type": "object",
-      "description": "IP echo service that response with plain text.",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "text"
+          "type": "string"
         },
         "url": {
           "type": "string",
@@ -151,24 +126,17 @@
       },
       "required": ["type", "url"]
     },
-    "ipIniEcho": {
+    "ipEchoParser": {
       "type": "object",
-      "description": "IP echo service that response with Ini text.",
       "properties": {
-        "type": {
-          "type": "string",
-          "const": "ini"
+        "resolve": {
+          "type": "string"
         },
-        "url": {
-          "type": "string",
-          "description": "Url of the IP echo service."
-        },
-        "field": {
-          "type": "string",
-          "const": "text"
+        "alias": {
+          "type": "string"
         }
       },
-      "required": ["type", "url", "field"]
+      "required": ["resolve", "alias"]
     },
     "webhook": {
       "type": "object",

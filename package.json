@@ -10,16 +10,23 @@
     "lib"
   ],
   "scripts": {
-    "prebuild": "rimraf lib",
-    "build": "tsc",
-    "start": "node lib/index.js",
-    "test": "echo WIP",
-    "lint": "eslint --ext .ts src",
+    "build": "concurrently npm:build:*",
+    "build:config": "npm run --prefix packages/config build",
+    "build:app": "npm run --prefix packages/app build",
+    "build:ip-echo-parser": "npm run --prefix packages/ip-echo-parser build",
+    "build:ip-echo-parser-ini": "npm run --prefix packages/ip-echo-parser-ini build",
+    "build:ip-echo-parser-json": "npm run --prefix packages/ip-echo-parser-json build",
+    "build:ip-echo-parser-text": "npm run --prefix packages/ip-echo-parser-text build",
+    "start": "node packages/app",
+    "test": "concurrently npm:test:",
+    "test:config": "npm run --prefix packages/config test",
+    "test:app": "npm run --prefix packages/app test",
+    "lint": "eslint --ext .ts packages/*/src",
     "release": "semantic-release"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/joshuaavalon/docker-cloudflare.git"
+    "url": "https://github.com/joshuaavalon/docker-cloudflare.git"
   },
   "keywords": [
     "ddns",
@@ -27,6 +34,9 @@
   ],
   "author": "Joshua Avalon",
   "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
   "bugs": {
     "url": "https://github.com/joshuaavalon/docker-cloudflare/issues"
   },
@@ -35,21 +45,11 @@
     "@joshuaavalon/eslint-config-typescript": "^4.5.3",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
-    "@types/lodash": "^4.14.167",
-    "@types/node": "^14.14.6",
+    "concurrently": "^5.3.0",
     "eslint": "^7.13.0",
     "prettier": "^2.1.2",
     "rimraf": "^3.0.2",
     "semantic-release": "^17.3.2",
     "typescript": "^4.1.3"
-  },
-  "dependencies": {
-    "@joshuaavalon/cloudflare-dns-api": "^1.1.4",
-    "ajv": "^7.0.3",
-    "ajv-formats": "^1.5.1",
-    "axios": "^0.21.1",
-    "cosmiconfig": "^7.0.0",
-    "lodash": "^4.17.20",
-    "winston": "^3.3.3"
   }
 }

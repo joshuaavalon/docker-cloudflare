@@ -3,10 +3,10 @@ import {
   listDNSRecords,
   listZones,
   updateDNSRecords
-} from "@joshuaavalon/cloudflare-dns-api";
+} from "@cloudflare-ddns/api";
 import _ from "lodash";
+import { Domain, isZoneIdDomain } from "@cloudflare-ddns/config";
 
-import { Domain, isZoneIdDomain } from "./config";
 import { Context } from "./context";
 import { CloudflareApiError, CloudflareError, wrapError } from "./error";
 
