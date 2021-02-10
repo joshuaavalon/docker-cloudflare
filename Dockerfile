@@ -8,7 +8,7 @@ FROM $BASE_IMAGE as builder
 ARG OVERLAY_VERSION
 WORKDIR /app
 
-COPY src  /app/src
+COPY packages /app/packages
 COPY package.json tsconfig.json package-lock.json /app/
 
 RUN npm install -g npm@latest && \
@@ -28,7 +28,7 @@ ENV PUID=1001
 ENV PGID=1001
 ENV NODE_ENV=production
 
-COPY --from=builder /app/lib /app/lib
+COPY --from=builder /app/packages /app/packages
 COPY package.json package-lock.json /app/
 COPY docker/root/ /
 
