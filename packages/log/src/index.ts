@@ -11,10 +11,9 @@ export const createLogger = (level: string): Logger => {
     transports: [new transports.Console()],
     format: format.combine(
       format.timestamp(),
-      format.printf(info => {
-        const { timestamp, level, message } = info;
-        return `${timestamp} [${level}] ${message}`;
-      })
+      format.printf(
+        ({ timestamp, level, message }) => `${timestamp} [${level}] ${message}`
+      )
     )
   };
   return createWinstonLogger(option);
