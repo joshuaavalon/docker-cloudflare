@@ -1,7 +1,7 @@
 
 
 ARG BASE_IMAGE=node:lts-alpine
-ARG OVERLAY_VERSION=v2.1.0.2
+ARG OVERLAY_VERSION=v2.2.0.1
 
 FROM $BASE_IMAGE as builder
 
