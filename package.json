@@ -10,7 +10,7 @@
     "lib"
   ],
   "scripts": {
-    "build": "concurrently npm:build:*",
+    "build": "concurrently -m 3 npm:build:*",
     "build:api": "npm run --prefix packages/api build",
     "build:app": "npm run --prefix packages/app build",
     "build:config": "npm run --prefix packages/config build",
@@ -21,7 +21,7 @@
     "build:log": "npm run --prefix packages/log build",
     "build:schema": "npm run --prefix packages/schema build",
     "start": "node packages/app",
-    "test": "concurrently npm:test:*",
+    "test": "concurrently -m 3 npm:test:*",
     "test:api": "npm run --prefix packages/api test",
     "test:app": "npm run --prefix packages/app test",
     "test:config": "npm run --prefix packages/config test",
