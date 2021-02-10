@@ -50,16 +50,16 @@ RUN apk add --no-cache shadow && \
 ENV useradd -u 1001 -U -d /config -s /bin/false abc && \
 ENV usermod -G users abc
 
-ENV ZONE
-ENV HOST
-ENV EMAIL
-ENV API
-ENV TTL
-ENV PROXY
-ENV DEBUG
-ENV FORCE_CREATE
-ENV RUNONCE
-ENV IPV6
+ENV ZONE=
+ENV HOST=
+ENV EMAIL=
+ENV API=
+ENV TTL=
+ENV PROXY=
+ENV DEBUG=
+ENV FORCE_CREATE=
+ENV RUNONCE=
+ENV IPV6=
 
 ENTRYPOINT ["/init"]
 CMD []
