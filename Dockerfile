@@ -12,8 +12,8 @@ COPY src  /app/src
 COPY package.json tsconfig.json package-lock.json /app/
 
 RUN npm install -g npm@latest && \
-ENV npm ci && \
-ENV npm run build
+    npm ci && \
+    npm run build
 
 FROM $BASE_IMAGE
 
@@ -39,16 +39,16 @@ RUN apk add --no-cache bash
 SHELL ["/bin/bash", "-c"]
 
 RUN apk add --no-cache --virtual=build-dependencies curl tar && \
-ENV if [[ "$TARGETARCH" == arm* ]]; then OVERLAY_ARCH=arm; else OVERLAY_ARCH="$TARGETARCH"; fi && \
-ENV curl -L "https://github.com/just-containers/s6-overlay/releases/download/${OVERLAY_VERSION}/s6-overlay-${OVERLAY_ARCH}.tar.gz" | tar xz -C / && \
-ENV apk del --purge build-dependencies
+    if [[ "$TARGETARCH" == arm* ]]; then OVERLAY_ARCH=arm; else OVERLAY_ARCH="$TARGETARCH"; fi && \
+    curl -L "https://github.com/just-containers/s6-overlay/releases/download/${OVERLAY_VERSION}/s6-overlay-${OVERLAY_ARCH}.tar.gz" | tar xz -C / && \
+    apk del --purge build-dependencies
 
 RUN npm install -g npm@latest && \
-ENV npm ci
+    npm ci
 
 RUN apk add --no-cache shadow && \
-ENV useradd -u 1001 -U -d /config -s /bin/false abc && \
-ENV usermod -G users abc
+    useradd -u 1001 -U -d /config -s /bin/false abc && \
+    usermod -G users abc
 
 ENV ZONE=
 ENV HOST=
