@@ -14,8 +14,7 @@ COPY package.json tsconfig.json package-lock.json /app/
 RUN npm install -g npm@latest && \
     npm ci && \
     npm run build -- --declaration false --sourceMap false && \
-    rm -rf packages/*/lib/__tests__ && \
-    ls -R packages
+    rm -rf packages/*/lib/__tests__
 
 RUN mkdir /packages && \
     cp --parents -r packages/*/lib /packages && \
