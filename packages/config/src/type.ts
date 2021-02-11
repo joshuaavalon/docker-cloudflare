@@ -36,7 +36,7 @@ export interface BaseDomain {
   type: RecordType;
   proxied: boolean;
   create: boolean;
-  webhook?: Webhook;
+  webhook: Webhook;
 }
 
 export interface ZoneIdDomain extends BaseDomain {

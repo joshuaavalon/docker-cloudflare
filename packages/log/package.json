@@ -10,8 +10,7 @@
   ],
   "scripts": {
     "prebuild": "rimraf lib",
-    "build": "tsc",
-    "test": "echo no-op"
+    "build": "tsc"
   },
   "repository": {
     "type": "git",

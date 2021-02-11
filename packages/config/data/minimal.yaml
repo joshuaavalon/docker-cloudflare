@@ -1,0 +1,4 @@
+auth:
+  scopedToken: example
+domains:
+  - name: example.com
