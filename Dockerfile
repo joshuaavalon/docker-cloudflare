@@ -15,6 +15,11 @@ RUN npm install -g npm@latest && \
     npm ci && \
     npm run build
 
+RUN mkdir /packages && \
+    cp --parents packages/*/lib /packages && \
+    cp --parents packages/*/package.json /packages && \
+    ls -R /packages
+
 FROM $BASE_IMAGE
 
 ARG OVERLAY_VERSION
@@ -28,7 +33,8 @@ ENV PUID=1001
 ENV PGID=1001
 ENV NODE_ENV=production
 
-COPY --from=builder /app/packages /app/packages
+COPY --from=builder /packages /app/packages
+RUN ls -R /app/packages
 COPY package.json package-lock.json /app/
 COPY docker/root/ /
 
