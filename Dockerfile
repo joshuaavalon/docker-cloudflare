@@ -13,12 +13,11 @@ COPY package.json tsconfig.json package-lock.json /app/
 
 RUN npm install -g npm@latest && \
     npm ci && \
-    npm run build
+    npm run build -- --declaration false --sourceMap false
 
 RUN mkdir /packages && \
     cp --parents -r packages/*/lib /packages && \
-    cp --parents packages/*/package.json /packages && \
-    ls -R /packages
+    cp --parents packages/*/package.json /packages
 
 FROM $BASE_IMAGE
 
@@ -34,7 +33,6 @@ ENV PGID=1001
 ENV NODE_ENV=production
 
 COPY --from=builder /packages /app/packages
-RUN ls -R /app/packages
 COPY package.json package-lock.json /app/
 COPY docker/root/ /
 
