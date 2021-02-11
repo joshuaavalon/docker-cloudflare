@@ -16,7 +16,7 @@ RUN npm install -g npm@latest && \
     npm run build
 
 RUN mkdir /packages && \
-    cp --parents packages/*/lib /packages && \
+    cp --parents -r packages/*/lib /packages && \
     cp --parents packages/*/package.json /packages && \
     ls -R /packages
 
