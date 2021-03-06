@@ -202,17 +202,18 @@ ipv6:
 
 > If configuration file is found, environment variables are ignored.
 
-| Parameters   | Default | Description                                                                                                                |
-| ------------ | ------- | -------------------------------------------------------------------------------------------------------------------------- |
-| \*ZONE       |         | Domain, e.g. `example.com`.                                                                                                |
-| \*HOST       |         | DNS record to be updated, e.g. `example.com`, `subdomain.example.com`.                                                     |
-| \*EMAIL      |         | Cloudflare Email                                                                                                           |
-| \*API        |         | Cloudflare API key                                                                                                         |
-| PROXY        | true    | Whether the record is receiving the performance and security benefits of Cloudflare. `true` to enable; `false` to disable. |
-| FORCE_CREATE |         | When set, a record will be created if one does not exist already.                                                          |
-| IPV6         |         | When set, update IPv6 instead of IPv4.                                                                                     |
-| PUID         |         | User ID used by the script.                                                                                                |
-| PGID         |         | Group ID used by the script.                                                                                               |
+| Parameters   | Default           | Description                                                                                                                |
+| ------------ | ----------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| \*ZONE       |                   | Domain, e.g. `example.com`.                                                                                                |
+| \*HOST       |                   | DNS record to be updated, e.g. `example.com`, `subdomain.example.com`.                                                     |
+| \*EMAIL      |                   | Cloudflare Email                                                                                                           |
+| \*API        |                   | Cloudflare API key                                                                                                         |
+| PROXY        | true              | Whether the record is receiving the performance and security benefits of Cloudflare. `true` to enable; `false` to disable. |
+| FORCE_CREATE |                   | When set, a record will be created if one does not exist already.                                                          |
+| IPV6         |                   | When set, update IPv6 instead of IPv4.                                                                                     |
+| PUID         |                   | User ID used by the script.                                                                                                |
+| PGID         |                   | Group ID used by the script.                                                                                               |
+| CRON         | \*\/5 \* \* \* \* | DDNS update schedule.                                                                                                      |
 
 \* These parameters are required.
 
