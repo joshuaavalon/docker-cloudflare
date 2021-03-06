@@ -8,7 +8,8 @@ FROM $BASE_IMAGE as builder
 ARG OVERLAY_VERSION
 WORKDIR /app
 
-COPY package.json tsconfig.json package-lock.json packages /app/
+COPY packages /app/packages/
+COPY package.json tsconfig.json package-lock.json /app/
 
 RUN npm install -g npm@latest && \
     npm ci && \
@@ -16,8 +17,8 @@ RUN npm install -g npm@latest && \
     rm -rf packages/*/lib/__tests__
 
 RUN mkdir /packages && \
-    cp --parents -r packages/*/lib /packages && \
-    cp --parents packages/*/package.json /packages
+    cp --parents -r packages/*/lib / && \
+    cp --parents packages/*/package.json /
 
 FROM $BASE_IMAGE
 
@@ -32,7 +33,7 @@ ENV PUID=1001
 ENV PGID=1001
 ENV NODE_ENV=production
 
-COPY --from=builder /packages /app/
+COPY --from=builder /packages /app/packages/
 COPY package.json package-lock.json /app/
 COPY docker/root/ /
 
