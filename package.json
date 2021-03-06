@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "private": true,
+  "main": "./packages/app/lib/index.js",
   "directories": {
     "lib": "lib"
   },
