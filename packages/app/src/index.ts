@@ -1,7 +1,13 @@
 import _ from "lodash";
 import axios from "axios";
-import { Domain, isGlobalAuth, readConfig } from "@cloudflare-ddns/config";
+import {
+  Config,
+  Domain,
+  isGlobalAuth,
+  readConfig
+} from "@cloudflare-ddns/config";
 import { createLogger } from "@cloudflare-ddns/log";
+import { registerParser } from "@cloudflare-ddns/ip-echo-parser";
 
 import { fetchIPv4, fetchIPv6 } from "./ip";
 import { updateDns } from "./api";
@@ -61,6 +67,12 @@ const warnGlobalApiKey = (ctx: Context): void => {
   }
 };
 
+const registerParsers = (config: Config): void => {
+  config.echoParsers.forEach(({ resolve, alias }) =>
+    registerParser(resolve, alias)
+  );
+};
+
 const main = async (): Promise<void> => {
   const configPath = getConfigFilePath();
   const config = await readConfig(configPath);
@@ -68,6 +80,7 @@ const main = async (): Promise<void> => {
   try {
     const ctx: Context = { config, logger };
     logger.info("Cloudflare DDNS start");
+    registerParsers(config);
     printConfig(ctx);
     warnGlobalApiKey(ctx);
     await updateDnsRecords(ctx);

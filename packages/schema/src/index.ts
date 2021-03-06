@@ -20,5 +20,6 @@ export const verifySchema = <T>(
   if (validate(data)) {
     return data;
   }
+  console.log({ data, schema });
   throw new SchemaViolationError(validate.errors || []);
 };

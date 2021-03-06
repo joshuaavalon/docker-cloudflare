@@ -34,7 +34,7 @@ export const defaultConfig: Omit<Config, "auth" | "domains"> = {
     },
     {
       resolve: "@cloudflare-ddns/ip-echo-parser-json",
-      alias: "ini"
+      alias: "json"
     },
     {
       resolve: "@cloudflare-ddns/ip-echo-parser-text",

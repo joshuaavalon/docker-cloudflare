@@ -15,7 +15,7 @@ const isIpEchoFunction = (parser: unknown): parser is IpEchoFunction =>
   lodash.isFunction(parser);
 
 const isSchema = (schema: unknown): boolean =>
-  lodash.isUndefined(schema) || lodash.isString(schema);
+  lodash.isUndefined(schema) || lodash.isObject(schema);
 
 export const isIpEchoPackage = (pkg: unknown): pkg is IpEchoPackage<any> => {
   if (!lodash.isObject(pkg)) {
