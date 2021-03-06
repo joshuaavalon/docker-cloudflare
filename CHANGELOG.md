@@ -1,3 +1,10 @@
+# [2.5.0](https://github.com/joshuaavalon/docker-cloudflare/compare/2.4.0...2.5.0) (2021-03-06)
+
+
+### Features
+
+* configurable cron schedule ([#47](https://github.com/joshuaavalon/docker-cloudflare/issues/47)) ([ba9f0b2](https://github.com/joshuaavalon/docker-cloudflare/commit/ba9f0b24b116fb95296d08e895196c910fa59350))
+
 # [2.4.0](https://github.com/joshuaavalon/docker-cloudflare/compare/2.3.0...2.4.0) (2021-03-06)
 
 
