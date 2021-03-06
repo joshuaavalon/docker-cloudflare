@@ -2,3 +2,4 @@
 
 echo "Setting crontab to ${CRON}"
 echo "${CRON} /app/cloudflare.sh" >> /etc/crontabs/root
+chmod 600 /etc/crontabs/root
