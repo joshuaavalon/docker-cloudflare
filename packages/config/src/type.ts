@@ -36,7 +36,7 @@ export interface BaseDomain {
   type: RecordType;
   proxied: boolean;
   create: boolean;
-  webhook?: Webhook;
+  webhook: Webhook;
 }
 
 export interface ZoneIdDomain extends BaseDomain {
@@ -52,24 +52,11 @@ export type Domain = ZoneIdDomain | ZoneNameDomain;
 export const isZoneIdDomain = (domain: Domain): domain is ZoneIdDomain =>
   _.has(domain, "zoneId");
 
-export interface IpJsonEcho {
-  type: "json";
+export interface IpEcho {
+  type: string;
   url: string;
-  fields: string[];
+  [key: string]: unknown;
 }
-
-export interface IpTextEcho {
-  type: "text";
-  url: string;
-}
-
-export interface IpIniEcho {
-  type: "ini";
-  url: string;
-  field: string;
-}
-
-export type IpEcho = IpJsonEcho | IpTextEcho | IpIniEcho;
 
 export interface Config {
   /**
@@ -81,4 +68,10 @@ export interface Config {
   domains: Domain[];
   ipv4: IpEcho[];
   ipv6: IpEcho[];
+  echoParsers: IpEchoParser[];
+}
+
+export interface IpEchoParser {
+  resolve: string;
+  alias?: string;
 }

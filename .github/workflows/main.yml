@@ -16,7 +16,7 @@ jobs:
       - name: Install npm@7
         run: npm install -g npm@latest
       - name: Install script dependencies
-        run: npm install
+        run: npm ci
       - name: Build
         run: npm run build
       - name: Run unit tests
@@ -34,7 +34,7 @@ jobs:
       - name: Install npm@7
         run: npm install -g npm@latest
       - name: Install script dependencies
-        run: npm install
+        run: npm ci
       - name: Lint
         run: npm run lint
   docker:

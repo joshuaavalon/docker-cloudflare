@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "target": "es2018",
-    "module": "commonjs",
+    "module": "CommonJS",
     "declaration": true,
     "sourceMap": true,
-    "outDir": "lib",
     "lib": ["es2018"],
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
@@ -19,7 +17,5 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "esModuleInterop": true
-  },
-  "include": ["src"],
-  "exclude": ["node_modules", "lib"]
+  }
 }

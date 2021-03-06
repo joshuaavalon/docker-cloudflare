@@ -1,0 +1,36 @@
+{
+  "name": "@cloudflare-ddns/ip-echo-parser",
+  "version": "1.0.0",
+  "description": "IP echo parser type definitions.",
+  "private": true,
+  "main": "./lib/index.js",
+  "typings": "./src/index.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "prebuild": "rimraf lib",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joshuaavalon/docker-cloudflare.git",
+    "directory": "packages/ip-echo-parser"
+  },
+  "keywords": [
+    "ddns",
+    "cloudflare"
+  ],
+  "author": "Joshua Avalon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joshuaavalon/docker-cloudflare/issues"
+  },
+  "homepage": "https://github.com/joshuaavalon/docker-cloudflare/packages/ip-echo-parser#readme",
+  "devDependencies": {
+    "@types/lodash": "^4.14.167"
+  },
+  "dependencies": {
+    "lodash": "^4.17.20"
+  }
+}

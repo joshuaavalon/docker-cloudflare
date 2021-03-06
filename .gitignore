@@ -47,7 +47,7 @@ Temporary Items
 
 .idea
 node_modules
-/lib
+packages/**/lib
 /.vscode
 
 /config.yaml

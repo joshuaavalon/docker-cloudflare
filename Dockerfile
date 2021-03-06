@@ -1,19 +1,24 @@
 
 
 ARG BASE_IMAGE=node:lts-alpine
-ARG OVERLAY_VERSION=v2.1.0.2
+ARG OVERLAY_VERSION=v2.2.0.1
 
 FROM $BASE_IMAGE as builder
 
 ARG OVERLAY_VERSION
 WORKDIR /app
 
-COPY src  /app/src
+COPY packages /app/packages/
 COPY package.json tsconfig.json package-lock.json /app/
 
 RUN npm install -g npm@latest && \
     npm ci && \
-    npm run build
+    npm run build -- --declaration false --sourceMap false && \
+    rm -rf packages/*/lib/__tests__
+
+RUN mkdir /packages && \
+    cp --parents -r packages/*/lib / && \
+    cp --parents packages/*/package.json /
 
 FROM $BASE_IMAGE
 
@@ -28,7 +33,7 @@ ENV PUID=1001
 ENV PGID=1001
 ENV NODE_ENV=production
 
-COPY --from=builder /app/lib /app/lib
+COPY --from=builder /packages /app/packages/
 COPY package.json package-lock.json /app/
 COPY docker/root/ /
 

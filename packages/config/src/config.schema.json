@@ -30,26 +30,26 @@
       "type": "array",
       "description": "List of IP echo service that returns IPv4.",
       "items": {
-        "oneOf": [
-          { "$ref": "#/definitions/ipJsonEcho" },
-          { "$ref": "#/definitions/ipTextEcho" },
-          { "$ref": "#/definitions/ipIniEcho" }
-        ]
+        "$ref": "#/definitions/ipEcho"
       }
     },
     "ipv6": {
       "type": "array",
       "description": "List of IP echo service that returns IPv6.",
       "items": {
-        "oneOf": [
-          { "$ref": "#/definitions/ipJsonEcho" },
-          { "$ref": "#/definitions/ipTextEcho" },
-          { "$ref": "#/definitions/ipIniEcho" }
-        ]
+        "$ref": "#/definitions/ipEcho"
+      }
+    },
+    "echoParsers": {
+      "type": "array",
+      "description": "List of IP echo parsers that parses the response from IP echoing service.",
+      "items": {
+        "$ref": "#/definitions/ipEchoParser"
       }
     }
   },
   "required": ["auth", "domains"],
+  "additionalProperties": false,
   "definitions": {
     "globalAuth": {
       "type": "object",
@@ -64,7 +64,8 @@
           "description": "DEPRECIATED. API key generated on the \"My Account\" page."
         }
       },
-      "required": ["email", "globalToken"]
+      "required": ["email", "globalToken"],
+      "additionalProperties": false
     },
     "scopedAuth": {
       "type": "object",
@@ -74,10 +75,12 @@
           "description": "API Token generated from the User Profile 'API Tokens' page."
         }
       },
-      "required": ["scopedToken"]
+      "required": ["scopedToken"],
+      "additionalProperties": false
     },
     "domain": {
       "type": "object",
+      "description": "Domain name that needed to be update",
       "properties": {
         "name": {
           "type": "string",
@@ -86,15 +89,15 @@
         "type": {
           "type": "string",
           "enum": ["A", "AAAA"],
-          "description": "Dns record type."
+          "description": "Dns record type. Default to A."
         },
         "proxied": {
           "type": "boolean",
-          "description": "Whether the record is receiving the performance and security benefits of Cloudflare."
+          "description": "Whether the record is receiving the performance and security benefits of Cloudflare. Default to true."
         },
         "create": {
           "type": "boolean",
-          "description": "Create record if it does not exits."
+          "description": "Create record if it does not exits. Default to false."
         },
         "zoneId": {
           "type": "string",
@@ -109,40 +112,16 @@
           "description": "Webhook for DNS update."
         }
       },
-      "oneOf": [
-        { "required": ["name", "type", "proxied", "create", "zoneId"] },
-        { "required": ["name", "type", "proxied", "create", "zoneName"] }
-      ]
+      "required": ["name"],
+      "additionalProperties": false
     },
-    "ipJsonEcho": {
+    "ipEcho": {
       "type": "object",
-      "description": "IP echo service that response with JSON.",
+      "description": "IP echo service",
       "properties": {
         "type": {
           "type": "string",
-          "const": "json"
-        },
-        "url": {
-          "type": "string",
-          "description": "Url of the IP echo service."
-        },
-        "fields": {
-          "type": "array",
-          "description": "Path to result JSON field.",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "required": ["type", "url", "fields"]
-    },
-    "ipTextEcho": {
-      "type": "object",
-      "description": "IP echo service that response with plain text.",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "text"
+          "description": "Name or alias of an IP echo parser."
         },
         "url": {
           "type": "string",
@@ -151,27 +130,25 @@
       },
       "required": ["type", "url"]
     },
-    "ipIniEcho": {
+    "ipEchoParser": {
       "type": "object",
-      "description": "IP echo service that response with Ini text.",
+      "description": "Parser that parses the response from IP echoing service.",
       "properties": {
-        "type": {
+        "resolve": {
           "type": "string",
-          "const": "ini"
+          "description": "Name of the JavaScript package."
         },
-        "url": {
+        "alias": {
           "type": "string",
-          "description": "Url of the IP echo service."
-        },
-        "field": {
-          "type": "string",
-          "const": "text"
+          "description": "Alias of the JavaScript package. Must be unique from other parsers' alias and name."
         }
       },
-      "required": ["type", "url", "field"]
+      "required": ["resolve"],
+      "additionalProperties": false
     },
     "webhook": {
       "type": "object",
+      "description": "Fired during the update.",
       "properties": {
         "run": {
           "type": "string",
@@ -185,7 +162,8 @@
           "type": "string",
           "description": "Fired after update failure."
         }
-      }
+      },
+      "additionalProperties": false
     }
   }
 }
