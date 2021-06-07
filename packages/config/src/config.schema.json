@@ -88,12 +88,16 @@
         },
         "type": {
           "type": "string",
-          "enum": ["A", "AAAA"],
+          "enum": ["A", "AAAA", "MX", "TXT"],
           "description": "Dns record type. Default to A."
         },
         "proxied": {
           "type": "boolean",
           "description": "Whether the record is receiving the performance and security benefits of Cloudflare. Default to true."
+        },
+        "value": {
+          "type": "string",
+          "description": "Value to set the Record to, for Example a fixed IP Address."
         },
         "create": {
           "type": "boolean",

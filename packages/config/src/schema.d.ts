@@ -65,7 +65,10 @@ export interface Domain {
   /**
    * Dns record type. Default to A.
    */
-  type?: "A" | "AAAA";
+  type?: "A" | "AAAA" | "MX" | "TXT";
+  /**
+   *
+   */
   /**
    * Whether the record is receiving the performance and security benefits of Cloudflare. Default to true.
    */

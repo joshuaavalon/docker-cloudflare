@@ -23,7 +23,7 @@ export type Auth = ScopedAuth | GlobalAuth;
 export const isGlobalAuth = (auth: Auth): auth is GlobalAuth =>
   _.has(auth, "email");
 
-export type RecordType = "A" | "AAAA";
+export type RecordType = "A" | "AAAA" | "MX" | "TXT";
 
 export interface Webhook {
   run?: string;
@@ -35,6 +35,7 @@ export interface BaseDomain {
   name: string;
   type: RecordType;
   proxied: boolean;
+  value: string;
   create: boolean;
   webhook: Webhook;
 }

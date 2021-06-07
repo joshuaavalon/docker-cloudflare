@@ -17,12 +17,17 @@ import { getConfigFilePath } from "./env";
 const updateDomain = async (ctx: Context, domain: Domain): Promise<void> => {
   const { config, logger } = ctx;
   const { ipv4, ipv6 } = config;
-  const useIPv4 = domain.type === "A";
-  const fetchIp = useIPv4 ? fetchIPv4 : fetchIPv6;
-  const ipEchos = useIPv4 ? ipv4 : ipv6;
-  const ip = await fetchIp(ctx, ipEchos);
-  await updateDns(ctx, { domain, ip });
-  logger.info(`Updated ${domain.name} with ${ip}`);
+  if (domain.value) {
+    await updateDns(ctx, { domain, ip: domain.value });
+    logger.info(`Updated ${domain.name} with ${domain.value}`);
+  } else {
+    const useIPv4 = domain.type === "A";
+    const fetchIp = useIPv4 ? fetchIPv4 : fetchIPv6;
+    const ipEchos = useIPv4 ? ipv4 : ipv6;
+    const ip = await fetchIp(ctx, ipEchos);
+    await updateDns(ctx, { domain, ip });
+    logger.info(`Updated ${domain.name} with ${ip}`);
+  }
 };
 
 const requestWebhook = async (ctx: Context, url?: string): Promise<void> => {
