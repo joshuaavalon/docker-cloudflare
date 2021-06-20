@@ -29,7 +29,7 @@
   "homepage": "https://github.com/joshuaavalon/docker-cloudflare/packages/schema#readme",
   "devDependencies": {},
   "dependencies": {
-    "ajv": "^7.0.3",
-    "ajv-formats": "^1.5.1"
+    "ajv": "^8.6.0",
+    "ajv-formats": "^2.1.0"
   }
 }
