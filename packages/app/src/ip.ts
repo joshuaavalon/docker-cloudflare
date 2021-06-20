@@ -30,22 +30,21 @@ const fetchIpEcho = async (ipEcho: IpEcho): Promise<string> => {
   return parser(res.data, validOpts);
 };
 
-const fetchIP = (checkIp: CheckIp) => async (
-  ctx: Context,
-  ipEchos: IpEcho[]
-): Promise<string> => {
-  for (const ipEcho of ipEchos) {
-    const { url } = ipEcho;
-    try {
-      const ip = await fetchIpEcho(ipEcho);
-      checkIp(ip);
-      return ip;
-    } catch (e) {
-      ctx.logger.warn(`Fail to fetch ip from ${url}. (${e.message})`);
+const fetchIP =
+  (checkIp: CheckIp) =>
+  async (ctx: Context, ipEchos: IpEcho[]): Promise<string> => {
+    for (const ipEcho of ipEchos) {
+      const { url } = ipEcho;
+      try {
+        const ip = await fetchIpEcho(ipEcho);
+        checkIp(ip);
+        return ip;
+      } catch (e) {
+        ctx.logger.warn(`Fail to fetch ip from ${url}. (${e.message})`);
+      }
     }
-  }
-  throw new Error("Cannot fetch any IPs!");
-};
+    throw new Error("Cannot fetch any IPs!");
+  };
 
 export const fetchIPv4 = fetchIP(checkIPv4);
 export const fetchIPv6 = fetchIP(checkIPv6);
