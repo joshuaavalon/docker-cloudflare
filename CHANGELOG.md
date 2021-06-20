@@ -1,3 +1,17 @@
+# [2.6.0](https://github.com/joshuaavalon/docker-cloudflare/compare/2.5.0...2.6.0) (2021-06-20)
+
+
+### Bug Fixes
+
+* crontab ([e11a937](https://github.com/joshuaavalon/docker-cloudflare/commit/e11a9374b4eedb5a2c5bdd2bc0919965c8e84a25))
+* escape space ([6f22bbf](https://github.com/joshuaavalon/docker-cloudflare/commit/6f22bbff7d52ed76610a3ec761b4578dac05ec2c))
+* update dependencies ([c3c5397](https://github.com/joshuaavalon/docker-cloudflare/commit/c3c5397347c06174d81b964c21c6c0b5e37cf99f))
+
+
+### Features
+
+* add CRON ([edf30a0](https://github.com/joshuaavalon/docker-cloudflare/commit/edf30a066dd8108795c1cd7e5c35ba904cc1b4a6))
+
 # [2.5.0](https://github.com/joshuaavalon/docker-cloudflare/compare/2.4.0...2.5.0) (2021-03-06)
 
 
