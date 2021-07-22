@@ -113,10 +113,16 @@ It supports YAML with `.yaml`, `.yml`, JSON with `.json` and JavaScript file tha
   - `create`: `true` to create record if not exists.
   - `zoneId`: [Zone ID](./cloudflare.html#zone-id) of the record.
   - `zoneName`: It is not needed if `zoneId` is set. Root domain of the domain name. It requires `#zone:read` for API token.
-  - `webhook`: _Optional._ Webhook for update
+  - `webhook`: _Optional._ Webhook for update(s)
     - `run`: _Optional._ Fired before update run.
+      - `url`: _Optional._ Webhook URL.
+      - `data`: _Optional._ Webhook POST data in JSON format.
     - `success`: _Optional._ Fired after update success.
+      - `url`: _Optional._ Webhook URL.
+      - `data`: _Optional._ Webhook POST data in JSON format.
     - `failure`: _Optional._ Fired after update failure.
+      - `url`: _Optional._ Webhook URL.
+      - `data`: _Optional._ Webhook POST data in JSON format.
 - `ipv4` & `ipv6`: List of IP echo services to be used. It support JSON, INI and plain text response.
 
 **JSON response**
@@ -173,9 +179,14 @@ domains:
     create: true
     zoneId: JBFRZWzhTKtRFWgu3X7f3YLX
     webhook:
-      run: https://example.com/webhook/start
-      success: https://example.com/webhook/success
-      failure: https://example.com/webhook/failure
+      run:
+        url: https://example.com/webhook/start
+      success:
+        url: https://example.com/webhook/success
+      failure:
+        url: https://example.com/webhook/failure
+        data:
+          content: "Failed to update A record for foo.example.com."
 ipv4:
   - type: json
     url: https://v4.ident.me/.json
