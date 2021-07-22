@@ -89,15 +89,48 @@ export interface Domain {
     /**
      * Fired before update run.
      */
-    run?: string;
+    run?: {
+      /**
+       * Webhook URL.
+       */
+      url?: string;
+      /**
+       * Webhook POST data in JSON format.
+       */
+      data?: {
+        [k: string]: unknown;
+      };
+    };
     /**
      * Fired after update success.
      */
-    success?: string;
+    success?: {
+      /**
+       * Webhook URL.
+       */
+      url?: string;
+      /**
+       * Webhook POST data in JSON format.
+       */
+      data?: {
+        [k: string]: unknown;
+      };
+    };
     /**
      * Fired after update failure.
      */
-    failure?: string;
+    failure?: {
+      /**
+       * Webhook URL.
+       */
+      url?: string;
+      /**
+       * Webhook POST data in JSON format.
+       */
+      data?: {
+        [k: string]: unknown;
+      };
+    };
   };
 }
 /**

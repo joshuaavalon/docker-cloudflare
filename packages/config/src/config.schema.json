@@ -146,20 +146,35 @@
       "required": ["resolve"],
       "additionalProperties": false
     },
+    "webhookConfig": {
+      "type": "object",
+      "description": "Webhook URL and POST data in JSON format.",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "Webhook URL."
+        },
+        "data": {
+          "type": "object",
+          "description": "Webhook POST data in JSON format."
+        }
+      },
+      "additionalProperties": false
+    },
     "webhook": {
       "type": "object",
       "description": "Fired during the update.",
       "properties": {
         "run": {
-          "type": "string",
+          "$ref": "#/definitions/webhookConfig",
           "description": "Fired before update run."
         },
         "success": {
-          "type": "string",
+          "$ref": "#/definitions/webhookConfig",
           "description": "Fired after update success."
         },
         "failure": {
-          "type": "string",
+          "$ref": "#/definitions/webhookConfig",
           "description": "Fired after update failure."
         }
       },
