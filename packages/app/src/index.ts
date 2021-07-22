@@ -25,15 +25,26 @@ const updateDomain = async (ctx: Context, domain: Domain): Promise<void> => {
   logger.info(`Updated ${domain.name} with ${ip}`);
 };
 
-const requestWebhook = async (ctx: Context, url?: string): Promise<void> => {
-  if (!url) {
+const requestWebhook = async (ctx: Context, webhookConfig?: object): Promise<void> => {
+  if (!webhookConfig) {
     return;
   }
   const { logger } = ctx;
-  try {
-    await axios.get(url);
-  } catch (e) {
-    logger.warn(`Fail to fetch ${url}.\n${e.message}`);
+  const { url, data } = webhookConfig;
+  // Old behaviour - Send a GET request to the webhook URL
+  if (!data) {
+    try {
+      await axios.get(url);
+    } catch (e) {
+      logger.warn(`Fail to fetch ${url}.\n${e.message}`);
+    }
+  // New behaviour - Send a POST request to the webhook URL with data in JSON format
+  } else {
+    try {
+      await axios.post(url, data, { headers: { 'Content-Type': 'application/json' } });
+    } catch (e) {
+      logger.warn(`Failed to send data: ${data} to ${url}.\n${e.message}`);
+    }
   }
 };
 
