@@ -43,7 +43,7 @@ const requestWebhook = async (ctx: Context, webhookConfig?: object): Promise<voi
     try {
       await axios.post(url, data, { headers: { 'Content-Type': 'application/json' } });
     } catch (e) {
-      logger.warn(`Failed to send data: ${data} to ${url}.\n${e.message}`);
+      logger.warn(`Failed to send ${data} to ${url}.\n${e.message}`);
     }
   }
 };
