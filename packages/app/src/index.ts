@@ -3,6 +3,7 @@ import axios from "axios";
 import {
   Config,
   Domain,
+  WebhookConfig,
   isGlobalAuth,
   readConfig
 } from "@cloudflare-ddns/config";
@@ -25,7 +26,7 @@ const updateDomain = async (ctx: Context, domain: Domain): Promise<void> => {
   logger.info(`Updated ${domain.name} with ${ip}`);
 };
 
-const requestWebhook = async (ctx: Context, webhookConfig?: object): Promise<void> => {
+const requestWebhook = async (ctx: Context, webhookConfig?: WebhookConfig): Promise<void> => {
   if (!webhookConfig) {
     return;
   }
