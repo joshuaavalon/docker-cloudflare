@@ -35,14 +35,14 @@ const requestWebhook = async (ctx: Context, webhookConfig?: WebhookConfig): Prom
   // Old behaviour - Send a GET request to the webhook URL
   if (!data) {
     try {
-      await axios.get(url);
+      await axios.get(url as string);
     } catch (e) {
       logger.warn(`Fail to fetch ${url}.\n${e.message}`);
     }
   // New behaviour - Send a POST request to the webhook URL with data in JSON format
   } else {
     try {
-      await axios.post(url, data, { headers: { 'Content-Type': 'application/json' } });
+      await axios.post(url as string, data as object, { headers: { 'Content-Type': 'application/json' } });
     } catch (e) {
       logger.warn(`Failed to send ${data} to ${url}.\n${e.message}`);
     }
