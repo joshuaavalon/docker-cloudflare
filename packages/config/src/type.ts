@@ -26,9 +26,14 @@ export const isGlobalAuth = (auth: Auth): auth is GlobalAuth =>
 export type RecordType = "A" | "AAAA";
 
 export interface Webhook {
-  run?: { url?: string, data?: { [key: string]: unknown; } };
-  success?: { url?: string, data?: { [key: string]: unknown; } };
-  failure?: { url?: string, data?: { [key: string]: unknown; } };
+  run?: WebhookConfig;
+  success?: WebhookConfig;
+  failure?: WebhookConfig;
+}
+
+export interface WebhookConfig {
+  url?: string;
+  data?: { [key: string]: unknown; };
 }
 
 export interface BaseDomain {
