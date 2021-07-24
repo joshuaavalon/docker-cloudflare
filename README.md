@@ -117,6 +117,10 @@ It supports YAML with `.yaml`, `.yml`, JSON with `.json` and JavaScript file tha
     - `run`: _Optional._ Fired before update run.
     - `success`: _Optional._ Fired after update success.
     - `failure`: _Optional._ Fired after update failure.
+    - `formatter`: _Optional._ Only available via JS config.  
+      `(status: string, data?: unknown) => Promise<Record<string, unknown> | undefined> | Record<string, unknown> | undefined`.  
+      `status` can be `run`, `success`, `failure`.  
+      `data` is `undefined` for `run`, Cloudflare response result for `success` and `CloudflareApiError` for `failure`.
 - `ipv4` & `ipv6`: List of IP echo services to be used. It support JSON, INI and plain text response.
 
 **JSON response**

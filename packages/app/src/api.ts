@@ -131,7 +131,7 @@ const updateOrCreate = async (
   record: Record,
   zoneId: string,
   dnsRecord?: DNSRecord
-): Promise<void> => {
+): Promise<DNSRecord | undefined> => {
   const { logger } = ctx;
   const { ip, domain } = record;
   if (dnsRecord) {
@@ -140,20 +140,21 @@ const updateOrCreate = async (
       logger.info("Skipped updating.", { domain: domain.name });
     } else {
       logger.info("Started updating.", { domain: domain.name });
-      await update(ctx, record, zoneId, dnsRecord);
+      return await update(ctx, record, zoneId, dnsRecord);
     }
   } else if (domain.create) {
     logger.info("Started creating.", { domain: domain.name });
-    await create(ctx, record, zoneId);
+    return await create(ctx, record, zoneId);
   } else {
     logger.info("Skipped creating.", { domain: domain.name });
   }
+  return undefined;
 };
 
 export const updateDns = async (
   ctx: Context,
   record: Record
-): Promise<void> => {
+): Promise<DNSRecord | undefined> => {
   const zoneId = await getZoneId(ctx, record);
   const dnsRecord = await getDNSRecord(ctx, record, zoneId);
   return updateOrCreate(ctx, record, zoneId, dnsRecord);

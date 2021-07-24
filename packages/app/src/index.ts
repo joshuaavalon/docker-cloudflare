@@ -14,24 +14,35 @@ import { updateDns } from "./api";
 import { Context } from "./context";
 import { getConfigFilePath } from "./env";
 
-const updateDomain = async (ctx: Context, domain: Domain): Promise<void> => {
+import type { WebhookFormatter } from "@cloudflare-ddns/config";
+
+const updateDomain = async (ctx: Context, domain: Domain): Promise<unknown> => {
   const { config, logger } = ctx;
   const { ipv4, ipv6 } = config;
   const useIPv4 = domain.type === "A";
   const fetchIp = useIPv4 ? fetchIPv4 : fetchIPv6;
   const ipEchos = useIPv4 ? ipv4 : ipv6;
   const ip = await fetchIp(ctx, ipEchos);
-  await updateDns(ctx, { domain, ip });
+  const result = await updateDns(ctx, { domain, ip });
   logger.info(`Updated ${domain.name} with ${ip}`);
+  return result;
 };
 
-const requestWebhook = async (ctx: Context, url?: string): Promise<void> => {
+const requestWebhook = async (
+  ctx: Context,
+  url?: string,
+  data?: unknown
+): Promise<void> => {
   if (!url) {
     return;
   }
   const { logger } = ctx;
   try {
-    await axios.get(url);
+    if (data) {
+      await axios.post(url, data);
+    } else {
+      await axios.get(url);
+    }
   } catch (e) {
     logger.warn(`Fail to fetch ${url}.\n${e.message}`);
   }
@@ -41,12 +52,16 @@ const updateDnsRecords = async (ctx: Context): Promise<void> => {
   const { config, logger } = ctx;
   const promises = config.domains.map(async domain => {
     const { webhook } = domain;
+    const formatter: WebhookFormatter = webhook?.formatter ?? (() => undefined);
     try {
-      await requestWebhook(ctx, webhook?.run);
-      await updateDomain(ctx, domain);
-      await requestWebhook(ctx, webhook?.success);
+      const runMessage = await formatter("run");
+      await requestWebhook(ctx, webhook?.run, runMessage);
+      const result = await updateDomain(ctx, domain);
+      const successMessage = await formatter("success", result);
+      await requestWebhook(ctx, webhook?.success, successMessage);
     } catch (e) {
-      await requestWebhook(ctx, webhook?.failure);
+      const failureMessage = await formatter("failure", e);
+      await requestWebhook(ctx, webhook?.failure, failureMessage);
       logger.error(`Failed to update ${domain.name}. (${e.message})`);
     }
   });
