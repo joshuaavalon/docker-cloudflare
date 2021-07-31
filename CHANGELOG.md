@@ -1,3 +1,15 @@
+# [2.7.0](https://github.com/joshuaavalon/docker-cloudflare/compare/2.6.0...2.7.0) (2021-07-31)
+
+
+### Bug Fixes
+
+* update dependencies ([a2e72f3](https://github.com/joshuaavalon/docker-cloudflare/commit/a2e72f33875bb0d269ce95a6ec216a3b89456207))
+
+
+### Features
+
+* add JSON formatter ([#52](https://github.com/joshuaavalon/docker-cloudflare/issues/52)) ([2e28af5](https://github.com/joshuaavalon/docker-cloudflare/commit/2e28af500d49861926800233e9d80a394d316554))
+
 # [2.6.0](https://github.com/joshuaavalon/docker-cloudflare/compare/2.5.0...2.6.0) (2021-06-20)
 
 
