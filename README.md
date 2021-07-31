@@ -117,6 +117,10 @@ It supports YAML with `.yaml`, `.yml`, JSON with `.json` and JavaScript file tha
     - `run`: _Optional._ Fired before update run.
     - `success`: _Optional._ Fired after update success.
     - `failure`: _Optional._ Fired after update failure.
+    - `formatter`: _Optional._ Only available via JS config.  
+      `(status: string, data?: unknown) => Promise<Record<string, unknown> | undefined> | Record<string, unknown> | undefined`.  
+      `status` can be `run`, `success`, `failure`.  
+      `data` is `undefined` for `run`, Cloudflare response result for `success` and `CloudflareApiError` for `failure`.
 - `ipv4` & `ipv6`: List of IP echo services to be used. It support JSON, INI and plain text response.
 
 **JSON response**
@@ -194,6 +198,65 @@ ipv6:
     url: https://api6.ipify.org?format=json
     fields:
       - ip
+```
+
+```js
+const formatter = (status, data) => {
+  if (status === "run") {
+    return { content: "Updating DNS record." };
+  } else {
+    return { content: JSON.stringify(data) };
+  }
+};
+
+const config = {
+  api: "https://api.cloudflare.com/client/v4/",
+  logLevel: "info",
+  auth: {
+    scopedToken: "QPExdfoNLwndJPDbt4nK1-yF1z_srC8D0m6-Gv_h"
+  },
+  domains: [
+    {
+      name: "foo.example.com",
+      type: "A",
+      proxied: true,
+      create: true,
+      zoneId: "JBFRZWzhTKtRFWgu3X7f3YLX",
+      webhook: {
+        run: "https://example.com/webhook/start",
+        success: "https://example.com/webhook/success",
+        failure: "https://example.com/webhook/failure",
+        formatter
+      }
+    }
+  ],
+  ipv4: [
+    {
+      type: "json",
+      url: "https://v4.ident.me/.json",
+      fields: ["address"]
+    },
+    {
+      type: "json",
+      url: "https://api.ipify.org?format=json",
+      fields: ["ip"]
+    }
+  ],
+  ipv6: [
+    {
+      type: "json",
+      url: "https://v6.ident.me/.json",
+      fields: ["address"]
+    },
+    {
+      type: "json",
+      url: "https://api6.ipify.org?format=json",
+      fields: ["ip"]
+    }
+  ]
+};
+
+module.exports = config;
 ```
 
 #### Environment Variables

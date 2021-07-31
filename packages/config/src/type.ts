@@ -29,6 +29,14 @@ export interface Webhook {
   run?: string;
   success?: string;
   failure?: string;
+  formatter?: WebhookFormatter;
+}
+
+type MayBePromise<T> = T | Promise<T>;
+export interface WebhookFormatter {
+  (status: string, response?: unknown): MayBePromise<
+    Record<string, any> | undefined
+  >;
 }
 
 export interface BaseDomain {

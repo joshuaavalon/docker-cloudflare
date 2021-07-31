@@ -98,6 +98,12 @@ export interface Domain {
      * Fired after update failure.
      */
     failure?: string;
+    /**
+     * Format message
+     */
+    formatter?: {
+      (status: string, response?: unknown): Record<string, any> | undefined;
+    };
   };
 }
 /**
