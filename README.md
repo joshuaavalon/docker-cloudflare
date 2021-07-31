@@ -200,6 +200,65 @@ ipv6:
       - ip
 ```
 
+```js
+const formatter = (status, data) => {
+  if (status === "run") {
+    return { content: "Updating DNS record." };
+  } else {
+    return { content: JSON.stringify(data) };
+  }
+};
+
+const config = {
+  api: "https://api.cloudflare.com/client/v4/",
+  logLevel: "info",
+  auth: {
+    scopedToken: "QPExdfoNLwndJPDbt4nK1-yF1z_srC8D0m6-Gv_h"
+  },
+  domains: [
+    {
+      name: "foo.example.com",
+      type: "A",
+      proxied: true,
+      create: true,
+      zoneId: "JBFRZWzhTKtRFWgu3X7f3YLX",
+      webhook: {
+        run: "https://example.com/webhook/start",
+        success: "https://example.com/webhook/success",
+        failure: "https://example.com/webhook/failure",
+        formatter
+      }
+    }
+  ],
+  ipv4: [
+    {
+      type: "json",
+      url: "https://v4.ident.me/.json",
+      fields: ["address"]
+    },
+    {
+      type: "json",
+      url: "https://api.ipify.org?format=json",
+      fields: ["ip"]
+    }
+  ],
+  ipv6: [
+    {
+      type: "json",
+      url: "https://v6.ident.me/.json",
+      fields: ["address"]
+    },
+    {
+      type: "json",
+      url: "https://api6.ipify.org?format=json",
+      fields: ["ip"]
+    }
+  ]
+};
+
+module.exports = config;
+```
+
 #### Environment Variables
 
 > Configuration through environment variables is legacy support. For all the new features, you need to use configuration file.
