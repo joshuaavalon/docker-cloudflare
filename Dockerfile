@@ -1,6 +1,6 @@
 
 
-ARG BASE_IMAGE=node:lts-alpine
+ARG BASE_IMAGE=node:16-alpine
 ARG OVERLAY_VERSION=v2.2.0.1
 
 FROM $BASE_IMAGE as builder
@@ -11,9 +11,8 @@ WORKDIR /app
 COPY packages /app/packages/
 COPY package.json tsconfig.json package-lock.json /app/
 
-RUN npm install -g npm@latest && \
-    npm ci && \
-    npm run build -- --declaration false --sourceMap false && \
+RUN npm ci && \
+    npm run build --workspaces -- --declaration false --sourceMap false && \
     rm -rf packages/*/lib/__tests__
 
 RUN mkdir /packages && \

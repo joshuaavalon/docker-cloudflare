@@ -1,3 +1,4 @@
+import _ from "lodash";
 import axios from "axios";
 import { isIPv4, isIPv6 } from "net";
 import { IpEcho } from "@cloudflare-ddns/config";
@@ -40,7 +41,9 @@ const fetchIP =
         checkIp(ip);
         return ip;
       } catch (e) {
-        ctx.logger.warn(`Fail to fetch ip from ${url}. (${e.message})`);
+        ctx.logger.warn(
+          `Fail to fetch ip from ${url}. (${_.get(e, "message", e)})`
+        );
       }
     }
     throw new Error("Cannot fetch any IPs!");

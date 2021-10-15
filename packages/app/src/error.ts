@@ -15,7 +15,7 @@ export class CloudflareApiError extends CloudflareError {
   }
 }
 
-export const wrapError = (e: Error): Error => {
+export const wrapError = (e: unknown): unknown => {
   if (!isAxiosError(e)) {
     return e;
   }
@@ -23,7 +23,7 @@ export const wrapError = (e: Error): Error => {
   if (!res) {
     return e;
   }
-  const { success, errors, result } = res.data;
+  const { success, errors, result } = res.data as any;
   if (!success || !result) {
     return new CloudflareApiError(errors);
   }

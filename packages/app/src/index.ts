@@ -44,7 +44,7 @@ const requestWebhook = async (
       await axios.get(url);
     }
   } catch (e) {
-    logger.warn(`Fail to fetch ${url}.\n${e.message}`);
+    logger.warn(`Fail to fetch ${url}.\n${_.get(e, "message", e)}`);
   }
 };
 
@@ -62,7 +62,9 @@ const updateDnsRecords = async (ctx: Context): Promise<void> => {
     } catch (e) {
       const failureMessage = await formatter("failure", e);
       await requestWebhook(ctx, webhook?.failure, failureMessage);
-      logger.error(`Failed to update ${domain.name}. (${e.message})`);
+      logger.error(
+        `Failed to update ${domain.name}. (${_.get(e, "message", e)})`
+      );
     }
   });
   await Promise.all(promises);
@@ -100,7 +102,7 @@ const main = async (): Promise<void> => {
     warnGlobalApiKey(ctx);
     await updateDnsRecords(ctx);
   } catch (e) {
-    logger.error(e.message);
+    logger.error(_.get(e, "message", e));
     process.exitCode = 1;
   } finally {
     logger.info("Cloudflare DDNS end");

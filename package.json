@@ -11,19 +11,9 @@
     "lib"
   ],
   "scripts": {
-    "build": "concurrently -m 3 npm:build:*",
-    "build:api": "npm run --prefix packages/api build",
-    "build:app": "npm run --prefix packages/app build",
-    "build:config": "npm run --prefix packages/config build",
-    "build:ip-echo-parser": "npm run --prefix packages/ip-echo-parser build",
-    "build:ip-echo-parser-ini": "npm run --prefix packages/ip-echo-parser-ini build",
-    "build:ip-echo-parser-json": "npm run --prefix packages/ip-echo-parser-json build",
-    "build:ip-echo-parser-text": "npm run --prefix packages/ip-echo-parser-text build",
-    "build:log": "npm run --prefix packages/log build",
-    "build:schema": "npm run --prefix packages/schema build",
     "start": "node packages/app",
     "test": "jest",
-    "lint": "eslint --ext .ts packages/*/src",
+    "lint": "eslint packages/*/src/**/*.ts",
     "release": "semantic-release"
   },
   "repository": {
@@ -44,17 +34,17 @@
   },
   "homepage": "https://github.com/joshuaavalon/docker-cloudflare#readme",
   "devDependencies": {
-    "@joshuaavalon/eslint-config-typescript": "^4.5.6",
-    "@semantic-release/changelog": "^5.0.1",
-    "@semantic-release/git": "^9.0.0",
-    "@types/jest": "^26.0.23",
-    "concurrently": "^6.2.0",
-    "eslint": "^7.29.0",
-    "jest": "^27.0.4",
-    "prettier": "^2.3.1",
+    "@joshuaavalon/eslint-config-typescript": "^5.0.0",
+    "@semantic-release/changelog": "^6.0.0",
+    "@semantic-release/git": "^10.0.0",
+    "@types/jest": "^27.0.2",
+    "@types/node": "^16.11.0",
+    "eslint": "^8.0.1",
+    "jest": "^27.2.5",
+    "prettier": "^2.4.1",
     "rimraf": "^3.0.2",
-    "semantic-release": "^17.4.4",
-    "ts-jest": "^27.0.3",
-    "typescript": "^4.3.4"
+    "semantic-release": "^18.0.0",
+    "ts-jest": "^27.0.6",
+    "typescript": "^4.4.4"
   }
 }
