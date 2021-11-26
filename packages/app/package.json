@@ -39,7 +39,7 @@
     "@cloudflare-ddns/ip-echo-parser-text": "^1.0.0",
     "@cloudflare-ddns/schema": "^1.0.0",
     "@cloudflare-ddns/api": "^1.0.0",
-    "axios": "^0.23.0",
+    "axios": "^0.24.0",
     "lodash": "^4.17.21"
   }
 }
