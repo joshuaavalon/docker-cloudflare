@@ -30,13 +30,12 @@
   },
   "homepage": "https://github.com/joshuaavalon/docker-cloudflare/packages/config#readme",
   "devDependencies": {
-    "@types/lodash": "^4.14.170",
-    "@types/node": "^15.12.4",
-    "json-schema-to-typescript": "^10.1.4"
+    "@types/lodash": "^4.14.175",
+    "json-schema-to-typescript": "^10.1.5"
   },
   "dependencies": {
     "@cloudflare-ddns/schema": "^1.0.0",
-    "cosmiconfig": "^7.0.0",
+    "cosmiconfig": "^7.0.1",
     "lodash": "^4.17.21"
   }
 }

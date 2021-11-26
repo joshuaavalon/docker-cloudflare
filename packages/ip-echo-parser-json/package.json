@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/joshuaavalon/docker-cloudflare/packages/ip-echo-parser-json#readme",
   "devDependencies": {
-    "@types/lodash": "^4.14.170"
+    "@types/lodash": "^4.14.175"
   },
   "dependencies": {
     "@cloudflare-ddns/ip-echo-parser": "^1.0.0",

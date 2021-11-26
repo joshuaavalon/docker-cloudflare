@@ -29,6 +29,6 @@
   "homepage": "https://github.com/joshuaavalon/docker-cloudflare/packages/api#readme",
   "devDependencies": {},
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "^0.24.0"
   }
 }

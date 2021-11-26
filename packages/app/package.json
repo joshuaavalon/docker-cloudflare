@@ -28,8 +28,7 @@
   },
   "homepage": "https://github.com/joshuaavalon/docker-cloudflare/packages/app#readme",
   "devDependencies": {
-    "@types/lodash": "^4.14.170",
-    "@types/node": "^15.12.4"
+    "@types/lodash": "^4.14.175"
   },
   "dependencies": {
     "@cloudflare-ddns/config": "^1.0.0",
@@ -40,7 +39,7 @@
     "@cloudflare-ddns/ip-echo-parser-text": "^1.0.0",
     "@cloudflare-ddns/schema": "^1.0.0",
     "@cloudflare-ddns/api": "^1.0.0",
-    "axios": "^0.21.1",
+    "axios": "^0.24.0",
     "lodash": "^4.17.21"
   }
 }
