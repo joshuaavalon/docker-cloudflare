@@ -1,0 +1,60 @@
+name: Bug Report
+description: Create a report to help us improve
+title: "[Bug] <Title>"
+labels:
+  - Bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for the bug you encountered.
+      options:
+        - label: I have searched the existing issues
+          required: true
+  - type: input
+    attributes:
+      label: Version
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Describe The Bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps To Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. In this environment...
+        2. With this config...
+        3. Run '...'
+        4. See error...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: YAML Configuration
+      description: If applicable, add yaml configuration to help explain your problem. This will be automatically formatted into code, so no need for backticks.
+      render: yaml
+  - type: textarea
+    attributes:
+      label: JS Configuration
+      description: If applicable, add js configuration to help explain your problem. This will be automatically formatted into code, so no need for backticks.
+      render: js
+  - type: textarea
+    attributes:
+      label: Relevant Output Log
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
