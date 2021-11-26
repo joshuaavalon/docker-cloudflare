@@ -1,3 +1,15 @@
+# [2.8.0](https://github.com/joshuaavalon/docker-cloudflare/compare/2.7.0...2.8.0) (2021-11-26)
+
+
+### Bug Fixes
+
+* update dependencies ([4d42bc8](https://github.com/joshuaavalon/docker-cloudflare/commit/4d42bc8d3659b3a1b3cd0dce4973b94be7d9d1c7))
+
+
+### Features
+
+* update dependencies to latest and node to 16 ([8dd11bc](https://github.com/joshuaavalon/docker-cloudflare/commit/8dd11bc71e52d9c0ec205a5428856d32991bd199))
+
 # [2.7.0](https://github.com/joshuaavalon/docker-cloudflare/compare/2.6.0...2.7.0) (2021-07-31)
 
 
