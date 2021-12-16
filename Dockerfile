@@ -1,5 +1,3 @@
-
-
 ARG BASE_IMAGE=node:16-alpine
 ARG OVERLAY_VERSION=v2.2.0.1
 
