@@ -3,8 +3,6 @@
 [![GitHub Actions][actions-badge]][actions]
 [![Docker Pulls][docker-pull]][docker]
 [![Docker Stars][docker-star]][docker]
-[![Docker Image Size][docker-size]][docker-tag]
-[![Docker Layer][docker-layer]][docker-tag]
 [![License][license-badge]][license]
 [![semantic-release][semantic-release-badge]][semantic-release]
 
@@ -117,9 +115,9 @@ It supports YAML with `.yaml`, `.yml`, JSON with `.json` and JavaScript file tha
     - `run`: _Optional._ Fired before update run.
     - `success`: _Optional._ Fired after update success.
     - `failure`: _Optional._ Fired after update failure.
-    - `formatter`: _Optional._ Only available via JS config.  
-      `(status: string, data?: unknown) => Promise<Record<string, unknown> | undefined> | Record<string, unknown> | undefined`.  
-      `status` can be `run`, `success`, `failure`.  
+    - `formatter`: _Optional._ Only available via JS config.
+      `(status: string, data?: unknown) => Promise<Record<string, unknown> | undefined> | Record<string, unknown> | undefined`.
+      `status` can be `run`, `success`, `failure`.
       `data` is `undefined` for `run`, Cloudflare response result for `success` and `CloudflareApiError` for `failure`.
 - `ipv4` & `ipv6`: List of IP echo services to be used. It support JSON, INI and plain text response.
 
@@ -321,8 +319,6 @@ A. You can open a feature request. If many people votes for it, I may consider i
 [docker-tag]: https://hub.docker.com/r/joshava/cloudflare-ddns/tags/
 [docker-pull]: https://img.shields.io/docker/pulls/joshava/cloudflare-ddns.svg
 [docker-star]: https://img.shields.io/docker/stars/joshava/cloudflare-ddns.svg
-[docker-size]: https://img.shields.io/microbadger/image-size/joshava/cloudflare-ddns.svg
-[docker-layer]: https://img.shields.io/microbadger/layers/joshava/cloudflare-ddns.svg
 [license]: https://github.com/joshuaavalon/docker-cloudflare/blob/master/LICENSE
 [license-badge]: https://img.shields.io/github/license/joshuaavalon/docker-cloudflare.svg
 [documentation]: https://joshuaavalon.github.io/docker-cloudflare/
