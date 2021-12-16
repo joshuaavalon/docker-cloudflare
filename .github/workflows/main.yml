@@ -46,6 +46,7 @@ jobs:
           images: ghcr.io/joshuaavalon/cloudflare-ddns
           tags: |
             type=sha
+            type=ref,event=branch
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v1
       - name: Setup Docker Buildx
