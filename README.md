@@ -159,7 +159,10 @@ visit_scheme=https
 ```yaml
 type: text
 url: https://ipv4.example.com
+trim: false
 ```
+
+- `trim`: _Optional_ Trim the response text if `true`. Default to `false`.
 
 **Full Configuration**
 
