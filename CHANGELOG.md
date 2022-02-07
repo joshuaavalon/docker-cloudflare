@@ -1,3 +1,15 @@
+# [2.9.0](https://github.com/joshuaavalon/docker-cloudflare/compare/2.8.0...2.9.0) (2021-12-20)
+
+
+### Bug Fixes
+
+* update dependencies ([a09a343](https://github.com/joshuaavalon/docker-cloudflare/commit/a09a343efcd421447d324f52186812bcf3daf4b7))
+
+
+### Features
+
+* add trim option to text response ([d7f6a57](https://github.com/joshuaavalon/docker-cloudflare/commit/d7f6a5712db5d34804e848132e993cf0ea96b4bc))
+
 # [2.8.0](https://github.com/joshuaavalon/docker-cloudflare/compare/2.7.0...2.8.0) (2021-11-26)
 
 
