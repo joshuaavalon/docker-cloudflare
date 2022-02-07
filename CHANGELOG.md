@@ -1,3 +1,10 @@
+## [2.9.2](https://github.com/joshuaavalon/docker-cloudflare/compare/2.9.1...2.9.2) (2022-02-07)
+
+
+### Bug Fixes
+
+* update package-lock.json ([8b609f0](https://github.com/joshuaavalon/docker-cloudflare/commit/8b609f0f5633ee1e28feb4b8dad103819d1d54ce))
+
 ## [2.9.1](https://github.com/joshuaavalon/docker-cloudflare/compare/2.9.0...2.9.1) (2022-02-07)
 
 
