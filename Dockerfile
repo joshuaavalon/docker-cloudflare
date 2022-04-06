@@ -29,7 +29,7 @@ ENV CLOUDFLARE_CONFIG=/app/config.yaml
 ENV PUID=1001
 ENV PGID=1001
 ENV NODE_ENV=production
-ENV CRON='*/5 * * * *'
+ENV CRON='0 */1 * * *'
 
 COPY --from=builder /packages /app/packages/
 COPY package.json package-lock.json /app/
