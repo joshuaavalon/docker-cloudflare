@@ -277,9 +277,11 @@ module.exports = config;
 | IPV6         |                   | When set, update IPv6 instead of IPv4.                                                                                     |
 | PUID         |                   | User ID used by the script.                                                                                                |
 | PGID         |                   | Group ID used by the script.                                                                                               |
-| CRON         | \*\/5 \* \* \* \* | DDNS update schedule.                                                                                                      |
+| ^CRON         | \*\/5 \* \* \* \* | DDNS update schedule.                                                                                                      |
 
-\* These parameters are required.
+
+\* These parameters are required.  
+^ CRON can be used in conjunction with a configuration file, and will be honored.
 
 [schema]: ./src/config/config.schema.json
 
