@@ -6,9 +6,9 @@
 [![License][license-badge]][license]
 [![semantic-release][semantic-release-badge]][semantic-release]
 
-Cloudflare DDNS is a Docker image that update DNS records on Cloudflare on schedule.
+Cloudflare DDNS is a Docker image that updates DNS records on Cloudflare on schedule.
 
-## Table of Content
+## Table of Contents
 
 - [Getting Started](#getting-started)
 - [Guide](#guide)
@@ -17,7 +17,7 @@ Cloudflare DDNS is a Docker image that update DNS records on Cloudflare on sched
     - [Global API Key](#global-api-key)
     - [Zone ID](#zone-id)
   - [Configuration](#configuration)
-    - [File](#file)
+    - [Configuration File](#configuration-file)
     - [Environment Variables](#environment-variables)
 - [Migration](#migration)
 - [Frequently Asked Questions](#frequently-asked-questions)
@@ -25,10 +25,10 @@ Cloudflare DDNS is a Docker image that update DNS records on Cloudflare on sched
 ## Getting Started
 
 ```bash
-docker run -d -v ./config.yaml:/app/config.yaml joshava/cloudflare-ddns
+docker run -d -v config.yaml:/app/config.yaml joshava/cloudflare-ddns
 ```
 
-The Docker image now supports multiple architecture. `arm32v6` will no longer be used.
+The Docker image now supports multiple architectures. `arm32v6` will no longer be used.
 
 Because of Docker Hub new limitation, you can now pull from `ghcr.io/joshuaavalon/cloudflare-ddns`.
 
@@ -43,27 +43,27 @@ To get started, you must have the followings ready:
 
 ### Authentication
 
-At August 30, 2019,[Cloudflare announces the general availability of API tokens][api-token-blog]. API tokens limit the privileges each token has. The reason behind is [principle of least privilege][least-privilege]. Thus, API tokens are the recommended way to handle authentication.
+At August 30, 2019, [Cloudflare announces the general availability of API tokens][api-token-blog]. API tokens limit the privileges each token has. The reason behind is [principle of least privilege][least-privilege]. Thus, API tokens are the recommended way to handle authentication.
 
 #### API Token
 
-First, go to your profile page and access the API Tokens page. Click `Create Token`.
+First, go to your profile page and under the API Tokens page, click `Create Token`.
 
 ![API Tokens page](./guide/api-token.png)
 
 Then, create a token with `#dns_records:edit` and `#zone:read` (optional).
 
-> `#zone:read` is needed if you want to use zone name instead of zone id. If you copy and paste the zone id to configuration, `#zone:read` is not needed.
+> `#zone:read` is required if you want to use `zone name` instead of `zone id`.
 
 > The token can be limited to specific zones in `Zone Resources`.
 
 ![Create API token](./guide/create-token.png)
 
-After that, click `Continue to summary` and `Create Token`. Note that the token needed to be copied, it will not be shown again after this. It can be deleted and create a new one anytime needed.
+Click `Continue to summary` and `Create Token`. Note that the token will not be shown again after leaving this page. It can be rolled at any time.
 
 #### Global API Key
 
-> Global API key is deprecated. Although it is still supported with Cloudflare API, this Docker image will deprecate it in favor of API token. The support for global API key will be removed in future release.
+> `Global API key` is deprecated. Although its still supported with the Cloudflare API, this Docker image will deprecate it. It's support will be removed in future release.
 
 Go to your profile page and access the API Tokens page. Click `View` on Global API Key.
 
@@ -71,7 +71,7 @@ Go to your profile page and access the API Tokens page. Click `View` on Global A
 
 #### Zone ID
 
-Go to you domain overview page and scroll to the bottom. Copy the `Zone ID` in the API section.
+Go to your domain overview page and scroll to the bottom and copy the `Zone ID` in the API section.
 
 ![Zone ID](./guide/zone-id.png)
 
@@ -80,15 +80,16 @@ Go to you domain overview page and scroll to the bottom. Copy the `Zone ID` in t
 
 ### Configuration
 
-#### File
+#### Configuration File
 
-The configuration should be place at `/app/config.yaml`. It can be changed by defining `CLOUDFLARE_CONFIG` in environment variables.
+The configuration should be placed at `/app/config.yaml`. It can be changed by defining the `CLOUDFLARE_CONFIG` environment variable.
 
-This is the minimum configuration needed.
+This is the minimum configuration required.
 
 ```yaml
 auth:
   scopedToken: QPExdfoNLwndJPDbt4nK1-yF1z_srC8D0m6-Gv_h
+  email: foo@bar.com
 domains:
   - name: foo.example.com
     type: A
@@ -97,20 +98,21 @@ domains:
     zoneId: JBFRZWzhTKtRFWgu3X7f3YLX
 ```
 
-It supports YAML with `.yaml`, `.yml`, JSON with `.json` and JavaScript file that export a object. It can be validation through [JSON schema][schema]. There are many online validators, text editor (including VS Code) and IDE supports it.
+It supports YAML with `.yaml`, `.yml`, JSON with `.json` and a JavaScript file that exports an object. It can be validation through [JSON schema][schema]. There are a lot of online validators, text editors (including VS Code) and IDEs that supports it.
 
-- `api`: Default to `https://api.cloudflare.com/client/v4/`. This is the base API url. It should not be changed.
-- `logLevel`: Default to `info`. Please refer to [Winston](https://github.com/winstonjs/winston#logging-levels).
-- `auth`: It defines authentication with API. Use one of the following:
+- `api`: Defaults to `https://api.cloudflare.com/client/v4/`. This is the base API url. It shouldn't be changed.
+- `logLevel`: Defaults to `info`. Please refer to [Winston](https://github.com/winstonjs/winston#logging-levels).
+- `auth`: Defines authentication with the API. Use one of the following:
   - `scopedToken`: API token.
-  - `email`: Cloudflare Email; `globalToken`: Global API key.
+  - `email`: Cloudflare Email
+  - `globalToken`: Global API key.
 - `domains`: List of domains to be updated.
   - `name`: Domain name to be updated.
   - `type`: DNS record type. It should be `A` or `AAAA`.
   - `proxied`: Enable Cloudflare proxied or not.
   - `create`: `true` to create record if not exists.
   - `zoneId`: [Zone ID](./cloudflare.html#zone-id) of the record.
-  - `zoneName`: It is not needed if `zoneId` is set. Root domain of the domain name. It requires `#zone:read` for API token.
+  - `zoneName`: Root domain of the domain name. Not required if `zoneId` is set. It requires `#zone:read` for the API token.
   - `webhook`: _Optional._ Webhook for update
     - `run`: _Optional._ Fired before update run.
     - `success`: _Optional._ Fired after update success.
@@ -119,7 +121,7 @@ It supports YAML with `.yaml`, `.yml`, JSON with `.json` and JavaScript file tha
       `(status: string, data?: unknown) => Promise<Record<string, unknown> | undefined> | Record<string, unknown> | undefined`.
       `status` can be `run`, `success`, `failure`.
       `data` is `undefined` for `run`, Cloudflare response result for `success` and `CloudflareApiError` for `failure`.
-- `ipv4` & `ipv6`: List of IP echo services to be used. It support JSON, INI and plain text response.
+- `ipv4` & `ipv6`: List of IP echo services to be used. It supports JSON, INI and plain text responses.
 
 **JSON response**
 
@@ -152,7 +154,7 @@ ip=1.1.1.1
 visit_scheme=https
 ```
 
-- `fields`: It is the location of IP address in the response.
+- `fields`: The field(s) of the IP address(es) in the response.
 
 **Plain text response**
 
@@ -162,7 +164,7 @@ url: https://ipv4.example.com
 trim: false
 ```
 
-- `trim`: _Optional_ Trim the response text if `true`. Default to `false`.
+- `trim`: _Optional._ Trim the response text. Defaults to `false`.
 
 **Full Configuration**
 
@@ -214,7 +216,8 @@ const config = {
   api: "https://api.cloudflare.com/client/v4/",
   logLevel: "info",
   auth: {
-    scopedToken: "QPExdfoNLwndJPDbt4nK1-yF1z_srC8D0m6-Gv_h"
+    scopedToken: "QPExdfoNLwndJPDbt4nK1-yF1z_srC8D0m6-Gv_h",
+    email: "foo@bar.com"
   },
   domains: [
     {
@@ -262,9 +265,9 @@ module.exports = config;
 
 #### Environment Variables
 
-> Configuration through environment variables is legacy support. For all the new features, you need to use configuration file.
+> Configuration through environment variables is legacy. For all the new features, you need to use configuration file.
 
-> If configuration file is found, environment variables are ignored.
+> If a configuration file is found, environment variables are ignored.
 
 | Parameters   | Default           | Description                                                                                                                |
 | ------------ | ----------------- | -------------------------------------------------------------------------------------------------------------------------- |
@@ -272,49 +275,49 @@ module.exports = config;
 | \*HOST       |                   | DNS record to be updated, e.g. `example.com`, `subdomain.example.com`.                                                     |
 | \*EMAIL      |                   | Cloudflare Email                                                                                                           |
 | \*API        |                   | Cloudflare API key                                                                                                         |
-| PROXY        | true              | Whether the record is receiving the performance and security benefits of Cloudflare. `true` to enable; `false` to disable. |
+| PROXY        | true              | Whether the record is receiving the performance and security benefits of Cloudflare. |
 | FORCE_CREATE |                   | When set, a record will be created if one does not exist already.                                                          |
 | IPV6         |                   | When set, update IPv6 instead of IPv4.                                                                                     |
 | PUID         |                   | User ID used by the script.                                                                                                |
 | PGID         |                   | Group ID used by the script.                                                                                               |
 | CRON         | \*\/5 \* \* \* \* | DDNS update schedule.                                                                                                      |
 
-\* These parameters are required.
+"\*" - Required parameter
 
 [schema]: ./src/config/config.schema.json
 
 ## Migration
 
-To migrate from 1.X, there is nothing to needed to be updated. However, note that `RUNONCE` is not supported any more. You can override entry point instead. `TTL` is no longer supported as Cloudflare does not allow to change it anymore.
+To migrate from 1.X, there is nothing required to update. However, note that `RUNONCE` is not supported any more. You can override the entry point instead. `TTL` is no longer supported as Cloudflare does not allow to change it any more.
 
 ## Frequently Asked Questions
 
-**Q. Why do you move your image from joshuaavalon/docker-cloudflare to joshava/cloudflare-ddns?**
+**Q. Why did you move your image from joshuaavalon/docker-cloudflare to joshava/cloudflare-ddns?**
 
 A. There are several reasons for me to make this decision.
 
-First, DockerHub automatic build service is bad. Not only it is slow, it does not support multiple build well.
+First, DockerHub's automatic build service is bad. Not only it is slow, it does not support multiple build well.
 The rebuild on upstream image updated does not even work. so I have to move to a CI service.
 
 However, DockerHub does not support access token (seriously?) which means you have to put your DockerHub password on the CI service. I do not want to risk leaking my account password so I create a bot account for CI usage.
 
-Furthermore, DockerHub personal account does not support collaborators. so, I have to create a organize account or convert my account to organize. Because I want to keep my current account, so I create `joshava` (because I am poor at naming things 🤷‍♂️).
+Furthermore, DockerHub's personal account does not support collaborators. so, I had to create a organization account or convert my account to "organization". Because I want to keep my current account, so I created `joshava` (because I am bad at naming things 🤷‍♂️).
 
-**Q. How do I run this on Raspberry Pi?**
+**Q. How do I run this on a Raspberry Pi?**
 
-A. Use image with `arm32v6` tags.
+A. Use image with `arm32v6` tags. _Outdated_
 
-**Q. Why do you stop using bash script?**
+**Q. Why did you stop using bash?**
 
-A. It will be too complex to implement all the new features in bash script.
+A. It will be very hard to implement new features in bash.
 
-**Q. Why do not you use \<other language\>?**
+**Q. Can you use \<other language\>?**
 
-A. Other scripting language I know is TypeScript and Python. While Python is a good choice, I like static typings for type hint in IDE. Typing in Python is very incomplete and many libraries does not support it. On the other hand, there are much more JavaScript libraries that have TypeScript definitions.
+A. No, I only know TypeScript and Python. While Python is a good choice, I like static types and hints in my IDE. Typing in Python is very incomplete and a lot of libraries that I want in my script don't exist. On the other hand, there are a lot more JavaScript libraries that have TypeScript definitions.
 
-**Q. Why do you support \<other format\> for configuration file?**
+**Q. Why don't you support \<other format\> for the configuration file?**
 
-A. You can open a feature request. If many people votes for it, I may consider it.
+A. You can open a pull request. If a lot people votes for it, I may consider it.
 
 [actions-badge]: https://github.com/joshuaavalon/docker-cloudflare/workflows/Main/badge.svg
 [actions]: https://github.com/joshuaavalon/docker-cloudflare/actions
