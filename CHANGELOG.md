@@ -1,3 +1,10 @@
+## [2.9.3](https://github.com/joshuaavalon/docker-cloudflare/compare/2.9.2...2.9.3) (2022-10-22)
+
+
+### Bug Fixes
+
+* restart container cause multiple cron entry. ([424f576](https://github.com/joshuaavalon/docker-cloudflare/commit/424f576292f4323f167ac25748f66bae37194e77)), closes [#65](https://github.com/joshuaavalon/docker-cloudflare/issues/65)
+
 ## [2.9.2](https://github.com/joshuaavalon/docker-cloudflare/compare/2.9.1...2.9.2) (2022-02-07)
 
 
