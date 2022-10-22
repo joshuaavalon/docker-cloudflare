@@ -1,5 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 echo "Setting crontab to ${CRON}"
-echo "${CRON} /app/cloudflare.sh" >> /etc/crontabs/root
+# Delete last line
+sed -i '$ d' /etc/crontabs/root
+echo -e "${CRON} /app/cloudflare.sh" >> /etc/crontabs/root
 chmod 600 /etc/crontabs/root
