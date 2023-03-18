@@ -1,19 +1,24 @@
+import { Type } from "@sinclair/typebox";
+import { get, isString } from "lodash-es";
+
 import type { IpEchoFunction } from "@cloudflare-ddns/ip-echo-parser";
-import lodash from "lodash";
 
-import optionsSchema from "./options.schema.json";
+export const schema = Type.Object(
+  {
+    fields: Type.Array(Type.String())
+  },
+  {
+    $id: "https://joshuaavalon.github.io/docker-cloudflare/ip-echo-parser-json/options.schema.json",
+    additionalProperties: false
+  }
+);
 
-interface Options {
-  fields: string[];
-}
-
-export const parser: IpEchoFunction<Options> = async (echo, opts) => {
+export const parser: IpEchoFunction<typeof schema> = async (echo, opts) => {
   const { fields } = opts;
   const data = JSON.parse(echo);
-  const ip = lodash.get(data, fields);
-  if (!lodash.isString(ip)) {
+  const ip = get(data, fields);
+  if (!isString(ip)) {
     throw new Error(`Expect ${fields.join(".")} to be string. Actual: ${ip}`);
   }
   return ip;
 };
-export const schema = optionsSchema;

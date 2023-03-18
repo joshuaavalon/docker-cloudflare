@@ -1,0 +1,2 @@
+spec:
+  - ./packages/**/lib/**/__tests__/*.spec.js

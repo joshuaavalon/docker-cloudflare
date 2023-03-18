@@ -1,12 +1,18 @@
+import { Type } from "@sinclair/typebox";
+
 import type { IpEchoFunction } from "@cloudflare-ddns/ip-echo-parser";
 
-import optionsSchema from "./options.schema.json";
+export const schema = Type.Object(
+  {
+    field: Type.String()
+  },
+  {
+    $id: "https://joshuaavalon.github.io/docker-cloudflare/ip-echo-parser-ini/options.schema.json",
+    additionalProperties: false
+  }
+);
 
-interface Options {
-  field: string;
-}
-
-export const parser: IpEchoFunction<Options> = async (echo, opts) => {
+export const parser: IpEchoFunction<typeof schema> = async (echo, opts) => {
   const { field } = opts;
   for (const line of echo.split("\n")) {
     const result = /(?<key>.+?)=(?<value>.+)/u.exec(line);
@@ -16,4 +22,3 @@ export const parser: IpEchoFunction<Options> = async (echo, opts) => {
   }
   throw new Error(`Cannot find field (${field})`);
 };
-export const schema = optionsSchema;

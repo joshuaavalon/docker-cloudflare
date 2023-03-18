@@ -1,6 +1,7 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios from "axios";
 
-import { ApiResponse, ListParameter } from "./model";
+import type { AxiosRequestConfig, AxiosResponse } from "axios";
+import type { ApiResponse, ListParameter } from "./model.js";
 
 export const axiosInstance = axios.create({
   baseURL: "https://api.cloudflare.com/client/v4/",

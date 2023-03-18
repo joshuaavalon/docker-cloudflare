@@ -4,33 +4,23 @@ on:
     branches:
       - master
 jobs:
-  release:
+  release-please:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: google-github-actions/release-please-action@v3
+        id: release
         with:
-          node-version: 14.x
-      - name: Install npm@7
-        run: npm install -g npm@latest
-      - name: Install script dependencies
-        run: npm install
-      - name: Release to GitHub
-        run: npm run release
-        env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
-          GIT_AUTHOR_NAME: ${{ secrets.GIT_COMMITTER_NAME }}
-          GIT_AUTHOR_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
-          GIT_COMMITTER_NAME: ${{ secrets.GIT_COMMITTER_NAME }}
-          GIT_COMMITTER_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          release-type: node
   page:
     name: GitHub Page
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: mkdir ./public
-      - run: cp ./packages/config/src/config.schema.json ./public
+      - run: npm run --workspace @cloudflare-ddns/config generate
+      - run: cp ./packages/config/lib/config.schema.json ./public
       - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

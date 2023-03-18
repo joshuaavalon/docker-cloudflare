@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=node:16-alpine
+ARG BASE_IMAGE=node:18-alpine
 ARG OVERLAY_VERSION=v2.2.0.1
 
 FROM $BASE_IMAGE as builder
@@ -10,7 +10,7 @@ COPY packages /app/packages/
 COPY package.json tsconfig.json package-lock.json /app/
 
 RUN npm ci && \
-    npm run build --workspaces -- --declaration false --sourceMap false && \
+    npm run build && \
     rm -rf packages/*/lib/__tests__
 
 RUN mkdir /packages && \

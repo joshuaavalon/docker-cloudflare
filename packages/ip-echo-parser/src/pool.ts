@@ -1,11 +1,11 @@
 class ParserPool {
-  alias: Record<string, string>;
+  private alias: Record<string, string>;
 
-  constructor() {
+  public constructor() {
     this.alias = {};
   }
 
-  register(resolve: string, alias?: string): void {
+  public register(resolve: string, alias?: string): void {
     this.addAlias(resolve, resolve);
     if (alias) {
       this.addAlias(alias, resolve);
@@ -24,7 +24,7 @@ class ParserPool {
     this.alias[resolve] = value;
   }
 
-  get(resolve: string): string {
+  public get(resolve: string): string {
     if (!(resolve in this.alias)) {
       throw new Error(`${resolve} is not registered`);
     }

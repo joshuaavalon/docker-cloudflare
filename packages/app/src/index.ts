@@ -1,20 +1,14 @@
-import _ from "lodash";
+import { get, omit } from "lodash-es";
 import axios from "axios";
-import {
-  Config,
-  Domain,
-  isGlobalAuth,
-  readConfig
-} from "@cloudflare-ddns/config";
-import { createLogger } from "@cloudflare-ddns/log";
+import pino from "pino";
+import { readConfig } from "@cloudflare-ddns/config";
 import { registerParser } from "@cloudflare-ddns/ip-echo-parser";
+import { fetchIPv4, fetchIPv6 } from "./ip.js";
+import { updateDns } from "./api.js";
+import { getConfigFilePath } from "./env.js";
 
-import { fetchIPv4, fetchIPv6 } from "./ip";
-import { updateDns } from "./api";
-import { Context } from "./context";
-import { getConfigFilePath } from "./env";
-
-import type { WebhookFormatter } from "@cloudflare-ddns/config";
+import type { Config, Domain, WebhookFormatter } from "@cloudflare-ddns/config";
+import type { Context } from "./context.js";
 
 const updateDomain = async (ctx: Context, domain: Domain): Promise<unknown> => {
   const { config, logger } = ctx;
@@ -44,7 +38,7 @@ const requestWebhook = async (
       await axios.get(url);
     }
   } catch (e) {
-    logger.warn(`Fail to fetch ${url}.\n${_.get(e, "message", e)}`);
+    logger.warn(`Fail to fetch ${url}.\n${get(e, "message", e)}`);
   }
 };
 
@@ -63,7 +57,7 @@ const updateDnsRecords = async (ctx: Context): Promise<void> => {
       const failureMessage = await formatter("failure", e);
       await requestWebhook(ctx, webhook?.failure, failureMessage);
       logger.error(
-        `Failed to update ${domain.name}. (${_.get(e, "message", e)})`
+        `Failed to update ${domain.name}. (${get(e, "message", e)})`
       );
     }
   });
@@ -72,16 +66,9 @@ const updateDnsRecords = async (ctx: Context): Promise<void> => {
 
 const printConfig = (ctx: Context): void => {
   const { config, logger } = ctx;
-  const cloneConfig = _.omit(config, ["auth"]);
+  const cloneConfig = omit(config, ["auth"]);
   const configStr = JSON.stringify(cloneConfig, null, 2);
   logger.debug(`Running with the following configuration:\n${configStr}`);
-};
-
-const warnGlobalApiKey = (ctx: Context): void => {
-  const { config, logger } = ctx;
-  if (isGlobalAuth(config.auth)) {
-    logger.warn("Global API key is depreciated. Please use API token instead.");
-  }
 };
 
 const registerParsers = (config: Config): void => {
@@ -90,23 +77,21 @@ const registerParsers = (config: Config): void => {
   );
 };
 
-const main = async (): Promise<void> => {
+export const main = async (): Promise<void> => {
   const configPath = getConfigFilePath();
+  const logLevel = process.env.CF_DNS_LOG_LEVEL ?? "info";
+  const logger = pino.default({ level: logLevel });
   const config = await readConfig(configPath);
-  const logger = createLogger(config.logLevel);
   try {
     const ctx: Context = { config, logger };
     logger.info("Cloudflare DDNS start");
     registerParsers(config);
     printConfig(ctx);
-    warnGlobalApiKey(ctx);
     await updateDnsRecords(ctx);
   } catch (e) {
-    logger.error(_.get(e, "message", e));
+    logger.error(get(e, "message", e));
     process.exitCode = 1;
   } finally {
     logger.info("Cloudflare DDNS end");
   }
 };
-
-main();

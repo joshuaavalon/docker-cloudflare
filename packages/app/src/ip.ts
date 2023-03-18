@@ -1,11 +1,11 @@
-import _ from "lodash";
+import { get } from "lodash-es";
 import axios from "axios";
 import { isIPv4, isIPv6 } from "net";
-import { IpEcho } from "@cloudflare-ddns/config";
 import { getParser } from "@cloudflare-ddns/ip-echo-parser";
 import { verifySchema } from "@cloudflare-ddns/schema";
 
-import { Context } from "./context";
+import type { IpEcho } from "@cloudflare-ddns/config";
+import type { Context } from "./context.js";
 
 interface CheckIp {
   (ip: string): void;
@@ -42,7 +42,7 @@ const fetchIP =
         return ip;
       } catch (e) {
         ctx.logger.warn(
-          `Fail to fetch ip from ${url}. (${_.get(e, "message", e)})`
+          `Fail to fetch ip from ${url}. (${get(e, "message", e)})`
         );
       }
     }

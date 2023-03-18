@@ -2,16 +2,12 @@
   "name": "@cloudflare-ddns/app",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "private": true,
-  "main": "./lib/index.js",
-  "typings": "./src/index.ts",
   "files": [
     "lib"
   ],
-  "scripts": {
-    "prebuild": "rimraf lib",
-    "build": "tsc"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/joshuaavalon/docker-cloudflare.git",
@@ -21,25 +17,31 @@
     "ddns",
     "cloudflare"
   ],
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "types": "./src/index.ts"
+    }
+  },
   "author": "Joshua Avalon",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/joshuaavalon/docker-cloudflare/issues"
   },
   "homepage": "https://github.com/joshuaavalon/docker-cloudflare/packages/app#readme",
-  "devDependencies": {
-    "@types/lodash": "^4.14.175"
-  },
   "dependencies": {
+    "@cloudflare-ddns/api": "^1.0.0",
     "@cloudflare-ddns/config": "^1.0.0",
-    "@cloudflare-ddns/log": "^1.0.0",
     "@cloudflare-ddns/ip-echo-parser": "^1.0.0",
     "@cloudflare-ddns/ip-echo-parser-ini": "^1.0.0",
     "@cloudflare-ddns/ip-echo-parser-json": "^1.0.0",
     "@cloudflare-ddns/ip-echo-parser-text": "^1.0.0",
     "@cloudflare-ddns/schema": "^1.0.0",
-    "@cloudflare-ddns/api": "^1.0.0",
-    "axios": "^0.24.0",
-    "lodash": "^4.17.21"
+    "axios": "^1.3.4",
+    "lodash-es": "^4.17.21",
+    "pino": "^8.11.0"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.7"
   }
 }

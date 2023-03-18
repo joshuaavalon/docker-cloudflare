@@ -1,27 +1,45 @@
-import lodash from "lodash";
+import { isFunction } from "lodash-es";
+import { pool } from "./pool.js";
+import { TypeGuard } from "@sinclair/typebox/guard";
 
-import { pool } from "./pool";
+import type { Static, TSchema } from "@sinclair/typebox";
 
-export interface IpEchoFunction<T = void> {
-  (echo: string, opts: T): Promise<string>;
+export interface IpEchoFunction<T extends TSchema> {
+  (echo: string, opts: Static<T>): Promise<string>;
 }
 
-export interface IpEchoPackage<T = void> {
+export interface IpEchoPackage<T extends TSchema> {
   parser: IpEchoFunction<T>;
-  schema?: Record<string, unknown>;
+  schema?: T;
 }
 
-const isIpEchoFunction = (parser: unknown): parser is IpEchoFunction =>
-  lodash.isFunction(parser);
-
-const isSchema = (schema: unknown): boolean =>
-  lodash.isUndefined(schema) || lodash.isObject(schema);
-
-export const isIpEchoPackage = (pkg: unknown): pkg is IpEchoPackage<any> => {
-  if (!lodash.isObject(pkg)) {
+function isObject(value: unknown): value is Record<keyof any, unknown> {
+  if (typeof value !== "object") {
     return false;
   }
-  return isIpEchoFunction(pkg["parser"]) && isSchema(pkg["schema"]);
+
+  if (Array.isArray(value)) {
+    return false;
+  }
+
+  if (!value) {
+    return false;
+  }
+
+  return true;
+}
+
+const isIpEchoFunction = <T extends TSchema>(
+  parser: unknown
+): parser is IpEchoFunction<T> => isFunction(parser);
+
+export const isIpEchoPackage = <T extends TSchema>(
+  pkg: unknown
+): pkg is IpEchoPackage<T> => {
+  if (!isObject(pkg)) {
+    return false;
+  }
+  return isIpEchoFunction<T>(pkg["parser"]) && TypeGuard.TSchema(pkg["schema"]);
 };
 
 export const getParser = async (

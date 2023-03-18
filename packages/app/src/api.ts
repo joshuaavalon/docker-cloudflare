@@ -4,11 +4,12 @@ import {
   listZones,
   updateDNSRecords
 } from "@cloudflare-ddns/api";
-import _ from "lodash";
-import { Domain, isZoneIdDomain } from "@cloudflare-ddns/config";
+import { first } from "lodash-es";
+import { parseZoneName } from "@cloudflare-ddns/config";
+import { CloudflareApiError, CloudflareError, wrapError } from "./error.js";
 
-import { Context } from "./context";
-import { CloudflareApiError, CloudflareError, wrapError } from "./error";
+import type { Domain } from "@cloudflare-ddns/config";
+import type { Context } from "./context.js";
 
 interface Record {
   domain: Domain;
@@ -17,11 +18,12 @@ interface Record {
 
 const getZoneId = async (ctx: Context, record: Record): Promise<string> => {
   const { domain } = record;
-  if (isZoneIdDomain(domain)) {
+  if (domain.zoneId) {
     return domain.zoneId;
   }
   const { auth, api: baseURL } = ctx.config;
-  const { zoneName: name } = domain;
+  const { zoneName } = domain;
+  const name = zoneName ? zoneName : parseZoneName(domain.name);
   try {
     const res = await listZones({
       auth,
@@ -32,7 +34,7 @@ const getZoneId = async (ctx: Context, record: Record): Promise<string> => {
     if (!success || !result) {
       throw new CloudflareApiError(errors);
     }
-    const zoneId = _.first(result)?.id;
+    const zoneId = first(result)?.id;
     if (!zoneId) {
       throw new CloudflareError("No match zone found");
     }
@@ -69,7 +71,7 @@ const getDNSRecord = async (
     if (!success || !result) {
       throw new CloudflareApiError(errors);
     }
-    return _.first(result);
+    return first(result);
   } catch (e) {
     throw wrapError(e);
   }

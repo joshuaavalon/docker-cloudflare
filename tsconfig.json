@@ -1,21 +1,22 @@
 {
   "compilerOptions": {
-    "target": "es2018",
-    "module": "CommonJS",
+    "target": "es2021",
+    "module": "NodeNext",
+    "lib": ["esnext"],
     "declaration": true,
     "sourceMap": true,
-    "lib": ["es2018"],
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "noUnusedParameters": true,
-    "noUnusedLocals": true,
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "moduleResolution": "NodeNext",
+    "allowJs": false,
+    "isolatedModules": true,
+    "composite": true
   }
 }
