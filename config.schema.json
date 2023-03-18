@@ -1,173 +1,222 @@
 {
+  "title": "Config",
   "$id": "https://joshuaavalon.github.io/docker-cloudflare/config.schema.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "description": "Configuration for docker-cloudflare",
+  "additionalProperties": false,
   "type": "object",
   "properties": {
     "api": {
-      "type": "string",
-      "description": "Cloudflare V4 API url. Default to \"https://api.cloudflare.com/client/v4/\"."
-    },
-    "logLevel": {
-      "type": "string",
-      "description": "Level of logging. Default to \"info\""
+      "description": "Cloudflare V4 API url. Default to \"https://api.cloudflare.com/client/v4/\".",
+      "default": "https://api.cloudflare.com/client/v4/",
+      "type": "string"
     },
     "auth": {
+      "title": "ScopedAuth",
       "description": "Authentication used to interact with API.",
-      "oneOf": [
-        { "$ref": "#/definitions/scopedAuth" },
-        { "$ref": "#/definitions/globalAuth" }
-      ]
-    },
-    "domains": {
-      "type": "array",
-      "description": "List of domains to be updated.",
-      "items": {
-        "$ref": "#/definitions/domain"
-      }
-    },
-    "ipv4": {
-      "type": "array",
-      "description": "List of IP echo service that returns IPv4.",
-      "items": {
-        "$ref": "#/definitions/ipEcho"
-      }
-    },
-    "ipv6": {
-      "type": "array",
-      "description": "List of IP echo service that returns IPv6.",
-      "items": {
-        "$ref": "#/definitions/ipEcho"
-      }
-    },
-    "echoParsers": {
-      "type": "array",
-      "description": "List of IP echo parsers that parses the response from IP echoing service.",
-      "items": {
-        "$ref": "#/definitions/ipEchoParser"
-      }
-    }
-  },
-  "required": ["auth", "domains"],
-  "additionalProperties": false,
-  "definitions": {
-    "globalAuth": {
-      "type": "object",
-      "properties": {
-        "email": {
-          "type": "string",
-          "format": "email",
-          "description": "DEPRECIATED. Email address associated with your Cloudflare account."
-        },
-        "globalToken": {
-          "type": "string",
-          "description": "DEPRECIATED. API key generated on the \"My Account\" page."
-        }
-      },
-      "required": ["email", "globalToken"],
-      "additionalProperties": false
-    },
-    "scopedAuth": {
+      "additionalProperties": false,
       "type": "object",
       "properties": {
         "scopedToken": {
-          "type": "string",
-          "description": "API Token generated from the User Profile 'API Tokens' page."
+          "description": "API Token generated from the User Profile 'API Tokens' page.",
+          "type": "string"
         }
       },
-      "required": ["scopedToken"],
-      "additionalProperties": false
+      "required": [
+        "scopedToken"
+      ]
     },
-    "domain": {
-      "type": "object",
-      "description": "Domain name that needed to be update",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Domain name that to be updated."
+    "domains": {
+      "description": "List of domains to be updated.",
+      "type": "array",
+      "items": {
+        "title": "Domain",
+        "description": "Domain name that needed to be update",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Domain name that to be updated.",
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "description": "Dns record type. Default to A.",
+            "default": "A",
+            "enum": [
+              "A",
+              "AAAA"
+            ]
+          },
+          "proxied": {
+            "description": "Whether the record is receiving the performance and security benefits of Cloudflare. Default to true.",
+            "default": true,
+            "type": "boolean"
+          },
+          "create": {
+            "description": "Create record if it does not exits. Default to false.",
+            "default": false,
+            "type": "boolean"
+          },
+          "zoneId": {
+            "description": "Zone ID of the domain to be updated.",
+            "type": "string"
+          },
+          "zoneName": {
+            "description": "Base domain of the domain to be updated.",
+            "type": "string"
+          },
+          "webhook": {
+            "title": "Webhook",
+            "description": "Fired during the update.",
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+              "run": {
+                "description": "Fired before update run.",
+                "type": "string"
+              },
+              "success": {
+                "description": "Fired after update success.",
+                "type": "string"
+              },
+              "failure": {
+                "description": "Fired after update failure.",
+                "type": "string"
+              },
+              "formatter": {
+                "instanceof": "function",
+                "description": "Format message"
+              }
+            }
+          }
         },
-        "type": {
-          "type": "string",
-          "enum": ["A", "AAAA"],
-          "description": "Dns record type. Default to A."
-        },
-        "proxied": {
-          "type": "boolean",
-          "description": "Whether the record is receiving the performance and security benefits of Cloudflare. Default to true."
-        },
-        "create": {
-          "type": "boolean",
-          "description": "Create record if it does not exits. Default to false."
-        },
-        "zoneId": {
-          "type": "string",
-          "description": "Zone ID of the domain to be updated."
-        },
-        "zoneName": {
-          "type": "string",
-          "description": "Base domain of the domain to be updated."
-        },
-        "webhook": {
-          "$ref": "#/definitions/webhook",
-          "description": "Webhook for DNS update."
-        }
-      },
-      "required": ["name"],
-      "additionalProperties": false
+        "required": [
+          "name",
+          "type",
+          "proxied",
+          "create"
+        ]
+      }
     },
-    "ipEcho": {
-      "type": "object",
-      "description": "IP echo service",
-      "properties": {
-        "type": {
-          "type": "string",
-          "description": "Name or alias of an IP echo parser."
+    "ipv4": {
+      "description": "List of IP echo service that returns IPv4.",
+      "default": [
+        {
+          "type": "ini",
+          "url": "https://1.1.1.1/cdn-cgi/trace",
+          "field": "ip"
         },
-        "url": {
-          "type": "string",
-          "description": "Url of the IP echo service."
+        {
+          "type": "json",
+          "url": "https://api.ipify.org?format=json",
+          "fields": [
+            "ip"
+          ]
         }
-      },
-      "required": ["type", "url"]
+      ],
+      "type": "array",
+      "items": {
+        "title": "IpEcho",
+        "description": "IP echo service",
+        "type": "object",
+        "properties": {
+          "type": {
+            "description": "Name or alias of an IP echo parser.",
+            "type": "string"
+          },
+          "url": {
+            "description": "Url of the IP echo service.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "url"
+        ]
+      }
     },
-    "ipEchoParser": {
-      "type": "object",
-      "description": "Parser that parses the response from IP echoing service.",
-      "properties": {
-        "resolve": {
-          "type": "string",
-          "description": "Name of the JavaScript package."
+    "ipv6": {
+      "description": "List of IP echo service that returns IPv6.",
+      "default": [
+        {
+          "type": "ini",
+          "url": "https://[2606:4700:4700::1111]/cdn-cgi/trace",
+          "field": "ip"
         },
-        "alias": {
-          "type": "string",
-          "description": "Alias of the JavaScript package. Must be unique from other parsers' alias and name."
+        {
+          "type": "json",
+          "url": "https://api6.ipify.org?format=json",
+          "fields": [
+            "ip"
+          ]
         }
-      },
-      "required": ["resolve"],
-      "additionalProperties": false
+      ],
+      "type": "array",
+      "items": {
+        "title": "IpEcho",
+        "description": "IP echo service",
+        "type": "object",
+        "properties": {
+          "type": {
+            "description": "Name or alias of an IP echo parser.",
+            "type": "string"
+          },
+          "url": {
+            "description": "Url of the IP echo service.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "url"
+        ]
+      }
     },
-    "webhook": {
-      "type": "object",
-      "description": "Fired during the update.",
-      "properties": {
-        "run": {
-          "type": "string",
-          "description": "Fired before update run."
+    "echoParsers": {
+      "description": "List of IP echo parsers that parses the response from IP echoing service.",
+      "default": [
+        {
+          "resolve": "@cloudflare-ddns/ip-echo-parser-ini",
+          "alias": "ini"
         },
-        "success": {
-          "type": "string",
-          "description": "Fired after update success."
+        {
+          "resolve": "@cloudflare-ddns/ip-echo-parser-json",
+          "alias": "json"
         },
-        "failure": {
-          "type": "string",
-          "description": "Fired after update failure."
-        },
-        "formatter": {
-          "instanceOf": "Function",
-          "description": "Format message"
+        {
+          "resolve": "@cloudflare-ddns/ip-echo-parser-text",
+          "alias": "text"
         }
-      },
-      "additionalProperties": false
+      ],
+      "type": "array",
+      "items": {
+        "title": "IpEchoParser",
+        "description": "Parser that parses the response from IP echoing service.",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "resolve": {
+            "description": "Name of the JavaScript package.",
+            "type": "string"
+          },
+          "alias": {
+            "description": "Alias of the JavaScript package. Must be unique from other parsers' alias and name.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "resolve"
+        ]
+      }
     }
-  }
+  },
+  "required": [
+    "api",
+    "auth",
+    "domains",
+    "ipv4",
+    "ipv6",
+    "echoParsers"
+  ]
 }
