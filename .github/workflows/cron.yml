@@ -1,0 +1,33 @@
+name: cron
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/stale@v7
+        with:
+          stale-issue-message: "Issues are closed after 30 days of inactivity. It’s been at least 20 days since the last update here."
+          stale-pr-message: "Pull requests are closed after 30 days of inactivity. It’s been at least 20 days since the last update here."
+          days-before-stale: 20
+          days-before-close: 10
+          exempt-issue-labels: not stale
+          exempt-pr-labels: not stale
+          stale-issue-label: stale
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - uses: joshuaavalon/ghcr-cleanup-action@v0.0.3
+        with:
+          username: joshuaavalon
+          name: cloudflare-ddns
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          pattern: "^sha-"
+          expire: 30

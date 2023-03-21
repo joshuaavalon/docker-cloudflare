@@ -33,7 +33,7 @@
     "@types/lodash-es": "^4.17.7"
   },
   "dependencies": {
-    "@sinclair/typebox": "^0.25.24",
-    "lodash-es": "^4.17.21"
+    "@sinclair/typebox": "0.25.24",
+    "lodash-es": "4.17.21"
   }
 }

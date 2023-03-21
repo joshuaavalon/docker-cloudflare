@@ -25,14 +25,13 @@ ARG TARGETARCH
 
 WORKDIR /app
 
+ENV NPM_CONFIG_PREFIX=/app/.npm
 ENV CLOUDFLARE_CONFIG=/app/config.yaml
-ENV PUID=1001
-ENV PGID=1001
 ENV NODE_ENV=production
 ENV CRON='*/5 * * * *'
 
 COPY --from=builder /packages /app/packages/
-COPY package.json package-lock.json /app/
+COPY package.json package-lock.json index.mjs /app/
 COPY docker/root/ /
 
 RUN chmod +x /app/cloudflare.sh
@@ -46,12 +45,7 @@ RUN apk add --no-cache --virtual=build-dependencies curl tar && \
     curl -L "https://github.com/just-containers/s6-overlay/releases/download/${OVERLAY_VERSION}/s6-overlay-${OVERLAY_ARCH}.tar.gz" | tar xz -C / && \
     apk del --purge build-dependencies
 
-RUN npm install -g npm@latest && \
-    npm ci
-
-RUN apk add --no-cache shadow && \
-    useradd -u 1001 -U -d /config -s /bin/false abc && \
-    usermod -G users abc
+RUN npm ci
 
 ENV ZONE=
 ENV HOST=

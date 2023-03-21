@@ -1,24 +1,28 @@
-name: Release
+name: release
 on:
   push:
     branches:
       - master
 jobs:
   release-please:
-    name: Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - uses: google-github-actions/release-please-action@v3
         id: release
         with:
-          token: ${{ secrets.PERSONAL_TOKEN }}
           release-type: node
   page:
-    name: GitHub Page
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
       - run: mkdir ./public
+      - run: npm ci
+      - run: npm run build
       - run: npm run --workspace @cloudflare-ddns/config generate
       - run: cp ./packages/config/lib/config.schema.json ./public
       - uses: peaceiris/actions-gh-pages@v3

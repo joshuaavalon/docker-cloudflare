@@ -30,6 +30,6 @@
   },
   "homepage": "https://github.com/joshuaavalon/docker-cloudflare/packages/schema#readme",
   "dependencies": {
-    "@sinclair/typebox": "^0.25.24"
+    "@sinclair/typebox": "0.25.24"
   }
 }
