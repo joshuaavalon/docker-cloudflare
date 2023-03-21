@@ -5,6 +5,33 @@
 
 * restart container cause multiple cron entry. ([424f576](https://github.com/joshuaavalon/docker-cloudflare/commit/424f576292f4323f167ac25748f66bae37194e77)), closes [#65](https://github.com/joshuaavalon/docker-cloudflare/issues/65)
 
+## [3.0.0](https://github.com/joshuaavalon/docker-cloudflare/compare/2.9.3...v3.0.0) (2023-03-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* update config schema
+* change environment variables naming
+* use ESM module & Node.js 18
+* refactor code base
+
+### Features
+
+* change environment variables naming ([0f5c9ad](https://github.com/joshuaavalon/docker-cloudflare/commit/0f5c9ad7d2bfcc43222c6014c42658f1070b18be))
+* refactor code base ([768cdd9](https://github.com/joshuaavalon/docker-cloudflare/commit/768cdd9115989659a4c5bab31616cd6b464b6817))
+* replace winston with pino ([0f5c9ad](https://github.com/joshuaavalon/docker-cloudflare/commit/0f5c9ad7d2bfcc43222c6014c42658f1070b18be))
+* update config schema ([0f5c9ad](https://github.com/joshuaavalon/docker-cloudflare/commit/0f5c9ad7d2bfcc43222c6014c42658f1070b18be))
+
+
+### Bug Fixes
+
+* update dependencies ([0f5c9ad](https://github.com/joshuaavalon/docker-cloudflare/commit/0f5c9ad7d2bfcc43222c6014c42658f1070b18be))
+
+
+### Code Refactoring
+
+* use ESM module & Node.js 18 ([0f5c9ad](https://github.com/joshuaavalon/docker-cloudflare/commit/0f5c9ad7d2bfcc43222c6014c42658f1070b18be))
+
 ## [2.9.2](https://github.com/joshuaavalon/docker-cloudflare/compare/2.9.1...2.9.2) (2022-02-07)
 
 
