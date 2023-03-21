@@ -1,4 +1,6 @@
-import { Api, axiosInstance, createRequestConfig } from "./base";
+import { axiosInstance, createRequestConfig } from "./base.js";
+
+import type { Api } from "./base.js";
 
 interface Parameter {
   match?: "any" | "all";

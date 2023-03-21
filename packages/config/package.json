@@ -2,17 +2,13 @@
   "name": "@cloudflare-ddns/config",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "private": true,
-  "main": "./lib/index.js",
-  "typings": "./src/index.ts",
   "files": [
     "lib"
   ],
   "scripts": {
-    "prebuild": "rimraf lib",
-    "build": "tsc",
-    "test": "jest",
-    "generate": "json2ts src/config.schema.json src/schema.d.ts"
+    "generate": "node script/json-schema.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +19,22 @@
     "ddns",
     "cloudflare"
   ],
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "types": "./src/index.ts"
+    },
+    "./schema": {
+      "import": "./lib/schema/index.js",
+      "types": "./src/schema/index.ts"
+    }
+  },
+  "imports": {
+    "#schema": {
+      "import": "./lib/schema/index.js",
+      "types": "./src/schema/index.ts"
+    }
+  },
   "author": "Joshua Avalon",
   "license": "MIT",
   "bugs": {
@@ -30,12 +42,15 @@
   },
   "homepage": "https://github.com/joshuaavalon/docker-cloudflare/packages/config#readme",
   "devDependencies": {
-    "@types/lodash": "^4.14.175",
-    "json-schema-to-typescript": "^10.1.5"
+    "@types/lodash-es": "^4.17.7",
+    "dotenv": "^16.0.3"
   },
   "dependencies": {
     "@cloudflare-ddns/schema": "^1.0.0",
-    "cosmiconfig": "^7.0.1",
-    "lodash": "^4.17.21"
+    "@sinclair/typebox": "0.25.24",
+    "cosmiconfig": "8.1.3",
+    "lodash-es": "4.17.21",
+    "pino": "8.11.0",
+    "read-env-vars": "1.0.0"
   }
 }

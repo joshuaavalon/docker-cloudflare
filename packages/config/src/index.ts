@@ -1,14 +1,17 @@
-import lodash from "lodash";
+import { readFileConfig } from "./file/index.js";
+import { readEnvConfig } from "./env/index.js";
 
-import { Config } from "./type";
-import { readUserConfig } from "./user-config";
-import { defaultConfig } from "./default-config";
+import type { Config } from "./schema/index.js";
 
 export const readConfig = async (path: string): Promise<Config> => {
-  const userConfig = await readUserConfig(path);
-  return lodash.assignWith(userConfig, defaultConfig, (obj, src) =>
-    lodash.isUndefined(obj) ? src : obj
-  );
+  const fileConfig = await readFileConfig(path);
+  return fileConfig ? fileConfig : readEnvConfig();
 };
 
-export * from "./type";
+export { parseZoneName } from "./utils.js";
+export type {
+  Config,
+  Domain,
+  WebhookFormatter,
+  IpEcho
+} from "./schema/index.js";

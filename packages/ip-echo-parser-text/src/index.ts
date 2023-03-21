@@ -1,14 +1,18 @@
+import { Type } from "@sinclair/typebox";
+
 import type { IpEchoFunction } from "@cloudflare-ddns/ip-echo-parser";
 
-import optionsSchema from "./options.schema.json";
+export const schema = Type.Object(
+  {
+    trim: Type.Boolean({ default: false })
+  },
+  {
+    $id: "https://joshuaavalon.github.io/docker-cloudflare/ip-echo-parser-text/options.schema.json",
+    additionalProperties: false
+  }
+);
 
-interface Options {
-  trim?: boolean;
-}
-
-export const parser: IpEchoFunction<Options> = async (echo, opts) => {
-  const { trim = false } = opts;
+export const parser: IpEchoFunction<typeof schema> = async (echo, opts) => {
+  const { trim } = opts;
   return trim ? echo.trim() : echo;
 };
-
-export const schema = optionsSchema;

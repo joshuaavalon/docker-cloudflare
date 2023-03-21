@@ -2,16 +2,12 @@
   "name": "@cloudflare-ddns/schema",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "private": true,
-  "main": "./lib/index.js",
-  "typings": "./src/index.ts",
   "files": [
     "lib"
   ],
-  "scripts": {
-    "prebuild": "rimraf lib",
-    "build": "tsc"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/joshuaavalon/docker-cloudflare.git",
@@ -21,15 +17,19 @@
     "ddns",
     "cloudflare"
   ],
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "types": "./src/index.ts"
+    }
+  },
   "author": "Joshua Avalon",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/joshuaavalon/docker-cloudflare/issues"
   },
   "homepage": "https://github.com/joshuaavalon/docker-cloudflare/packages/schema#readme",
-  "devDependencies": {},
   "dependencies": {
-    "ajv": "^8.6.3",
-    "ajv-formats": "^2.1.1"
+    "@sinclair/typebox": "0.25.24"
   }
 }

@@ -1,0 +1,13 @@
+{
+  "files": [],
+  "references": [
+    { "path": "api" },
+    { "path": "app" },
+    { "path": "config" },
+    { "path": "ip-echo-parser" },
+    { "path": "ip-echo-parser-ini" },
+    { "path": "ip-echo-parser-json" },
+    { "path": "ip-echo-parser-text" },
+    { "path": "schema" }
+  ]
+}
