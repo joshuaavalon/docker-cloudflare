@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
-echo "Setting crontab to ${CRON}"
+echo "Setting crontab to ${CF_DNS__CRON}"
 # Delete last line
 sed -i '$ d' /etc/crontabs/root
-echo -e "${CRON} /app/cloudflare.sh" >> /etc/crontabs/root
+echo -e "${CF_DNS__CRON} /app/cloudflare.sh" >> /etc/crontabs/root
 chmod 600 /etc/crontabs/root

@@ -26,9 +26,9 @@ ARG TARGETARCH
 WORKDIR /app
 
 ENV NPM_CONFIG_PREFIX=/app/.npm
-ENV CLOUDFLARE_CONFIG=/app/config.yaml
+ENV CF_DNS_CONFIG=/app/config.yaml
 ENV NODE_ENV=production
-ENV CRON='*/5 * * * *'
+ENV CF_DNS__CRON='*/5 * * * *'
 
 COPY --from=builder /packages /app/packages/
 COPY package.json package-lock.json index.mjs /app/
