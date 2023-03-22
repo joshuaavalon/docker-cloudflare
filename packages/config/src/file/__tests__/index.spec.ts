@@ -28,4 +28,23 @@ describe("file-config", () => {
     assert.strictEqual(domain.proxied, true, "domain.proxied");
     assert.strictEqual(domain.create, false, "domain.create");
   });
+  it("minimal.cjs", async () => {
+    const path = getConfigPath("minimal.cjs");
+    const config = await readFileConfig(path);
+    assert.isNotNull(config);
+    if (!config) {
+      return;
+    }
+    assert.strictEqual(config.auth?.scopedToken, "example", "scopedToken");
+    assert.strictEqual(config.domains?.length, 1, "domains.length");
+    const domain = config.domains?.[0];
+    assert.exists(domain);
+    if (!domain) {
+      return;
+    }
+    assert.strictEqual(domain.name, "example.com", "domain.name");
+    assert.strictEqual(domain.type, "A", "domain.type");
+    assert.strictEqual(domain.proxied, true, "domain.proxied");
+    assert.strictEqual(domain.create, false, "domain.create");
+  });
 });
