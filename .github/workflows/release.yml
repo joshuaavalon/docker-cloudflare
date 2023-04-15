@@ -1,20 +1,22 @@
 name: release
 on:
-  push:
+  pull_request:
     branches:
       - master
+    types:
+      - closed
 jobs:
   release-please:
+    if: "github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'autorelease: pending')"
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
     steps:
       - uses: google-github-actions/release-please-action@v3
         id: release
         with:
+          token: ${{ secrets.PERSONAL_TOKEN }}
           release-type: node
   page:
+    if: "github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'autorelease: pending')"
     runs-on: ubuntu-latest
     permissions:
       contents: write
