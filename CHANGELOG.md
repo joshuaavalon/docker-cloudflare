@@ -5,6 +5,13 @@
 
 * restart container cause multiple cron entry. ([424f576](https://github.com/joshuaavalon/docker-cloudflare/commit/424f576292f4323f167ac25748f66bae37194e77)), closes [#65](https://github.com/joshuaavalon/docker-cloudflare/issues/65)
 
+## [3.0.1](https://github.com/joshuaavalon/docker-cloudflare/compare/v3.0.0...v3.0.1) (2023-04-15)
+
+
+### Bug Fixes
+
+* Update GitHub release action ([0901031](https://github.com/joshuaavalon/docker-cloudflare/commit/0901031ecde10c0567d96dac74e2dd5252160050))
+
 ## [3.0.0](https://github.com/joshuaavalon/docker-cloudflare/compare/2.9.3...v3.0.0) (2023-03-22)
 
 
