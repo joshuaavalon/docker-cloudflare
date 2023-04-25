@@ -1,5 +1,4 @@
 import { get } from "lodash-es";
-import axios from "axios";
 import { isIPv4, isIPv6 } from "net";
 import { getParser } from "@cloudflare-ddns/ip-echo-parser";
 import { verifySchema } from "@cloudflare-ddns/schema";
@@ -25,10 +24,11 @@ const checkIPv6 = (ip: string): void => {
 
 const fetchIpEcho = async (ipEcho: IpEcho): Promise<string> => {
   const { url, type, ...opts } = ipEcho;
-  const res = await axios.get<string>(url, { transformResponse: d => d });
+  const res = await fetch(url);
+  const data = await res.text();
   const { parser, schema } = await getParser(type);
   const validOpts = schema ? await verifySchema(schema, opts) : opts;
-  return parser(res.data, validOpts);
+  return parser(data, validOpts);
 };
 
 const fetchIP =

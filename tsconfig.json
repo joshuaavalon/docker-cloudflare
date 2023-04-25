@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2021",
     "module": "NodeNext",
-    "lib": ["esnext"],
+    "lib": ["esnext", "DOM"],
     "declaration": true,
     "sourceMap": true,
     "forceConsistentCasingInFileNames": true,
