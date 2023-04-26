@@ -188,7 +188,7 @@ domains:
       success: https://example.com/webhook/success
       failure: https://example.com/webhook/failure
 ipv4:
-  - type: json
+  - type: ini
     url: https://1.1.1.1/cdn-cgi/trace
     fields:
       - ip
@@ -197,7 +197,7 @@ ipv4:
     fields:
       - ip
 ipv6:
-  - type: json
+  - type: ini
     url: https://[2606:4700:4700::1111]/cdn-cgi/trace
     fields:
       - ip
