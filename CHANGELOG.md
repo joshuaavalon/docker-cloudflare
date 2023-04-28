@@ -5,6 +5,14 @@
 
 * restart container cause multiple cron entry. ([424f576](https://github.com/joshuaavalon/docker-cloudflare/commit/424f576292f4323f167ac25748f66bae37194e77)), closes [#65](https://github.com/joshuaavalon/docker-cloudflare/issues/65)
 
+## [3.0.1](https://github.com/joshuaavalon/docker-cloudflare/compare/v3.0.0...v3.0.1) (2023-04-28)
+
+
+### Bug Fixes
+
+* Disable npm update message ([c525b68](https://github.com/joshuaavalon/docker-cloudflare/commit/c525b688d37b0f938ebf42c8b5a69bcf7bf04a9c))
+* Fix [#77](https://github.com/joshuaavalon/docker-cloudflare/issues/77) ([216de04](https://github.com/joshuaavalon/docker-cloudflare/commit/216de045291c99c8149cbdb1318026692ec85bb4))
+
 ## [3.0.0](https://github.com/joshuaavalon/docker-cloudflare/compare/2.9.3...v3.0.0) (2023-04-15)
 
 
