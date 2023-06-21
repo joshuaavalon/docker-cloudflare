@@ -4,4 +4,4 @@ import { main } from "@cloudflare-ddns/app";
 
 config();
 const processId = uuid();
-await main();
+await main({ processId });
