@@ -17,8 +17,11 @@ interface Record {
 }
 
 const getZoneId = async (ctx: Context, record: Record): Promise<string> => {
+  const logger = ctx.logger.child({ method: "getZoneId" });
+  logger.debug("Start");
   const { domain } = record;
   if (domain.zoneId) {
+    logger.debug("End");
     return domain.zoneId;
   }
   const { auth, api: baseURL } = ctx.config;
@@ -41,6 +44,8 @@ const getZoneId = async (ctx: Context, record: Record): Promise<string> => {
     return zoneId;
   } catch (e) {
     throw wrapError(e);
+  } finally {
+    logger.debug("End");
   }
 };
 
@@ -58,6 +63,8 @@ const getDNSRecord = async (
   record: Record,
   zoneId: string
 ): Promise<DNSRecord | undefined> => {
+  const logger = ctx.logger.child({ method: "getDNSRecord" });
+  logger.debug("Start");
   const { auth, api: baseURL } = ctx.config;
   const { name, type } = record.domain;
   try {
@@ -74,6 +81,8 @@ const getDNSRecord = async (
     return first(result);
   } catch (e) {
     throw wrapError(e);
+  } finally {
+    logger.debug("End");
   }
 };
 
@@ -83,6 +92,8 @@ const update = async (
   zoneId: string,
   dnsRecord: DNSRecord
 ): Promise<DNSRecord> => {
+  const logger = ctx.logger.child({ method: "update" });
+  logger.debug("Start");
   const { auth, api: baseURL } = ctx.config;
   const { name, type, proxied } = record.domain;
   const { ttl, id: recordId } = dnsRecord;
@@ -101,6 +112,8 @@ const update = async (
     return result;
   } catch (e) {
     throw wrapError(e);
+  } finally {
+    logger.debug("End");
   }
 };
 
@@ -109,6 +122,8 @@ const create = async (
   record: Record,
   zoneId: string
 ): Promise<DNSRecord> => {
+  const logger = ctx.logger.child({ method: "update" });
+  logger.debug("Start");
   const { auth, api: baseURL } = ctx.config;
   const { name, type, proxied } = record.domain;
   try {
@@ -125,6 +140,8 @@ const create = async (
     return result;
   } catch (e) {
     throw wrapError(e);
+  } finally {
+    logger.debug("End");
   }
 };
 
@@ -134,30 +151,41 @@ const updateOrCreate = async (
   zoneId: string,
   dnsRecord?: DNSRecord
 ): Promise<DNSRecord | undefined> => {
-  const { logger } = ctx;
-  const { ip, domain } = record;
-  if (dnsRecord) {
-    const { content } = dnsRecord;
-    if (ip === content) {
-      logger.info("Skipped updating.", { domain: domain.name });
+  const logger = ctx.logger.child({ method: "updateOrCreate" });
+  logger.debug("Start");
+  try {
+    const { ip, domain } = record;
+    if (dnsRecord) {
+      const { content } = dnsRecord;
+      if (ip === content) {
+        logger.info("Skipped updating.", { domain: domain.name });
+      } else {
+        logger.info("Started updating.", { domain: domain.name });
+        return await update(ctx, record, zoneId, dnsRecord);
+      }
+    } else if (domain.create) {
+      logger.info("Started creating.", { domain: domain.name });
+      return await create(ctx, record, zoneId);
     } else {
-      logger.info("Started updating.", { domain: domain.name });
-      return await update(ctx, record, zoneId, dnsRecord);
+      logger.info("Skipped creating.", { domain: domain.name });
     }
-  } else if (domain.create) {
-    logger.info("Started creating.", { domain: domain.name });
-    return await create(ctx, record, zoneId);
-  } else {
-    logger.info("Skipped creating.", { domain: domain.name });
+    return undefined;
+  } finally {
+    logger.debug("End");
   }
-  return undefined;
 };
 
 export const updateDns = async (
   ctx: Context,
   record: Record
 ): Promise<DNSRecord | undefined> => {
-  const zoneId = await getZoneId(ctx, record);
-  const dnsRecord = await getDNSRecord(ctx, record, zoneId);
-  return updateOrCreate(ctx, record, zoneId, dnsRecord);
+  const logger = ctx.logger.child({ method: "updateDns" });
+  try {
+    logger.debug("Start");
+    const zoneId = await getZoneId(ctx, record);
+    const dnsRecord = await getDNSRecord(ctx, record, zoneId);
+    return updateOrCreate(ctx, record, zoneId, dnsRecord);
+  } finally {
+    logger.debug("End");
+  }
 };

@@ -26,7 +26,7 @@ ARG TARGETARCH
 WORKDIR /app
 
 ENV NPM_CONFIG_PREFIX=/app/.npm
-ENV CF_DNS_CONFIG=/app/config.yaml
+ENV CF_DNS__CONFIG=/app/config.yaml
 ENV NODE_ENV=production
 ENV CF_DNS__CRON='*/5 * * * *'
 ENV NPM_CONFIG_UPDATE_NOTIFIER=false
