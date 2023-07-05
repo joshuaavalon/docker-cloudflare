@@ -5,6 +5,13 @@
 
 * restart container cause multiple cron entry. ([424f576](https://github.com/joshuaavalon/docker-cloudflare/commit/424f576292f4323f167ac25748f66bae37194e77)), closes [#65](https://github.com/joshuaavalon/docker-cloudflare/issues/65)
 
+## [3.1.0](https://github.com/joshuaavalon/docker-cloudflare/compare/v3.0.1...v3.1.0) (2023-07-05)
+
+
+### Features
+
+* Remove s6-overlay ([2fc268f](https://github.com/joshuaavalon/docker-cloudflare/commit/2fc268f755b3d28e821154b0266e6d8f2884f376))
+
 ## [3.0.1](https://github.com/joshuaavalon/docker-cloudflare/compare/v3.0.0...v3.0.1) (2023-04-28)
 
 
