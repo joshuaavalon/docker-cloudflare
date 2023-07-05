@@ -79,7 +79,7 @@ const registerParsers = (config: Config): void => {
 
 export const main = async (): Promise<void> => {
   const configPath = getConfigFilePath();
-  const logLevel = process.env.CF_DNS_LOG_LEVEL ?? "info";
+  const logLevel = process.env.CF_DNS__LOG_LEVEL ?? "info";
   const logger = pino.default({ level: logLevel });
   const config = await readConfig(configPath);
   try {

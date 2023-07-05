@@ -123,3 +123,4 @@ lib
 *.db-journal
 /tmp
 test-lib
+/docker-compose.yaml

@@ -8,7 +8,7 @@ From v3, you should use either environment variables or file configuration. They
 
 You can verify your configuration with [JSON Schema](https://joshuaavalon.github.io/docker-cloudflare/config.schema.json)
 
-For file configuration, the configuration should be place at `/app/config.yaml`. It can be changed by defining `CF_DNS_CONFIG` in environment variables.
+For file configuration, the configuration should be place at `/app/config.yaml`. It can be changed by defining `CF_DNS__CONFIG` in environment variables.
 
 ```yaml
 auth:
