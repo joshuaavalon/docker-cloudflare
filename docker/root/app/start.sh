@@ -18,7 +18,7 @@ else
 ";
 fi
 
-chown node:node /app
+chown node:node /app;
 
 if [ "$CF_DNS__LOG_TYPE" == "json" ]; then
   msg='{"level":30,"time":';
@@ -35,9 +35,15 @@ else
   echo "Setting crontab to ${CF_DNS__CRON}";
 fi
 
-# Delete last line
-sed -i '$ d' /etc/crontabs/root
-echo -e "${CF_DNS__CRON} /app/cloudflare.sh" >> /etc/crontabs/root
-chmod 600 /etc/crontabs/root
-
-crond -f
+if [ -f /etc/debian_version ]; then
+  printenv > /etc/environment;
+  echo -e "${CF_DNS__CRON} root /app/cloudflare.sh > /proc/1/fd/1 2>&1" > /etc/cron.d/cloudflare-ddns;
+  chmod 600 /etc/cron.d/cloudflare-ddns;
+  cron -f;
+else
+  # Delete last line
+  sed -i '$ d' /etc/crontabs/root;
+  echo -e "${CF_DNS__CRON} /app/cloudflare.sh" >> /etc/crontabs/root;
+  chmod 600 /etc/crontabs/root;
+  crond -f;
+fi

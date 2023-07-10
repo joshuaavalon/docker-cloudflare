@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=node:18-alpine
+ARG BASE_IMAGE=node:18-slim
 
 FROM $BASE_IMAGE as builder
 
@@ -13,7 +13,6 @@ RUN npm ci && \
 
 RUN mkdir /packages && \
     cp --parents -r packages/*/lib / && \
-
     cp --parents packages/*/package.json /
 
 FROM $BASE_IMAGE
@@ -33,7 +32,7 @@ COPY docker/root/ /
 
 RUN chmod +x /app/cloudflare.sh /app/start.sh
 
-RUN apk add --no-cache bash
+RUN apt-get update && apt-get install -y cron
 
 SHELL ["/bin/bash", "-c"]
 
