@@ -13,6 +13,7 @@ RUN npm ci && \
 
 RUN mkdir /packages && \
     cp --parents -r packages/*/lib / && \
+
     cp --parents packages/*/package.json /
 
 FROM $BASE_IMAGE
