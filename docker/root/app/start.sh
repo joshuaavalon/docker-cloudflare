@@ -18,7 +18,7 @@ else
 ";
 fi
 
-chown node:node /app
+chown node:node /app;
 
 if [ "$CF_DNS__LOG_TYPE" == "json" ]; then
   msg='{"level":30,"time":';
@@ -36,8 +36,12 @@ else
 fi
 
 # Delete last line
-sed -i '$ d' /etc/crontabs/root
-echo -e "${CF_DNS__CRON} /app/cloudflare.sh" >> /etc/crontabs/root
-chmod 600 /etc/crontabs/root
+sed -i '$ d' /etc/crontabs/root;
+echo -e "${CF_DNS__CRON} /app/cloudflare.sh" >> /etc/crontabs/root;
+chmod 600 /etc/crontabs/root;
 
-crond -f
+if [ -f /etc/lsb-release ]; then
+  cron -f;
+else
+  crond -f;
+fi
