@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
-cd /app
+cd /app;
+su - node;
 
 if [ "$CF_DNS__LOG_TYPE" == "json" ]; then
-  sudo -u node npm run --cache /home/node/.npm start:json;
+  npm run --cache /home/node/.npm start:json;
 else
-  sudo -u node npm run --cache /home/node/.npm start:pretty;
+  npm run --cache /home/node/.npm start:pretty;
 fi
