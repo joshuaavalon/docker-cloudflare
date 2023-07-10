@@ -57,6 +57,7 @@ jobs:
             type=semver,pattern={{major}}
             type=sha
             type=ref,event=branch
+          flavor: |
             suffix=debian,onlatest=true
       - uses: docker/setup-qemu-action@v2
       - uses: docker/setup-buildx-action@v2
