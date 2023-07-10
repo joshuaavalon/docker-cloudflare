@@ -3,7 +3,7 @@
 cd /app
 
 if [ "$CF_DNS__LOG_TYPE" == "json" ]; then
-  npm run --cache /home/node/.npm start:json;
+  sudo -u node npm run --cache /home/node/.npm start:json;
 else
-  npm run --cache /home/node/.npm start:pretty;
+  sudo -u node npm run --cache /home/node/.npm start:pretty;
 fi
