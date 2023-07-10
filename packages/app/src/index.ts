@@ -65,10 +65,9 @@ const updateDnsRecords = async (ctx: Context): Promise<void> => {
 };
 
 const printConfig = (ctx: Context): void => {
-  const { config, logger } = ctx;
-  const cloneConfig = omit(config, ["auth"]);
-  const configStr = JSON.stringify(cloneConfig, null, 2);
-  logger.debug(`Running with the following configuration:\n${configStr}`);
+  const { logger } = ctx;
+  const config = omit(ctx.config, ["auth"]);
+  logger.debug("Running with the following configuration", { config });
 };
 
 const registerParsers = (config: Config): void => {
