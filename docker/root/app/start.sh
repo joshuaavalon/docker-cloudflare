@@ -40,7 +40,7 @@ sed -i '$ d' /etc/crontabs/root;
 echo -e "${CF_DNS__CRON} /app/cloudflare.sh" >> /etc/crontabs/root;
 chmod 600 /etc/crontabs/root;
 
-if [ -f /etc/lsb-release ]; then
+if [ -f /etc/debian_version]; then
   cron -f;
 else
   crond -f;

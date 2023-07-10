@@ -31,6 +31,8 @@ COPY docker/root/ /
 
 RUN chmod +x /app/cloudflare.sh /app/start.sh
 
+RUN apt-get update && apt-get install -y cron
+
 SHELL ["/bin/bash", "-c"]
 
 RUN npm ci
