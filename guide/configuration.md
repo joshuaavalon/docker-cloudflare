@@ -14,11 +14,11 @@ For file configuration, the configuration should be place at `/app/config.yaml`.
 auth:
   scopedToken: QPExdfoNLwndJPDbt4nK1-yF1z_srC8D0m6-Gv_h
 domains:
-  - name: foo.example.com
-    type: A
-    proxied: true
-    create: true
-    zoneId: JBFRZWzhTKtRFWgu3X7f3YLX
+- name: foo.example.com
+  type: A
+  proxied: true
+  create: true
+  zoneId: JBFRZWzhTKtRFWgu3X7f3YLX
 ```
 
 ## Options
@@ -178,40 +178,40 @@ logLevel: info
 auth:
   scopedToken: QPExdfoNLwndJPDbt4nK1-yF1z_srC8D0m6-Gv_h
 domains:
-  - name: foo.example.com
-    type: A
-    proxied: true
-    create: true
-    zoneId: JBFRZWzhTKtRFWgu3X7f3YLX
-    webhook:
-      run: https://example.com/webhook/start
-      success: https://example.com/webhook/success
-      failure: https://example.com/webhook/failure
+- name: foo.example.com
+  type: A
+  proxied: true
+  create: true
+  zoneId: JBFRZWzhTKtRFWgu3X7f3YLX
+  webhook:
+    run: https://example.com/webhook/start
+    success: https://example.com/webhook/success
+    failure: https://example.com/webhook/failure
 ipv4:
-  - type: ini
-    url: https://1.1.1.1/cdn-cgi/trace
-    fields:
-      - ip
-  - type: json
-    url: https://api.ipify.org?format=json
-    fields:
-      - ip
+- type: ini
+  url: https://1.1.1.1/cdn-cgi/trace
+  fields:
+  - ip
+- type: json
+  url: https://api.ipify.org?format=json
+  fields:
+  - ip
 ipv6:
-  - type: ini
-    url: https://[2606:4700:4700::1111]/cdn-cgi/trace
-    fields:
-      - ip
-  - type: json
-    url: https://api6.ipify.org?format=json
-    fields:
-      - ip
+- type: ini
+  url: https://[2606:4700:4700::1111]/cdn-cgi/trace
+  fields:
+  - ip
+- type: json
+  url: https://api6.ipify.org?format=json
+  fields:
+  - ip
 echoParsers:
-  - resolve: "@cloudflare-ddns/ip-echo-parser-ini"
-    alias: ini
-  - resolve: "@cloudflare-ddns/ip-echo-parser-json"
-    alias: json
-  - resolve: "@cloudflare-ddns/ip-echo-parser-text"
-    alias: text
+- resolve: "@cloudflare-ddns/ip-echo-parser-ini"
+  alias: ini
+- resolve: "@cloudflare-ddns/ip-echo-parser-json"
+  alias: json
+- resolve: "@cloudflare-ddns/ip-echo-parser-text"
+  alias: text
 ```
 
 ```js
