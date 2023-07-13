@@ -1,6 +1,4 @@
-import { axiosInstance, createRequestConfig } from "./base.js";
-
-import type { Api } from "./base.js";
+import { createApi } from "./create-api/index.js";
 
 interface Argument {
   zoneId: string;
@@ -33,15 +31,12 @@ interface Result {
   modified_on: string;
 }
 
-export const listDNSRecords: Api<
+export const listDNSRecords = createApi<
   Result[],
   Parameter | undefined,
   undefined,
   Argument
-> = req => {
-  const { zoneId, ...others } = req;
-  return axiosInstance.get(
-    `/zones/${zoneId}/dns_records`,
-    createRequestConfig(others)
-  );
-};
+>({
+  path: req => `/zones/${req.zoneId}/dns_records`,
+  method: "GET"
+});
