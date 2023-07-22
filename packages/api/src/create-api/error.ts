@@ -1,8 +1,6 @@
-import type { ApiError } from "@cloudflare-ddns/api";
+import type { ApiError } from "./type.js";
 
-export class CloudflareError extends Error {}
-
-export class CloudflareApiError extends CloudflareError {
+export class CloudflareApiError extends Error {
   public errors: ApiError[];
   public constructor(errors: ApiError[]) {
     const messages = errors.map(error => JSON.stringify(error)).join("\n");

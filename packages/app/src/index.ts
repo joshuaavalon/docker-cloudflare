@@ -1,5 +1,4 @@
 import { get, omit } from "lodash-es";
-import axios from "axios";
 import pino from "pino";
 import { readConfig } from "@cloudflare-ddns/config";
 import { registerParser } from "@cloudflare-ddns/ip-echo-parser";
@@ -33,9 +32,9 @@ const requestWebhook = async (
   const { logger } = ctx;
   try {
     if (data) {
-      await axios.post(url, data);
+      await fetch(url, { method: "POST", body: JSON.stringify(data) });
     } else {
-      await axios.get(url);
+      await fetch(url, { method: "GET" });
     }
   } catch (e) {
     logger.warn(`Fail to fetch ${url}.\n${get(e, "message", e)}`);

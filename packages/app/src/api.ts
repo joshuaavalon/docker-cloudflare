@@ -6,7 +6,7 @@ import {
 } from "@cloudflare-ddns/api";
 import { first } from "lodash-es";
 import { parseZoneName } from "@cloudflare-ddns/config";
-import { CloudflareApiError, CloudflareError, wrapError } from "./error.js";
+import { CloudflareApiError, CloudflareError } from "./error.js";
 
 import type { Domain } from "@cloudflare-ddns/config";
 import type { Context } from "./context.js";
@@ -24,24 +24,20 @@ const getZoneId = async (ctx: Context, record: Record): Promise<string> => {
   const { auth, api: baseURL } = ctx.config;
   const { zoneName } = domain;
   const name = zoneName ? zoneName : parseZoneName(domain.name);
-  try {
-    const res = await listZones({
-      auth,
-      params: { name },
-      baseURL
-    });
-    const { success, errors, result } = res.data;
-    if (!success || !result) {
-      throw new CloudflareApiError(errors);
-    }
-    const zoneId = first(result)?.id;
-    if (!zoneId) {
-      throw new CloudflareError("No match zone found");
-    }
-    return zoneId;
-  } catch (e) {
-    throw wrapError(e);
+  const res = await listZones({
+    auth,
+    params: { name },
+    baseURL
+  });
+  const { success, errors, result } = res;
+  if (!success || !result) {
+    throw new CloudflareApiError(errors);
   }
+  const zoneId = first(result)?.id;
+  if (!zoneId) {
+    throw new CloudflareError("No match zone found");
+  }
+  return zoneId;
 };
 
 interface DNSRecord {
@@ -58,23 +54,19 @@ const getDNSRecord = async (
   record: Record,
   zoneId: string
 ): Promise<DNSRecord | undefined> => {
-  const { auth, api: baseURL } = ctx.config;
+  const { auth, api: baseUrl } = ctx.config;
   const { name, type } = record.domain;
-  try {
-    const res = await listDNSRecords({
-      auth,
-      params: { name, type },
-      zoneId,
-      baseURL
-    });
-    const { success, errors, result } = res.data;
-    if (!success || !result) {
-      throw new CloudflareApiError(errors);
-    }
-    return first(result);
-  } catch (e) {
-    throw wrapError(e);
+  const res = await listDNSRecords({
+    auth,
+    params: { name, type },
+    zoneId,
+    baseUrl
+  });
+  const { success, errors, result } = res;
+  if (!success || !result) {
+    throw new CloudflareApiError(errors);
   }
+  return first(result);
 };
 
 const update = async (
@@ -83,25 +75,21 @@ const update = async (
   zoneId: string,
   dnsRecord: DNSRecord
 ): Promise<DNSRecord> => {
-  const { auth, api: baseURL } = ctx.config;
+  const { auth, api: baseUrl } = ctx.config;
   const { name, type, proxied } = record.domain;
   const { ttl, id: recordId } = dnsRecord;
-  try {
-    const res = await updateDNSRecords({
-      auth,
-      data: { content: record.ip, name, type, proxied, ttl },
-      zoneId,
-      recordId,
-      baseURL
-    });
-    const { success, errors, result } = res.data;
-    if (!success || !result) {
-      throw new CloudflareApiError(errors);
-    }
-    return result;
-  } catch (e) {
-    throw wrapError(e);
+  const res = await updateDNSRecords({
+    auth,
+    data: { content: record.ip, name, type, proxied, ttl },
+    zoneId,
+    recordId,
+    baseUrl
+  });
+  const { success, errors, result } = res;
+  if (!success || !result) {
+    throw new CloudflareApiError(errors);
   }
+  return result;
 };
 
 const create = async (
@@ -109,23 +97,19 @@ const create = async (
   record: Record,
   zoneId: string
 ): Promise<DNSRecord> => {
-  const { auth, api: baseURL } = ctx.config;
+  const { auth, api: baseUrl } = ctx.config;
   const { name, type, proxied } = record.domain;
-  try {
-    const res = await createDNSRecord({
-      auth,
-      data: { content: record.ip, name, type, proxied, ttl: 1 },
-      zoneId,
-      baseURL
-    });
-    const { success, errors, result } = res.data;
-    if (!success || !result) {
-      throw new CloudflareApiError(errors);
-    }
-    return result;
-  } catch (e) {
-    throw wrapError(e);
+  const res = await createDNSRecord({
+    auth,
+    data: { content: record.ip, name, type, proxied, ttl: 1 },
+    zoneId,
+    baseUrl
+  });
+  const { success, errors, result } = res;
+  if (!success || !result) {
+    throw new CloudflareApiError(errors);
   }
+  return result;
 };
 
 const updateOrCreate = async (
