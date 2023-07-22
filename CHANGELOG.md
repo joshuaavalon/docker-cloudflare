@@ -5,6 +5,13 @@
 
 * restart container cause multiple cron entry. ([424f576](https://github.com/joshuaavalon/docker-cloudflare/commit/424f576292f4323f167ac25748f66bae37194e77)), closes [#65](https://github.com/joshuaavalon/docker-cloudflare/issues/65)
 
+## [3.2.1](https://github.com/joshuaavalon/docker-cloudflare/compare/v3.2.0...v3.2.1) (2023-07-22)
+
+
+### Bug Fixes
+
+* Replace axios with fetch and add timeout ([#85](https://github.com/joshuaavalon/docker-cloudflare/issues/85)) ([83c9ae2](https://github.com/joshuaavalon/docker-cloudflare/commit/83c9ae21eb8cb144aeca623b8f85e12a5f84cdaf))
+
 ## [3.2.0](https://github.com/joshuaavalon/docker-cloudflare/compare/v3.1.0...v3.2.0) (2023-07-10)
 
 
