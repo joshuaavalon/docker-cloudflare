@@ -1,4 +1,3 @@
-import { get } from "lodash-es";
 import { isIPv4, isIPv6 } from "net";
 import { getParser } from "@cloudflare-ddns/ip-echo-parser";
 import { verifySchema } from "@cloudflare-ddns/schema";
@@ -40,10 +39,8 @@ const fetchIP =
         const ip = await fetchIpEcho(ipEcho);
         checkIp(ip);
         return ip;
-      } catch (e) {
-        ctx.logger.warn(
-          `Fail to fetch ip from ${url}. (${get(e, "message", e)})`
-        );
+      } catch (err) {
+        ctx.logger.warn(`Fail to fetch ip from ${url}.`, { err });
       }
     }
     throw new Error("Cannot fetch any IPs!");

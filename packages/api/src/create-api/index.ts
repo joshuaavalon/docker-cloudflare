@@ -49,7 +49,11 @@ export function createApi<
       signal: AbortSignal.timeout(5000)
     });
     if (res.status !== 200) {
-      throw new CloudflareApiError(await res.json());
+      const json = await res.json();
+      const errors = Array.isArray(json.errors)
+        ? json.errors
+        : [JSON.stringify(json)];
+      throw new CloudflareApiError(errors);
     }
     return res.json();
   };

@@ -1,4 +1,4 @@
-import { get, omit } from "lodash-es";
+import { omit } from "lodash-es";
 import pino from "pino";
 import { readConfig } from "@cloudflare-ddns/config";
 import { registerParser } from "@cloudflare-ddns/ip-echo-parser";
@@ -36,8 +36,8 @@ const requestWebhook = async (
     } else {
       await fetch(url, { method: "GET" });
     }
-  } catch (e) {
-    logger.warn(`Fail to fetch ${url}.\n${get(e, "message", e)}`);
+  } catch (err) {
+    logger.warn({ err }, `Fail to fetch ${url}`);
   }
 };
 
@@ -52,12 +52,10 @@ const updateDnsRecords = async (ctx: Context): Promise<void> => {
       const result = await updateDomain(ctx, domain);
       const successMessage = await formatter("success", result);
       await requestWebhook(ctx, webhook?.success, successMessage);
-    } catch (e) {
-      const failureMessage = await formatter("failure", e);
+    } catch (err) {
+      const failureMessage = await formatter("failure", err);
       await requestWebhook(ctx, webhook?.failure, failureMessage);
-      logger.error(
-        `Failed to update ${domain.name}. (${get(e, "message", e)})`
-      );
+      logger.error({ err }, `Failed to update ${domain.name}`);
     }
   });
   await Promise.all(promises);
@@ -86,8 +84,8 @@ export const main = async (): Promise<void> => {
     registerParsers(config);
     printConfig(ctx);
     await updateDnsRecords(ctx);
-  } catch (e) {
-    logger.error(get(e, "message", e));
+  } catch (err) {
+    logger.error({ err }, "Error");
     process.exitCode = 1;
   } finally {
     logger.info("Cloudflare DDNS end");
