@@ -1,5 +1,6 @@
 import { URL, URLSearchParams } from "node:url";
 import { CloudflareApiError } from "./error.js";
+import { joinUrl } from "./join-url.js";
 
 import type { ApiRequest, ApiResponse } from "./type.js";
 
@@ -33,7 +34,7 @@ export function createApi<
     const { params = {}, headers = {}, data, auth } = req;
     const baseUrl = getBaseUrl<TParam, TData, TArg>(req);
     const path = typeof pathFn === "string" ? pathFn : pathFn(req);
-    const url = new URL(path, baseUrl);
+    const url = new URL(joinUrl(baseUrl, path));
     url.search = new URLSearchParams(params).toString();
     const authHeaders = { ...defaultHeaders };
     if (auth) {
