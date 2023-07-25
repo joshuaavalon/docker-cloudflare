@@ -5,6 +5,14 @@
 
 * restart container cause multiple cron entry. ([424f576](https://github.com/joshuaavalon/docker-cloudflare/commit/424f576292f4323f167ac25748f66bae37194e77)), closes [#65](https://github.com/joshuaavalon/docker-cloudflare/issues/65)
 
+## [3.2.3](https://github.com/joshuaavalon/docker-cloudflare/compare/v3.2.2...v3.2.3) (2023-07-25)
+
+
+### Bug Fixes
+
+* Fix logging not include params ([b8a8015](https://github.com/joshuaavalon/docker-cloudflare/commit/b8a8015cbc5116b03869735f2c8ec7a4c1e91a01)), closes [#90](https://github.com/joshuaavalon/docker-cloudflare/issues/90)
+* Fix URL join ([0952652](https://github.com/joshuaavalon/docker-cloudflare/commit/0952652d2aabf8a05bb606683da115641f4e03ff)), closes [#89](https://github.com/joshuaavalon/docker-cloudflare/issues/89)
+
 ## [3.2.2](https://github.com/joshuaavalon/docker-cloudflare/compare/v3.2.1...v3.2.2) (2023-07-25)
 
 
