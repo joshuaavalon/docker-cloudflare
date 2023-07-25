@@ -64,7 +64,7 @@ const updateDnsRecords = async (ctx: Context): Promise<void> => {
 const printConfig = (ctx: Context): void => {
   const { logger } = ctx;
   const config = omit(ctx.config, ["auth"]);
-  logger.debug("Running with the following configuration", { config });
+  logger.debug({ config }, "Running with the following configuration");
 };
 
 const registerParsers = (config: Config): void => {

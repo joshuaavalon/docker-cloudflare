@@ -40,7 +40,7 @@ const fetchIP =
         checkIp(ip);
         return ip;
       } catch (err) {
-        ctx.logger.warn(`Fail to fetch ip from ${url}.`, { err });
+        ctx.logger.warn({ err }, `Fail to fetch ip from ${url}.`);
       }
     }
     throw new Error("Cannot fetch any IPs!");

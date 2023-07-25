@@ -123,16 +123,16 @@ const updateOrCreate = async (
   if (dnsRecord) {
     const { content } = dnsRecord;
     if (ip === content) {
-      logger.info("Skipped updating.", { domain: domain.name });
+      logger.info({ domain: domain.name }, "Skipped updating.");
     } else {
-      logger.info("Started updating.", { domain: domain.name });
+      logger.info({ domain: domain.name }, "Started updating.");
       return await update(ctx, record, zoneId, dnsRecord);
     }
   } else if (domain.create) {
-    logger.info("Started creating.", { domain: domain.name });
+    logger.info({ domain: domain.name }, "Started creating.");
     return await create(ctx, record, zoneId);
   } else {
-    logger.info("Skipped creating.", { domain: domain.name });
+    logger.info({ domain: domain.name }, "Skipped creating.");
   }
   return undefined;
 };
