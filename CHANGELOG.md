@@ -5,6 +5,85 @@
 
 * restart container cause multiple cron entry. ([424f576](https://github.com/joshuaavalon/docker-cloudflare/commit/424f576292f4323f167ac25748f66bae37194e77)), closes [#65](https://github.com/joshuaavalon/docker-cloudflare/issues/65)
 
+## [4.0.0](https://github.com/joshuaavalon/docker-cloudflare/compare/v3.3.0...v4.0.0) (2023-07-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* Update config schema
+* Change environment variables naming
+* Use ESM module & Node.js 18
+* **script:** Depreciate Global API key. It will be removed in the future.
+* **script:** Depreciate Global API key. It will be removed in the future.
+
+### Features
+
+* add CRON ([edf30a0](https://github.com/joshuaavalon/docker-cloudflare/commit/edf30a066dd8108795c1cd7e5c35ba904cc1b4a6))
+* Add Debian based image ([#81](https://github.com/joshuaavalon/docker-cloudflare/issues/81)) ([05aed37](https://github.com/joshuaavalon/docker-cloudflare/commit/05aed376809fec9c59f4beb664d232f5c7a8675f))
+* add JSON formatter ([#52](https://github.com/joshuaavalon/docker-cloudflare/issues/52)) ([2e28af5](https://github.com/joshuaavalon/docker-cloudflare/commit/2e28af500d49861926800233e9d80a394d316554))
+* add new ini echo ([deb4254](https://github.com/joshuaavalon/docker-cloudflare/commit/deb42546b21c1976774763c0765d78ebe8018765))
+* Add timeout to configuration ([e549f87](https://github.com/joshuaavalon/docker-cloudflare/commit/e549f8779c21aa84a1684dfdabd71364781df7b2))
+* add trim option to text response ([d7f6a57](https://github.com/joshuaavalon/docker-cloudflare/commit/d7f6a5712db5d34804e848132e993cf0ea96b4bc))
+* Change environment variables naming ([a9f35d1](https://github.com/joshuaavalon/docker-cloudflare/commit/a9f35d184e4c6c0149a00afa62c464672dc973e9))
+* configurable cron schedule ([#47](https://github.com/joshuaavalon/docker-cloudflare/issues/47)) ([ba9f0b2](https://github.com/joshuaavalon/docker-cloudflare/commit/ba9f0b24b116fb95296d08e895196c910fa59350))
+* Fix updateDNSRecords using PUT ([5e1f999](https://github.com/joshuaavalon/docker-cloudflare/commit/5e1f99920da88ded8b594b858f35c329a56d305e)), closes [#92](https://github.com/joshuaavalon/docker-cloudflare/issues/92)
+* migrate repository to npm 7 workspace ([#46](https://github.com/joshuaavalon/docker-cloudflare/issues/46)) ([10e1e18](https://github.com/joshuaavalon/docker-cloudflare/commit/10e1e182e87ce3d664722c7cbac3c032b6b90512))
+* Remove s6-overlay ([2fc268f](https://github.com/joshuaavalon/docker-cloudflare/commit/2fc268f755b3d28e821154b0266e6d8f2884f376))
+* Replace winston with pino ([a9f35d1](https://github.com/joshuaavalon/docker-cloudflare/commit/a9f35d184e4c6c0149a00afa62c464672dc973e9))
+* **script:** add webhook ([#29](https://github.com/joshuaavalon/docker-cloudflare/issues/29)) ([5a22745](https://github.com/joshuaavalon/docker-cloudflare/commit/5a2274562862b62762996ab91ea0c082441b6477))
+* **script:** Run script in configurable user and group ([734c767](https://github.com/joshuaavalon/docker-cloudflare/commit/734c76708139ef62b64af874b8eedf3164aba18f))
+* **script:** Run script in configurable user and group ([9350cae](https://github.com/joshuaavalon/docker-cloudflare/commit/9350cae18cab7471436c2bbeb6b0269d73bdb213))
+* **script:** Support configuration file, API token and multiple domain ([2ca85f8](https://github.com/joshuaavalon/docker-cloudflare/commit/2ca85f848b47874248ea4f52ce0a63dee0239996))
+* **script:** Support configuration file, API token and multiple domain ([6f6ba16](https://github.com/joshuaavalon/docker-cloudflare/commit/6f6ba1644a80c275a04368576e7c33fd7f3edc4f))
+* **script:** update dependencies ([c6d108e](https://github.com/joshuaavalon/docker-cloudflare/commit/c6d108ef5148cbcd581d17ac15e7a2ff6d48bbe8))
+* Support CF_DNS__LOG_TYPE for scripts ([dd87eab](https://github.com/joshuaavalon/docker-cloudflare/commit/dd87eabf07b3cc9e690f4d4723e11de73a833cc1))
+* Update config schema ([a9f35d1](https://github.com/joshuaavalon/docker-cloudflare/commit/a9f35d184e4c6c0149a00afa62c464672dc973e9))
+* update dependencies to latest and node to 16 ([8dd11bc](https://github.com/joshuaavalon/docker-cloudflare/commit/8dd11bc71e52d9c0ec205a5428856d32991bd199))
+* use cosmiconfig to load config ([f606a24](https://github.com/joshuaavalon/docker-cloudflare/commit/f606a24a50a58ab17ef7c79b231c65d73f7da72f))
+
+
+### Bug Fixes
+
+* add missing format after updating ajv ([04ffbb5](https://github.com/joshuaavalon/docker-cloudflare/commit/04ffbb59bed9c834711a58a5705b44f94a4eb8f2)), closes [#43](https://github.com/joshuaavalon/docker-cloudflare/issues/43)
+* add package-lock.json ([213afd7](https://github.com/joshuaavalon/docker-cloudflare/commit/213afd703cbc87058e6494e72aaf19f5662fcdb5))
+* build with npm ci ([ec6d4a0](https://github.com/joshuaavalon/docker-cloudflare/commit/ec6d4a028939265ee1d5167ac05e3d382d171747))
+* change workflow to release event ([43950c4](https://github.com/joshuaavalon/docker-cloudflare/commit/43950c4f2c4ddde5de072e60dc1d7d1d0abc976a))
+* crontab ([e11a937](https://github.com/joshuaavalon/docker-cloudflare/commit/e11a9374b4eedb5a2c5bdd2bc0919965c8e84a25))
+* Disable npm update message ([c525b68](https://github.com/joshuaavalon/docker-cloudflare/commit/c525b688d37b0f938ebf42c8b5a69bcf7bf04a9c))
+* **docker:** Fixes script path in cron ([7daab55](https://github.com/joshuaavalon/docker-cloudflare/commit/7daab55a4670fb8a34e18ef5e6f437a5f37f9e7f))
+* **docker:** Fixes script path in cron ([4548627](https://github.com/joshuaavalon/docker-cloudflare/commit/45486271c34987dcc76aa8a9f74d4d1b14994e95))
+* escape space ([6f22bbf](https://github.com/joshuaavalon/docker-cloudflare/commit/6f22bbff7d52ed76610a3ec761b4578dac05ec2c))
+* Fix [#77](https://github.com/joshuaavalon/docker-cloudflare/issues/77) ([216de04](https://github.com/joshuaavalon/docker-cloudflare/commit/216de045291c99c8149cbdb1318026692ec85bb4))
+* Fix Cloudflare error json mapping ([fac0226](https://github.com/joshuaavalon/docker-cloudflare/commit/fac0226cff98fb495b451c430dcf7dea19a32314)), closes [#87](https://github.com/joshuaavalon/docker-cloudflare/issues/87)
+* Fix logging not include params ([b8a8015](https://github.com/joshuaavalon/docker-cloudflare/commit/b8a8015cbc5116b03869735f2c8ec7a4c1e91a01)), closes [#90](https://github.com/joshuaavalon/docker-cloudflare/issues/90)
+* Fix URL join ([0952652](https://github.com/joshuaavalon/docker-cloudflare/commit/0952652d2aabf8a05bb606683da115641f4e03ff)), closes [#89](https://github.com/joshuaavalon/docker-cloudflare/issues/89)
+* remove ident.me from default configuration ([0695d01](https://github.com/joshuaavalon/docker-cloudflare/commit/0695d014529d94cea340f5d32d3a6d6d227927bc))
+* Replace axios with fetch and add timeout ([#85](https://github.com/joshuaavalon/docker-cloudflare/issues/85)) ([83c9ae2](https://github.com/joshuaavalon/docker-cloudflare/commit/83c9ae21eb8cb144aeca623b8f85e12a5f84cdaf))
+* restart container cause multiple cron entry. ([424f576](https://github.com/joshuaavalon/docker-cloudflare/commit/424f576292f4323f167ac25748f66bae37194e77)), closes [#65](https://github.com/joshuaavalon/docker-cloudflare/issues/65)
+* Run CI on tag release ([1dc4451](https://github.com/joshuaavalon/docker-cloudflare/commit/1dc44519c5f8eabb74650d851b61dfabb20e44fb))
+* **script:** Environment variable IPV6 does not generate valid configuration ([9ccb050](https://github.com/joshuaavalon/docker-cloudflare/commit/9ccb05041139616c5b384fa4a7c517a36cabce59)), closes [#28](https://github.com/joshuaavalon/docker-cloudflare/issues/28)
+* **script:** fix script keep restart on error ([20e3cdc](https://github.com/joshuaavalon/docker-cloudflare/commit/20e3cdcc1afb2c69b2498b461ef92193d922e28d))
+* **script:** replace ramda with lodash ([ee1338c](https://github.com/joshuaavalon/docker-cloudflare/commit/ee1338c8869af7fec3e7c4a33e1d2145c54ba46a))
+* **script:** suppress type check in libraries ([f57bf0d](https://github.com/joshuaavalon/docker-cloudflare/commit/f57bf0dd8962aac46b54fdb441aa6e6491f32cf3))
+* update dependencies ([6551532](https://github.com/joshuaavalon/docker-cloudflare/commit/6551532eb65abd6c18fec752b9a7cd497d832cba))
+* update dependencies ([a09a343](https://github.com/joshuaavalon/docker-cloudflare/commit/a09a343efcd421447d324f52186812bcf3daf4b7))
+* update dependencies ([4d42bc8](https://github.com/joshuaavalon/docker-cloudflare/commit/4d42bc8d3659b3a1b3cd0dce4973b94be7d9d1c7))
+* update dependencies ([a2e72f3](https://github.com/joshuaavalon/docker-cloudflare/commit/a2e72f33875bb0d269ce95a6ec216a3b89456207))
+* update dependencies ([c3c5397](https://github.com/joshuaavalon/docker-cloudflare/commit/c3c5397347c06174d81b964c21c6c0b5e37cf99f))
+* update dependencies ([bd93587](https://github.com/joshuaavalon/docker-cloudflare/commit/bd93587515d77cbe6ccfecff57c98c1782f9b88c))
+* update dependencies ([572cebd](https://github.com/joshuaavalon/docker-cloudflare/commit/572cebd46be73b081951f57e23d447b69ae615dd))
+* Update dependencies ([a9f35d1](https://github.com/joshuaavalon/docker-cloudflare/commit/a9f35d184e4c6c0149a00afa62c464672dc973e9))
+* Update dependencies ([ad92c13](https://github.com/joshuaavalon/docker-cloudflare/commit/ad92c13318e3dffc54059596d01ea33d465217b1))
+* update error handling ([243b50f](https://github.com/joshuaavalon/docker-cloudflare/commit/243b50f77f49e8539f181c384748cbda815cdbc7))
+* update package-lock.json ([8b609f0](https://github.com/joshuaavalon/docker-cloudflare/commit/8b609f0f5633ee1e28feb4b8dad103819d1d54ce))
+* update package-lock.json ([32e4975](https://github.com/joshuaavalon/docker-cloudflare/commit/32e4975b5b006e6e03463cbd594e1290770ac7d9))
+* Use person token ([b5b3b6e](https://github.com/joshuaavalon/docker-cloudflare/commit/b5b3b6ef47aff905dc4449e67791b00339501152))
+
+
+### Code Refactoring
+
+* Use ESM module & Node.js 18 ([a9f35d1](https://github.com/joshuaavalon/docker-cloudflare/commit/a9f35d184e4c6c0149a00afa62c464672dc973e9))
+
 ## [3.3.0](https://github.com/joshuaavalon/docker-cloudflare/compare/v3.2.3...v3.3.0) (2023-07-27)
 
 
