@@ -26,6 +26,7 @@ export type ApiRequest<TParam, TData> = {
   headers?: Record<string, string>;
   data?: Record<string, unknown>;
   auth?: Auth;
+  timeout: number;
 } & (TParam extends undefined
   ? { params?: ListParameter & TParam }
   : { params: ListParameter & TParam }) &

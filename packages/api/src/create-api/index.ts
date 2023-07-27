@@ -31,7 +31,7 @@ export function createApi<
 ): (req: ApiRequest<TParam, TData> & TArg) => Promise<ApiResponse<TResult>> {
   const { path: pathFn, method } = opts;
   return async req => {
-    const { params = {}, headers = {}, data, auth } = req;
+    const { params = {}, headers = {}, data, auth, timeout } = req;
     const baseUrl = getBaseUrl<TParam, TData, TArg>(req);
     const path = typeof pathFn === "string" ? pathFn : pathFn(req);
     const url = new URL(joinUrl(baseUrl, path));
@@ -47,7 +47,7 @@ export function createApi<
         ...headers
       },
       body: data ? JSON.stringify(data) : undefined,
-      signal: AbortSignal.timeout(5000)
+      signal: timeout > 0 ? AbortSignal.timeout(timeout) : undefined
     });
     if (res.status !== 200) {
       const json = await res.json();

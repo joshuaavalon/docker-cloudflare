@@ -21,13 +21,14 @@ const getZoneId = async (ctx: Context, record: Record): Promise<string> => {
   if (domain.zoneId) {
     return domain.zoneId;
   }
-  const { auth, api: baseURL } = ctx.config;
+  const { auth, api: baseURL, timeout } = ctx.config;
   const { zoneName } = domain;
   const name = zoneName ? zoneName : parseZoneName(domain.name);
   const res = await listZones({
     auth,
     params: { name },
-    baseURL
+    baseURL,
+    timeout
   });
   const { success, errors, result } = res;
   if (!success || !result) {
@@ -54,13 +55,14 @@ const getDNSRecord = async (
   record: Record,
   zoneId: string
 ): Promise<DNSRecord | undefined> => {
-  const { auth, api: baseUrl } = ctx.config;
+  const { auth, api: baseUrl, timeout } = ctx.config;
   const { name, type } = record.domain;
   const res = await listDNSRecords({
     auth,
     params: { name, type },
     zoneId,
-    baseUrl
+    baseUrl,
+    timeout
   });
   const { success, errors, result } = res;
   if (!success || !result) {
@@ -75,7 +77,7 @@ const update = async (
   zoneId: string,
   dnsRecord: DNSRecord
 ): Promise<DNSRecord> => {
-  const { auth, api: baseUrl } = ctx.config;
+  const { auth, api: baseUrl, timeout } = ctx.config;
   const { name, type, proxied } = record.domain;
   const { ttl, id: recordId } = dnsRecord;
   const res = await updateDNSRecords({
@@ -83,7 +85,8 @@ const update = async (
     data: { content: record.ip, name, type, proxied, ttl },
     zoneId,
     recordId,
-    baseUrl
+    baseUrl,
+    timeout
   });
   const { success, errors, result } = res;
   if (!success || !result) {
@@ -97,13 +100,14 @@ const create = async (
   record: Record,
   zoneId: string
 ): Promise<DNSRecord> => {
-  const { auth, api: baseUrl } = ctx.config;
+  const { auth, api: baseUrl, timeout } = ctx.config;
   const { name, type, proxied } = record.domain;
   const res = await createDNSRecord({
     auth,
     data: { content: record.ip, name, type, proxied, ttl: 1 },
     zoneId,
-    baseUrl
+    baseUrl,
+    timeout
   });
   const { success, errors, result } = res;
   if (!success || !result) {

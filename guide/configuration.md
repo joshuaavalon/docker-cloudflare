@@ -55,6 +55,14 @@ Set to `json` for JSON log output.
 
 Cloudflare v4 API endpoint.
 
+### Timeout
+
+- Env: `CF_DNS__TIMEOUT`
+- File: `timeout`
+- Default: 5000
+
+Timeout for network request. Disable if timeout <= 0.
+
 ### Log Level
 
 - Env: `CF_DNS__LOG_LEVEL`
@@ -174,6 +182,7 @@ See [echo parser](./echo-parser.md) for details.
 
 ```yaml
 api: https://api.cloudflare.com/client/v4/
+timeout: 5000
 logLevel: info
 auth:
   scopedToken: QPExdfoNLwndJPDbt4nK1-yF1z_srC8D0m6-Gv_h
@@ -225,6 +234,7 @@ const formatter = (status, data) => {
 
 module.exports = {
   api: "https://api.cloudflare.com/client/v4/",
+  timeout: 5000,
   logLevel: "info",
   auth: {
     scopedToken: "QPExdfoNLwndJPDbt4nK1-yF1z_srC8D0m6-Gv_h"

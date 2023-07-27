@@ -13,6 +13,7 @@ export const configSchema = Type.Object(
         'Cloudflare V4 API url. Default to "https://api.cloudflare.com/client/v4/".',
       default: "https://api.cloudflare.com/client/v4/"
     }),
+    timeout: Type.Number({ default: 5000 }),
     auth: scopedAuthSchema,
     domains: Type.Array(domainSchema, {
       description: "List of domains to be updated."
