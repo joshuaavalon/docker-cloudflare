@@ -30,5 +30,5 @@ interface Result {
 
 export const updateDNSRecords = createApi<Result, undefined, Data, Argument>({
   path: req => `/zones/${req.zoneId}/dns_records/${req.recordId}`,
-  method: "POST"
+  method: "PUT"
 });
