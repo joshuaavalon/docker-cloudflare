@@ -11,6 +11,10 @@
       "default": "https://api.cloudflare.com/client/v4/",
       "type": "string"
     },
+    "timeout": {
+      "default": 5000,
+      "type": "number"
+    },
     "auth": {
       "title": "ScopedAuth",
       "description": "Authentication used to interact with API.",
@@ -213,6 +217,7 @@
   },
   "required": [
     "api",
+    "timeout",
     "auth",
     "domains",
     "ipv4",
