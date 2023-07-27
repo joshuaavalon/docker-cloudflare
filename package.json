@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-ddns",
-  "version": "3.2.3",
+  "version": "3.3.0",
   "description": "",
   "type": "module",
   "private": true,
