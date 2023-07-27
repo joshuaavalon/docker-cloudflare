@@ -5,6 +5,14 @@
 
 * restart container cause multiple cron entry. ([424f576](https://github.com/joshuaavalon/docker-cloudflare/commit/424f576292f4323f167ac25748f66bae37194e77)), closes [#65](https://github.com/joshuaavalon/docker-cloudflare/issues/65)
 
+## [3.3.0](https://github.com/joshuaavalon/docker-cloudflare/compare/v3.2.3...v3.3.0) (2023-07-27)
+
+
+### Features
+
+* Add timeout to configuration ([e549f87](https://github.com/joshuaavalon/docker-cloudflare/commit/e549f8779c21aa84a1684dfdabd71364781df7b2))
+* Fix updateDNSRecords using PUT ([5e1f999](https://github.com/joshuaavalon/docker-cloudflare/commit/5e1f99920da88ded8b594b858f35c329a56d305e)), closes [#92](https://github.com/joshuaavalon/docker-cloudflare/issues/92)
+
 ## [3.2.3](https://github.com/joshuaavalon/docker-cloudflare/compare/v3.2.2...v3.2.3) (2023-07-25)
 
 
