@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=node:18-slim
+ARG BASE_IMAGE=node:20.5-bookworm-slim
 
 FROM $BASE_IMAGE as builder
 
