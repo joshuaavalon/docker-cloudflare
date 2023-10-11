@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=node:18-alpine
+ARG BASE_IMAGE=node:20-alpine
 
 FROM $BASE_IMAGE as builder
 
@@ -21,7 +21,7 @@ ENV CF_DNS__CRON='*/5 * * * *'
 ENV NPM_CONFIG_UPDATE_NOTIFIER=false
 ENV NPM_CONFIG_LOGLEVEL=warn
 
-COPY --from=builder /dist /app/dist/
+COPY --from=builder /app/dist/ /app/dist/
 COPY package.json package-lock.json index.mjs /app/
 COPY docker/root/ /
 
