@@ -4,6 +4,9 @@ FROM $BASE_IMAGE as builder
 
 WORKDIR /app
 
+ENV NPM_CONFIG_UPDATE_NOTIFIER=false
+ENV NPM_CONFIG_LOGLEVEL=warn
+
 COPY src /app/src/
 COPY package.json tsconfig.json package-lock.json /app/
 
@@ -15,11 +18,11 @@ FROM $BASE_IMAGE
 WORKDIR /app
 
 ENV NPM_CONFIG_PREFIX=/app/.npm
-ENV CF_DNS__CONFIG=/app/config.yaml
-ENV NODE_ENV=production
-ENV CF_DNS__CRON='*/5 * * * *'
 ENV NPM_CONFIG_UPDATE_NOTIFIER=false
 ENV NPM_CONFIG_LOGLEVEL=warn
+ENV NODE_ENV=production
+ENV CF_DNS__CONFIG=/app/config.yaml
+ENV CF_DNS__CRON='*/5 * * * *'
 
 COPY --from=builder /app/dist/ /app/dist/
 COPY package.json package-lock.json index.mjs /app/
@@ -32,17 +35,6 @@ RUN apk add --no-cache bash
 SHELL ["/bin/bash", "-c"]
 
 RUN npm ci
-
-ENV ZONE=
-ENV HOST=
-ENV EMAIL=
-ENV API=
-ENV TTL=
-ENV PROXY=
-ENV DEBUG=
-ENV FORCE_CREATE=
-ENV RUNONCE=
-ENV IPV6=
 
 ENTRYPOINT ["/app/start.sh"]
 CMD []

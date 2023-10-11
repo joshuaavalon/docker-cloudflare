@@ -2,7 +2,7 @@
 
 ## From v3 to v4
 
-###
+### Docker
 
 - Remove Debian image because it does not solve #79
 
