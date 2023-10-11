@@ -4,14 +4,11 @@ FROM $BASE_IMAGE as builder
 
 WORKDIR /app
 
-COPY packages /app/packages/
+COPY src /app/src/
 COPY package.json tsconfig.json package-lock.json /app/
 
 RUN npm ci && \
     npm run build
-
-RUN mkdir /packages && \
-    cp --parents -r dist /
 
 FROM $BASE_IMAGE
 
@@ -24,7 +21,7 @@ ENV CF_DNS__CRON='*/5 * * * *'
 ENV NPM_CONFIG_UPDATE_NOTIFIER=false
 ENV NPM_CONFIG_LOGLEVEL=warn
 
-COPY --from=builder /packages /app/packages/
+COPY --from=builder /dist /app/dist/
 COPY package.json package-lock.json index.mjs /app/
 COPY docker/root/ /
 
