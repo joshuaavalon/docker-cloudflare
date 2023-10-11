@@ -8,13 +8,10 @@ COPY packages /app/packages/
 COPY package.json tsconfig.json package-lock.json /app/
 
 RUN npm ci && \
-    npm run build && \
-    rm -rf packages/*/lib/__tests__
+    npm run build
 
 RUN mkdir /packages && \
-    cp --parents -r packages/*/lib / && \
-
-    cp --parents packages/*/package.json /
+    cp --parents -r dist /
 
 FROM $BASE_IMAGE
 
