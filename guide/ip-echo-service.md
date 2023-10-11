@@ -60,8 +60,7 @@ ipv6:
 **JavaScript**
 
 ```js
-// CommonJS only. ESM is not supported by cosmiconfig
-module.exports = {
+export default {
   ipv4: [
     {
       type: "text",
@@ -136,8 +135,7 @@ ipv6:
 **JavaScript**
 
 ```js
-// CommonJS only. ESM is not supported by cosmiconfig
-module.exports = {
+export default {
   ipv4: [
     {
       type: "ini",
@@ -214,8 +212,7 @@ ipv6:
 **JavaScript**
 
 ```js
-// CommonJS only. ESM is not supported by cosmiconfig
-module.exports = {
+export default {
   ipv4: [
     {
       type: "json",
@@ -236,3 +233,32 @@ module.exports = {
 ### Options
 
 - `fields`: It is the key of IP address in the response. Multiple values are allowed for nested keys.
+
+## Custom
+
+Only support in JS config.
+
+**JavaScript**
+
+```js
+export default {
+  ipv4: [
+    {
+      type: "json",
+      url: "https://ipv6.example.com",
+      func: (v) => v
+    }
+  ],
+  ipv6: [
+    {
+      type: "json",
+      url: "https://ipv6.example.com",
+      func: (v) => v
+    }
+  ]
+};
+```
+
+### Options
+
+- `func`: It should accept string and return string

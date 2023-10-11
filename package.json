@@ -5,12 +5,12 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "tsc --build packages/tsconfig.json",
+    "prebuild": "rimraf dist",
+    "build": "tsc",
     "start:pretty": "node index.mjs | pino-pretty --translateTime yyyy-mm-dd'T'HH:MM:sso",
     "start:json": "node index.mjs",
-    "test": "mocha",
-    "lint": "eslint packages/**/*.ts",
-    "clear": "rimraf packages/*/lib packages/*/tsconfig.tsbuildinfo"
+    "lint": "eslint src",
+    "generate": "node script/json-schema.js"
   },
   "repository": {
     "type": "git",
@@ -22,30 +22,68 @@
   ],
   "author": "Joshua Avalon",
   "license": "MIT",
-  "workspaces": [
-    "packages/*"
-  ],
   "bugs": {
     "url": "https://github.com/joshuaavalon/docker-cloudflare/issues"
   },
   "homepage": "https://github.com/joshuaavalon/docker-cloudflare#readme",
+  "imports": {
+    "#api": {
+      "types": "./src/api/index.ts",
+      "import": "./dist/api/index.js"
+    },
+    "#config": {
+      "types": "./src/config/index.ts",
+      "import": "./dist/config/index.js"
+    },
+    "#context": {
+      "types": "./src/context/index.ts",
+      "import": "./dist/context/index.js"
+    },
+    "#func": {
+      "types": "./src/func/index.ts",
+      "import": "./dist/func/index.js"
+    },
+    "#ip-echo": {
+      "types": "./src/ip-echo/index.ts",
+      "import": "./dist/ip-echo/index.js"
+    },
+    "#ip-echo/*": {
+      "types": "./src/ip-echo/*",
+      "import": "./dist/ip-echo/*"
+    },
+    "#error": {
+      "types": "./src/error/index.ts",
+      "import": "./dist/error/index.js"
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./dist/index.js"
+    }
+  },
   "devDependencies": {
-    "@types/chai": "^4.3.4",
-    "@types/mocha": "^10.0.1",
-    "@types/node": "^18.15.3",
-    "@typescript-eslint/eslint-plugin": "^5.55.0",
-    "@typescript-eslint/parser": "^5.55.0",
-    "chai": "^4.3.7",
-    "eslint": "^8.36.0",
-    "eslint-config-prettier": "^8.7.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "mocha": "^10.2.0",
-    "prettier": "^2.8.4",
-    "rimraf": "^4.4.0",
-    "typescript": "^5.1.6"
+    "@types/lodash-es": "4.17.9",
+    "@types/node": "20.8.4",
+    "@typescript-eslint/eslint-plugin": "6.7.5",
+    "@typescript-eslint/parser": "6.7.5",
+    "eslint": "8.51.0",
+    "eslint-config-prettier": "9.0.0",
+    "eslint-plugin-prettier": "5.0.0",
+    "globals": "13.23.0",
+    "prettier": "3.0.3",
+    "rimraf": "5.0.5",
+    "typescript": "5.2.2",
+    "undici": "5.25.4"
   },
   "dependencies": {
-    "dotenv": "16.0.3",
-    "pino-pretty": "10.0.0"
+    "@sinclair/typebox": "0.31.17",
+    "ajv": "8.12.0",
+    "cosmiconfig": "8.3.6",
+    "dotenv": "16.3.1",
+    "lodash-es": "4.17.21",
+    "pino": "8.16.0",
+    "pino-pretty": "10.2.3",
+    "read-env-vars": "1.1.1"
   }
 }

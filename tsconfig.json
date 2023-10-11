@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es2021",
+    "target": "ES2021",
     "module": "NodeNext",
-    "lib": ["esnext", "DOM"],
+    "moduleResolution": "NodeNext",
+    "lib": ["ESNext"],
     "declaration": true,
     "sourceMap": true,
     "forceConsistentCasingInFileNames": true,
@@ -14,9 +15,10 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "moduleResolution": "NodeNext",
     "allowJs": false,
     "isolatedModules": true,
-    "composite": true
-  }
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "exclude": ["dist"]
 }

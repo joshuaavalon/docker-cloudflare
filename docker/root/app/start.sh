@@ -35,15 +35,8 @@ else
   echo "Setting crontab to ${CF_DNS__CRON}";
 fi
 
-if [ -f /etc/debian_version ]; then
-  printenv > /etc/environment;
-  echo -e "${CF_DNS__CRON} root /app/cloudflare.sh > /proc/1/fd/1 2>&1" > /etc/cron.d/cloudflare-ddns;
-  chmod 600 /etc/cron.d/cloudflare-ddns;
-  cron -f;
-else
-  # Delete last line
-  sed -i '$ d' /etc/crontabs/root;
-  echo -e "${CF_DNS__CRON} /app/cloudflare.sh" >> /etc/crontabs/root;
-  chmod 600 /etc/crontabs/root;
-  crond -f;
-fi
+# Delete last line
+sed -i '$ d' /etc/crontabs/root;
+echo -e "${CF_DNS__CRON} /app/cloudflare.sh" >> /etc/crontabs/root;
+chmod 600 /etc/crontabs/root;
+crond -f;

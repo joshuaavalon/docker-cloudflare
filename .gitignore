@@ -118,9 +118,10 @@ lib
 
 # Local Netlify folder
 .netlify
-.vscode
+.vscode/settings.json
 *.db
 *.db-journal
 /tmp
 test-lib
 /docker-compose.yaml
+/test.mjs

@@ -214,13 +214,6 @@ ipv6:
     url: https://api6.ipify.org?format=json
     fields:
       - ip
-echoParsers:
-  - resolve: "@cloudflare-ddns/ip-echo-parser-ini"
-    alias: ini
-  - resolve: "@cloudflare-ddns/ip-echo-parser-json"
-    alias: json
-  - resolve: "@cloudflare-ddns/ip-echo-parser-text"
-    alias: text
 ```
 
 ```js
@@ -276,20 +269,6 @@ module.exports = {
       type: "json",
       url: "https://api6.ipify.org?format=json",
       fields: ["ip"]
-    }
-  ],
-  echoParsers: [
-    {
-      resolve: "@cloudflare-ddns/ip-echo-parser-ini",
-      alias: "ini"
-    },
-    {
-      resolve: "@cloudflare-ddns/ip-echo-parser-json",
-      alias: "json"
-    },
-    {
-      resolve: "@cloudflare-ddns/ip-echo-parser-text",
-      alias: "text"
     }
   ]
 };

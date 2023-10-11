@@ -1,5 +1,19 @@
 # Migration
 
+## From v3 to v4
+
+###
+
+- Remove Debian image because it does not solve #79
+
+### Configuration
+
+- Both environment variables configuration and file configuration is used if present. They are not deep merged. Also environment variables configuration has higher priority.
+
+- `echoParser` is no longer supported. Please use `custom` IP Echo Service. [See here](./ip-echo-service.md).
+
+- `cosmiconfig` default to ESM if the project is ESM. If your configuration is Common JS, you should rename it to `.cjs`.
+
 ## From v2 to v3
 
 ### Authentication
