@@ -11,7 +11,7 @@ COPY src /app/src/
 COPY package.json tsconfig.json package-lock.json /app/
 
 RUN npm ci && \
-    npm run build
+    npm run rollup
 
 FROM $BASE_IMAGE
 
