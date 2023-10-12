@@ -25,7 +25,7 @@ ENV CF_DNS__CONFIG=/app/config.yaml
 ENV CF_DNS__CRON='*/5 * * * *'
 
 COPY --from=builder /app/dist/ /app/dist/
-COPY package.json package-lock.json index.mjs /app/
+COPY package.json package-lock.json /app/
 COPY docker/root/ /
 
 RUN chmod +x /app/cloudflare.sh /app/start.sh
