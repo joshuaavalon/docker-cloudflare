@@ -8,7 +8,7 @@ ENV NPM_CONFIG_UPDATE_NOTIFIER=false
 ENV NPM_CONFIG_LOGLEVEL=warn
 
 COPY src /app/src/
-COPY package.json tsconfig.json package-lock.json /app/
+COPY package.json package-lock.json tsconfig.json rollup.config.js /app/
 
 RUN npm ci && \
     npm run rollup
