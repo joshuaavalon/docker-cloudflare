@@ -33,8 +33,5 @@ RUN chmod +x /app/cloudflare.sh /app/start.sh
 RUN apk add --no-cache bash
 
 SHELL ["/bin/bash", "-c"]
-
-RUN npm ci
-
 ENTRYPOINT ["/app/start.sh"]
 CMD []
