@@ -10,8 +10,8 @@ ENV NPM_CONFIG_LOGLEVEL=warn
 COPY src /app/src/
 COPY package.json package-lock.json tsconfig.json rollup.config.js /app/
 
-RUN npm ci && \
-    npm run rollup
+RUN npm ci
+RUN npm run rollup
 
 FROM $BASE_IMAGE
 
