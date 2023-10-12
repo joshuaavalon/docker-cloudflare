@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=node:20-alpine
+ARG BASE_IMAGE=node:18-alpine
 
 FROM $BASE_IMAGE as builder
 
@@ -10,8 +10,8 @@ ENV NPM_CONFIG_LOGLEVEL=warn
 COPY src /app/src/
 COPY package.json package-lock.json tsconfig.json rollup.config.js /app/
 
-RUN npm ci
-RUN npm run rollup
+RUN npm ci && \
+    npm run rollup
 
 FROM $BASE_IMAGE
 
