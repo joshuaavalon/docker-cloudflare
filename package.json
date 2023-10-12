@@ -7,8 +7,10 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc",
-    "start:pretty": "node index.mjs | pino-pretty --translateTime yyyy-mm-dd'T'HH:MM:sso",
-    "start:json": "node index.mjs",
+    "prerollup": "rimraf dist",
+    "rollup": "rollup -c",
+    "start:pretty": "node dist/index.js | pino-pretty --translateTime yyyy-mm-dd'T'HH:MM:sso",
+    "start:json": "node dist/index.js",
     "lint": "eslint src",
     "generate": "node script/json-schema.js"
   },
@@ -63,6 +65,9 @@
     }
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "25.0.5",
+    "@rollup/plugin-node-resolve": "15.2.3",
+    "@rollup/plugin-typescript": "11.1.5",
     "@types/lodash-es": "4.17.9",
     "@types/node": "20.8.4",
     "@typescript-eslint/eslint-plugin": "6.7.5",
@@ -73,10 +78,12 @@
     "globals": "13.23.0",
     "prettier": "3.0.3",
     "rimraf": "5.0.5",
+    "rollup": "4.0.2",
     "typescript": "5.2.2",
     "undici": "5.25.4"
   },
   "dependencies": {
+    "@rollup/plugin-json": "6.0.1",
     "@sinclair/typebox": "0.31.17",
     "ajv": "8.12.0",
     "cosmiconfig": "8.3.6",

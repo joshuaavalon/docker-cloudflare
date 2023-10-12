@@ -1,4 +1,5 @@
 import "./typebox.js";
+import { config } from "dotenv";
 import { env } from "node:process";
 import { omit } from "lodash-es";
 import pino from "pino";
@@ -71,7 +72,8 @@ async function updateDnsRecords(ctx: Context, cfg: Config): Promise<void> {
   await Promise.all(promises);
 }
 
-export async function main(): Promise<void> {
+async function main(): Promise<void> {
+  config();
   const logLevel = env.CF_DNS__LOG_LEVEL ?? "info";
   const logger = pino.default({ level: logLevel });
   const cfg = await readConfig(logger);
@@ -89,3 +91,5 @@ export async function main(): Promise<void> {
     logger.info("Cloudflare DDNS end");
   }
 }
+
+main();
