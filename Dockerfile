@@ -14,6 +14,7 @@ RUN npm ci && \
     npm run rollup
 
 FROM $BASE_IMAGE
+RUN apk add --no-cache bash
 
 WORKDIR /app
 
@@ -28,10 +29,9 @@ COPY --from=builder /app/dist/ /app/dist/
 COPY package.json package-lock.json /app/
 COPY docker/root/ /
 
-RUN chmod +x /app/cloudflare.sh /app/start.sh
-
-RUN apk add --no-cache bash
+RUN npm i -D pino-pretty && \
+    chmod +x /app/cloudflare.sh
 
 SHELL ["/bin/bash", "-c"]
-ENTRYPOINT ["/app/start.sh"]
+ENTRYPOINT ["/app/cloudflare.sh"]
 CMD []

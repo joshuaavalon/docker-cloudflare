@@ -86,6 +86,7 @@
     "@sinclair/typebox": "0.31.27",
     "ajv": "8.12.0",
     "cosmiconfig": "8.3.6",
+    "cron": "3.1.6",
     "dotenv": "16.3.1",
     "lodash-es": "4.17.21",
     "pino": "8.16.0",
