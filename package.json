@@ -69,6 +69,7 @@
     "@rollup/plugin-json": "6.0.1",
     "@rollup/plugin-node-resolve": "15.2.3",
     "@rollup/plugin-typescript": "11.1.5",
+    "@rollup/wasm-node": "4.5.0",
     "@types/lodash-es": "4.17.11",
     "@types/node": "20.9.2",
     "@typescript-eslint/eslint-plugin": "6.11.0",
@@ -79,7 +80,6 @@
     "globals": "13.23.0",
     "prettier": "3.1.0",
     "rimraf": "5.0.5",
-    "rollup": "4.5.0",
     "typescript": "5.2.2"
   },
   "dependencies": {
