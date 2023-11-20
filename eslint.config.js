@@ -257,6 +257,10 @@ const typescriptRules = {
       selector: "default"
     },
     {
+      selector: "import",
+      format: ["camelCase", "PascalCase"]
+    },
+    {
       format: ["camelCase", "UPPER_CASE", "PascalCase"],
       leadingUnderscore: "allow",
       selector: "variable"
